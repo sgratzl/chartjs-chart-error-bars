@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>Error Bars Chart</title>
+  <script src="../node_modules/chart.js/dist/Chart.bundle.js"></script>
+  <script src="../build/Chart.ErrorBars.js" type="text/javascript"></script>
+  <style>
+  canvas {
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+  }
+  </style>
+</head>
+
+<body>
+  <div id="container" style="width: 75%;">
+    <canvas id="canvas"></canvas>
+  </div>
+  <script>
+    window.onload = function() {
+      new Chart(document.getElementById("canvas").getContext("2d"), {
+        type: 'errorbars',
+        data: {
+          labels: ['A', 'B'],
+          datasets: [{
+            label: 'Dataset 1',
+            backgroundColor: 'red',
+            data: []
+          }, {
+            label: 'Dataset 2',
+            backgroundColor: 'steelblue',
+            data: []
+          }]
+
+        },
+        options: {
+          responsive: true,
+          legend: {
+            position: 'top',
+          },
+          title: {
+            display: true,
+            text: 'Chart.js Error Bars Chart'
+          },
+          scales: {
+            xAxes: [{
+              // Specific to Bar Controller
+              categoryPercentage: 0.9,
+              barPercentage: 0.8
+            }]
+          }
+        }
+      });
+    };
+  </script>
+</body>
+
+</html>
