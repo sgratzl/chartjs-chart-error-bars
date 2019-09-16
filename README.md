@@ -55,4 +55,3 @@ npm run build
 [npm-url]: https://npmjs.org/package/chartjs-chart-error-bars
 [circleci-image]: https://circleci.com/gh/sgratzl/chartjs-chart-error-bars.svg?style=shield
 [circleci-url]: https://circleci.com/gh/sgratzl/chartjs-chart-error-bars
-

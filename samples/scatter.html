@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+
+<head>
+  <script src="../node_modules/chart.js/dist/Chart.bundle.js"></script>
+  <script src="../build/Chart.ErrorBars.js"></script>
+</head>
+
+<body>
+  <div style="width: 75%;">
+    <canvas id="canvas"></canvas>
+  </div>
+  <script>
+    window.onload = function() {
+      new Chart(document.getElementById("canvas").getContext("2d"), {
+        type: 'scatter',
+        data: {
+          labels: ['A', 'B'],
+          datasets: [{
+            data: [
+              {
+                x: 2,
+                yMin: 1,
+                yMax: 3,
+                y: 4,
+                yMin: 1,
+                yMax: 6
+              },
+              {
+                x: 7,
+                yMin: 6,
+                yMax: 9,
+                y: 2,
+                yMin: 1,
+                yMax: 4
+              }
+            ]
+          }]
+        },
+        options: {
+          scales: {
+            xAxes: [{
+              ticks: {
+                  beginAtZero: true
+              }
+            }],
+            yAxes: [{
+              ticks: {
+                  beginAtZero: true
+              }
+            }]
+          }
+        }
+      });
+    };
+  </script>
+</body>
+
+</html>

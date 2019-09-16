@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+
+<head>
+  <script src="../node_modules/chart.js/dist/Chart.bundle.js"></script>
+  <script src="../build/Chart.ErrorBars.js"></script>
+</head>
+
+<body>
+  <div style="width: 75%;">
+    <canvas id="canvas"></canvas>
+  </div>
+  <script>
+    window.onload = function() {
+      new Chart(document.getElementById("canvas").getContext("2d"), {
+        type: 'polarArea',
+        data: {
+          labels: ['A', 'B'],
+          datasets: [{
+            data: [
+              {
+                y: 4,
+                yMin: 1,
+                yMax: 6
+              },
+              {
+                y: 2,
+                yMin: 1,
+                yMax: 4
+              }
+            ]
+          }]
+        },
+        options: {
+
+        }
+      });
+    };
+  </script>
+</body>
+
+</html>
