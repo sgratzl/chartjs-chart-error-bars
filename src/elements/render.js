@@ -26,18 +26,18 @@ export function transitionErrorBar(start, view, model, ease) {
     const actual = view[key];
 
     if (!view.hasOwnProperty(key)) {
-			view[key] = target.slice();
+      view[key] = target.slice();
     }
 
     if (isSameArray(actual, target)) {
-			return;
-		}
+      return;
+    }
 
-		if (!start.hasOwnProperty(key)) {
-			start[key] = actual.slice();
-		}
+    if (!start.hasOwnProperty(key)) {
+      start[key] = actual.slice();
+    }
 
-		const origin = start[key];
+    const origin = start[key];
 
     if (isSameArray(origin, target)) {
       return;
@@ -48,7 +48,7 @@ export function transitionErrorBar(start, view, model, ease) {
       actual[i] = origin[i] + (target[i] - origin[i]) * ease;
     }
 
-		view[key] = target.slice();
+    view[key] = target.slice();
   });
 }
 
@@ -73,18 +73,6 @@ export function updateErrorBarElement(controller, elem, index) {
     elem._model[item] = resolve([custom[item], dataset[item], options[item]], context, index);
   });
 }
-
-export function renderErrorBar(view, ctx) {
-  ctx.save();
-
-  if (view.horizontal) {
-    drawErrorBarHorizontal(view, view.xMin, view.xMax, ctx);
-  } else {
-    drawErrorBarVertical(view, view.yMin, view.yMax, ctx);
-  }
-
-  ctx.restore();
-};
 
 function calcuateHalfSize(total, view) {
   if (total != null) {
@@ -147,4 +135,16 @@ function drawErrorBarHorizontal(view, vMin, vMax, ctx) {
   ctx.moveTo(vMax, -halfHeight);
   ctx.lineTo(vMax, halfHeight);
   ctx.stroke();
+}
+
+export function renderErrorBar(view, ctx) {
+  ctx.save();
+
+  if (view.horizontal) {
+    drawErrorBarHorizontal(view, view.xMin, view.xMax, ctx);
+  } else {
+    drawErrorBarVertical(view, view.yMin, view.yMax, ctx);
+  }
+
+  ctx.restore();
 }

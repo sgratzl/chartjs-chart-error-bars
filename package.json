@@ -42,7 +42,7 @@
     "clean": "rimraf build",
     "watch": "rollup -c -w -i src/index.js",
     "lint": "eslint src",
-    "test": "jest",
+    "test": "jest --passWithNoTests",
     "test:watch": "jest --watch",
     "posttest": "npm run lint",
     "build:dev": "rollup -c -i src/index.js",

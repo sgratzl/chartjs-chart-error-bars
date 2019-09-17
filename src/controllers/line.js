@@ -15,7 +15,7 @@ const lineWithErrorBars = {
     return this.chart.options.elements.pointWithErrorBar;
   },
 
-  updateElement: function (point, index, reset) {
+  updateElement(point, index, reset) {
     Chart.controllers.line.prototype.updateElement.call(this, point, index, reset);
 
     updateErrorBarElement(this, point, index, reset);
