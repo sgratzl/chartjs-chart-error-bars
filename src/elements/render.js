@@ -1,53 +1,53 @@
 import * as Chart from 'chart.js';
-import {modelKeys} from '../data';
+import {modelKeys, isSameArray} from '../data';
 
 export const defaults = {
   errorBarLineWidth: 1,
   errorBarColor: 'black',
   errorBarWhiskerLineWidth: 1,
   errorBarWhiskerRatio: 0.2,
-  errorBarWhiskerColor: 'blue'
+  errorBarWhiskerColor: 'black'
 };
 
 export const styleKeys = Object.keys(defaults);
-
 
 export function transitionErrorBar(start, view, model, ease) {
   const keys = modelKeys(view.horizontal);
 
   keys.forEach((key) => {
     const target = model[key];
+
+    if (!Array.isArray(target)) {
+      // primitive are alrady handled
+      return;
+    }
+
     const actual = view[key];
 
     if (!view.hasOwnProperty(key)) {
-			view[key] = target;
+			view[key] = target.slice();
     }
 
-    if (actual === target) {
+    if (isSameArray(actual, target)) {
 			return;
 		}
 
 		if (!start.hasOwnProperty(key)) {
-			start[key] = actual;
+			start[key] = actual.slice();
 		}
 
 		const origin = start[key];
 
-    if (origin === target) {
+    if (isSameArray(origin, target)) {
       return;
     }
 
-    if (typeof target === 'number') {
-      view[key] = origin + (target - origin) * ease;
-      return;
+    const common = Math.min(target.length, origin.length);
+    for (let i = 0; i < common; ++i) {
+      actual[i] = origin[i] + (target[i] - origin[i]) * ease;
     }
-    if (Array.isArray(target)) {
-      const v = view[key];
-      const common = Math.min(target.length, origin.length);
-      for (let i = 0; i < common; ++i) {
-        v[i] = origin[i] + (target[i] - origin[i]) * ease;
-      }
-    }
+
+		view[key] = target.slice();
   });
 }
 

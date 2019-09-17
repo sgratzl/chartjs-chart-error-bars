@@ -24,6 +24,7 @@ export const RectangleWithErrorBar = Chart.elements.RectangleWithErrorBar = Char
 
     return r;
   },
+
   draw() {
     Chart.elements.Rectangle.prototype.draw.call(this);
 

@@ -26,24 +26,20 @@ const barWithErrorBars = {
     return this.chart.options.elements.rectangleWithErrorBar;
   },
 
-  updateElement(elem, index, reset) {
-    Chart.controllers.bar.prototype.updateElement.call(this, elem, index, reset);
-
-    updateErrorBarElement(this, elem, index, reset);
-  },
-
   /**
    * @private
    */
   _updateElementGeometry(elem, index, reset) {
+    updateErrorBarElement(this, elem, index, reset);
+
     Chart.controllers.bar.prototype._updateElementGeometry.call(this, elem, index, reset);
-    this._calculateErrorBarValuesPixels(elem._model, this.index, index);
+    this._calculateErrorBarValuesPixels(elem._model, this.index, index, reset);
   },
 
   /**
    * @private
    */
-  _calculateErrorBarValuesPixels(model, datasetIndex, index) {
+  _calculateErrorBarValuesPixels(model, datasetIndex, index, reset) {
     const data = this.chart.data.datasets[datasetIndex].data[index];
     if (!data) {
       return;
@@ -51,13 +47,14 @@ const barWithErrorBars = {
 
     const scale = this._getValueScale();
 		const keys = modelKeys(scale.isHorizontal());
+    const base = scale.getBasePixel();
 
     keys.forEach((key) => {
       const v = data[key];
       if (Array.isArray(v)) {
-        model[key] = v.map((d) => scale.getPixelForValue(d));
+        model[key] = v.map((d) => reset ? base : scale.getPixelForValue(d));
       } else if (typeof v === 'number') {
-        model[key] = scale.getPixelForValue(v);
+        model[key] = reset ? base : scale.getPixelForValue(v);
       }
     });
   }
