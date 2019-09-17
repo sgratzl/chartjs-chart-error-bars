@@ -1,9 +1,11 @@
 ﻿'use strict';
 
 import * as Chart from 'chart.js';
+import {modelKeys} from '../data';
+import {updateErrorBarElement} from '../elements/render';
 
 const defaults = {
-
+  // TODO
 };
 
 const horizontalDefaults = {
@@ -13,8 +15,6 @@ const horizontalDefaults = {
 const verticalDefaults = {
 
 };
-
-const resolve = Chart.helpers.options.resolve;
 
 Chart.defaults.barWithErrorBars = Chart.helpers.merge({}, [Chart.defaults.bar, verticalDefaults, defaults]);
 Chart.defaults.horizontalBarWithErrorBars = Chart.helpers.merge({}, [Chart.defaults.horizontalBar, horizontalDefaults, defaults]);
@@ -29,21 +29,7 @@ const barWithErrorBars = {
   updateElement(elem, index, reset) {
     Chart.controllers.bar.prototype.updateElement.call(this, elem, index, reset);
 
-    const custom = elem.custom || {};
-    const options = this._elementOptions();
-
-    const keys = []; // TODO list options
-    // Scriptable options
-    const context = {
-      chart: this.chart,
-      dataIndex: index,
-      dataset: this.getDataset(),
-      datasetIndex: this.index
-    };
-
-    keys.forEach((item) => {
-      elem._model[item] = resolve([custom[item], dataset[item], options[item]], context, index);
-    });
+    updateErrorBarElement(this, elem, index, reset);
   },
 
   /**
@@ -64,17 +50,16 @@ const barWithErrorBars = {
     }
 
     const scale = this._getValueScale();
-		const horizontal = scale.isHorizontal();
-    const keys = horizontal ? ['xMin', 'xMax'] : ['yMin', 'yMax'];
+		const keys = modelKeys(scale.isHorizontal());
 
-    for (const key of keys) {
+    keys.forEach((key) => {
       const v = data[key];
       if (Array.isArray(v)) {
         model[key] = v.map((d) => scale.getPixelForValue(d));
       } else if (typeof v === 'number') {
         model[key] = scale.getPixelForValue(v);
       }
-    }
+    });
   }
 };
 
