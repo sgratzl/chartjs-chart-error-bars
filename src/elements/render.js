@@ -6,6 +6,7 @@ export const defaults = {
   errorBarColor: 'black',
   errorBarWhiskerLineWidth: 1,
   errorBarWhiskerRatio: 0.2,
+  errorBarWhiskerSize: 20,
   errorBarWhiskerColor: 'black'
 };
 
@@ -85,6 +86,13 @@ export function renderErrorBar(view, ctx) {
   ctx.restore();
 };
 
+function calcuateHalfSize(total, view) {
+  if (total != null) {
+    return total * view.errorBarWhiskerRatio * 0.5;
+  }
+  return view.errorBarWhiskerSize * 0.5;
+}
+
 /**
  * @param {number} vMin
  * @param {number} vMax
@@ -104,7 +112,7 @@ function drawErrorBarVertical(view, vMin, vMax, ctx) {
   // whisker
   ctx.lineWidth = view.errorBarWhiskerLineWidth;
   ctx.strokeStyle = view.errorBarWhiskerColor;
-  const halfWidth = view.width * view.errorBarWhiskerRatio * 0.5;
+  const halfWidth = calcuateHalfSize(view.width, view);
   ctx.beginPath();
   ctx.moveTo(-halfWidth, vMin);
   ctx.lineTo(halfWidth, vMin);
@@ -119,25 +127,24 @@ function drawErrorBarVertical(view, vMin, vMax, ctx) {
  * @param {CanvasRenderingContext2D} ctx
  */
 function drawErrorBarHorizontal(view, vMin, vMax, ctx) {
-  const y = view.y;
-  const height = view.height;
+  ctx.translate(0, view.y);
 
   // center line
   ctx.lineWidth = view.errorBarLineWidth;
   ctx.strokeStyle = view.errorBarColor;
   ctx.beginPath();
-  ctx.moveTo(vMin, y);
-  ctx.lineTo(vMax, y);
+  ctx.moveTo(vMin, 0);
+  ctx.lineTo(vMax, 0);
   ctx.stroke();
 
   // whisker
   ctx.lineWidth = view.errorBarWhiskerLineWidth;
   ctx.strokeStyle = view.errorBarWhiskerColor;
-  const halfHeight = height * view.errorBarWhiskerRatio * 0.5;
+  const halfHeight = calcuateHalfSize(view.height, view);
   ctx.beginPath();
-  ctx.moveTo(vMin, y - halfHeight);
-  ctx.lineTo(vMin, y + halfHeight);
-  ctx.moveTo(vMax, y - halfHeight);
-  ctx.lineTo(vMax, y + halfHeight);
+  ctx.moveTo(vMin, -halfHeight);
+  ctx.lineTo(vMin, halfHeight);
+  ctx.moveTo(vMax, -halfHeight);
+  ctx.lineTo(vMax, halfHeight);
   ctx.stroke();
 }
