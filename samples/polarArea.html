@@ -13,21 +13,21 @@
   <script>
     window.onload = function() {
       new Chart(document.getElementById("canvas").getContext("2d"), {
-        type: 'polarArea',
+        type: 'polarAreaWithErrorBars',
         data: {
           labels: ['A', 'B'],
           datasets: [{
-            data: [
-              {
-                y: 4,
-                yMin: 1,
-                yMax: 6
-              },
-              {
-                y: 2,
-                yMin: 1,
-                yMax: 4
-              }
+            data: [4, 2
+              // {
+              //   y: 4,
+              //   yMin: 1,
+              //   yMax: 6
+              // },
+              // {
+              //   y: 2,
+              //   yMin: 1,
+              //   yMax: 4
+              // }
             ]
           }]
         },

@@ -113,6 +113,7 @@ function drawErrorBarVertical(view, vMin, vMax, ctx) {
   ctx.moveTo(-halfWidth, vMax);
   ctx.lineTo(halfWidth, vMax);
   ctx.stroke();
+
   ctx.restore();
 }
 
@@ -150,6 +151,7 @@ function drawErrorBarHorizontal(view, vMin, vMax, ctx) {
   ctx.moveTo(vMax, -halfHeight);
   ctx.lineTo(vMax, halfHeight);
   ctx.stroke();
+
   ctx.restore();
 }
 
@@ -159,5 +161,54 @@ export function renderErrorBar(view, ctx) {
   }
   if (view.yMin != null || view.yMax != null) {
     drawErrorBarVertical(view, view.yMin, view.yMax, ctx);
+  }
+}
+
+/**
+ * @param {number} vMin
+ * @param {number} vMax
+ * @param {CanvasRenderingContext2D} ctx
+ */
+function drawErrorBarArc(view, vMin, vMax, ctx) {
+  ctx.save();
+  ctx.translate(view.x, view.y); // move to center
+
+  if (vMin == null) {
+    vMin = view.outerRadius;
+  }
+  if (vMax == null) {
+    vMax = view.outerRadius;
+  }
+
+  const angle = (view.startAngle + view.endAngle) / 2;
+
+  // center line
+  ctx.lineWidth = view.errorBarLineWidth;
+  ctx.strokeStyle = view.errorBarColor;
+  ctx.beginPath();
+  // ctx.moveTo(vMin, 0);
+  // ctx.lineTo(vMax, 0);
+  ctx.stroke();
+
+  // whisker
+  ctx.lineWidth = view.errorBarWhiskerLineWidth;
+  ctx.strokeStyle = view.errorBarWhiskerColor;
+  const halfHeight = calcuateHalfSize(null, view);
+  ctx.beginPath();
+  // ctx.moveTo(vMin, -halfHeight);
+  // ctx.lineTo(vMin, halfHeight);
+  // ctx.moveTo(vMax, -halfHeight);
+  // ctx.lineTo(vMax, halfHeight);
+  ctx.stroke();
+
+  ctx.restore();
+}
+
+export function renderErrorBarArc(view, ctx) {
+  if (view.xMin != null || view.xMax != null) {
+    drawErrorBarArc(view, view.xMin, view.xMax, ctx);
+  }
+  if (view.yMin != null || view.yMax != null) {
+    drawErrorBarArc(view, view.yMin, view.yMax, ctx);
   }
 }
