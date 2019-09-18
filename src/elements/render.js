@@ -75,7 +75,7 @@ export function updateErrorBarElement(controller, elem, index) {
 }
 
 function calcuateHalfSize(total, view) {
-  if (total != null) {
+  if (total != null && view.errorBarWhiskerRatio > 0) {
     return total * view.errorBarWhiskerRatio * 0.5;
   }
   return view.errorBarWhiskerSize * 0.5;
