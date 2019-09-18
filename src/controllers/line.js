@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 import * as Chart from 'chart.js';
-import {calculateErrorBarValuesPixels} from './utils';
+import {calculateErrorBarValuesPixelsScatter} from './utils';
 import {updateErrorBarElement} from '../elements/render';
 
 const defaults = {};
@@ -20,7 +20,7 @@ const lineWithErrorBars = {
 
     updateErrorBarElement(this, point, index, reset);
 
-    calculateErrorBarValuesPixels(this, point._model, index, reset);
+    calculateErrorBarValuesPixelsScatter(this, point._model, index, reset);
   }
 };
 

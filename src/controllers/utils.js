@@ -1,13 +1,8 @@
 import {modelKeys} from '../data';
 
-export function calculateErrorBarValuesPixels(controller, model, index, reset) {
-  const data = controller.getDataset().data[index];
-  if (!data) {
-    return;
-  }
 
-  const scale = controller._getValueScale();
-  const keys = modelKeys(scale.isHorizontal());
+function calculateScale(model, data, scale, horizontal, reset) {
+  const keys = modelKeys(horizontal);
   const base = scale.getBasePixel();
 
   keys.forEach((key) => {
@@ -18,4 +13,25 @@ export function calculateErrorBarValuesPixels(controller, model, index, reset) {
       model[key] = reset ? base : scale.getPixelForValue(v);
     }
   });
+}
+
+export function calculateErrorBarValuesPixels(controller, model, index, reset) {
+  const data = controller.getDataset().data[index];
+  if (!data) {
+    return;
+  }
+
+  const scale = controller._getValueScale();
+  calculateScale(model, data, scale, scale.isHorizontal(), reset);
+}
+
+export function calculateErrorBarValuesPixelsScatter(controller, model, index, reset) {
+  const data = controller.getDataset().data[index];
+  if (!data) {
+    return;
+  }
+
+  const meta = controller.getMeta();
+  calculateScale(model, data, controller.getScaleForId(meta.xAxisID), true, reset);
+  calculateScale(model, data, controller.getScaleForId(meta.yAxisID), false, reset);
 }

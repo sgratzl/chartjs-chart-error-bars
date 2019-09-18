@@ -1,5 +1,5 @@
 import * as Chart from 'chart.js';
-import {modelKeys, isSameArray} from '../data';
+import {allModelKeys, isSameArray} from '../data';
 
 export const defaults = {
   errorBarLineWidth: 1,
@@ -13,9 +13,7 @@ export const defaults = {
 export const styleKeys = Object.keys(defaults);
 
 export function transitionErrorBar(start, view, model, ease) {
-  const keys = modelKeys(view.horizontal);
-
-  keys.forEach((key) => {
+  allModelKeys.forEach((key) => {
     const target = model[key];
 
     if (!Array.isArray(target)) {
@@ -87,7 +85,15 @@ function calcuateHalfSize(total, view) {
  * @param {CanvasRenderingContext2D} ctx
  */
 function drawErrorBarVertical(view, vMin, vMax, ctx) {
+  ctx.save();
   ctx.translate(view.x, 0);
+
+  if (vMin == null) {
+    vMin = view.y;
+  }
+  if (vMax == null) {
+    vMax = view.y;
+  }
 
   // center line
   ctx.lineWidth = view.errorBarLineWidth;
@@ -107,6 +113,7 @@ function drawErrorBarVertical(view, vMin, vMax, ctx) {
   ctx.moveTo(-halfWidth, vMax);
   ctx.lineTo(halfWidth, vMax);
   ctx.stroke();
+  ctx.restore();
 }
 
 /**
@@ -115,7 +122,15 @@ function drawErrorBarVertical(view, vMin, vMax, ctx) {
  * @param {CanvasRenderingContext2D} ctx
  */
 function drawErrorBarHorizontal(view, vMin, vMax, ctx) {
+  ctx.save();
   ctx.translate(0, view.y);
+
+  if (vMin == null) {
+    vMin = view.x;
+  }
+  if (vMax == null) {
+    vMax = view.x;
+  }
 
   // center line
   ctx.lineWidth = view.errorBarLineWidth;
@@ -135,16 +150,14 @@ function drawErrorBarHorizontal(view, vMin, vMax, ctx) {
   ctx.moveTo(vMax, -halfHeight);
   ctx.lineTo(vMax, halfHeight);
   ctx.stroke();
+  ctx.restore();
 }
 
 export function renderErrorBar(view, ctx) {
-  ctx.save();
-
-  if (view.horizontal) {
+  if (view.xMin != null || view.xMax != null) {
     drawErrorBarHorizontal(view, view.xMin, view.xMax, ctx);
-  } else {
+  }
+  if (view.yMin != null || view.yMax != null) {
     drawErrorBarVertical(view, view.yMin, view.yMax, ctx);
   }
-
-  ctx.restore();
 }

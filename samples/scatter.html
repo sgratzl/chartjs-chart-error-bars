@@ -13,23 +13,23 @@
   <script>
     window.onload = function() {
       new Chart(document.getElementById("canvas").getContext("2d"), {
-        type: 'scatter',
+        type: 'scatterWithErrorBars',
         data: {
           labels: ['A', 'B'],
           datasets: [{
             data: [
               {
                 x: 2,
-                yMin: 1,
-                yMax: 3,
+                xMin: 1,
+                xMax: 3,
                 y: 4,
                 yMin: 1,
                 yMax: 6
               },
               {
                 x: 7,
-                yMin: 6,
-                yMax: 9,
+                xMin: 6,
+                xMax: 9,
                 y: 2,
                 yMin: 1,
                 yMax: 4
