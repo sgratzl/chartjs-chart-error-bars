@@ -1,10 +1,16 @@
 ﻿'use strict';
 
 import * as Chart from 'chart.js';
-import {calculateErrorBarValuesPixelsPolar} from './utils';
+import {calculateErrorBarValuesPixelsPolar, generateTooltipPolar} from './utils';
 import {updateErrorBarElement} from '../elements/render';
 
-const defaults = {};
+const defaults = {
+  tooltips: {
+    callbacks: {
+      label: generateTooltipPolar
+    }
+  }
+};
 
 Chart.defaults.polarAreaWithErrorBars = Chart.helpers.merge({}, [Chart.defaults.polarArea, defaults]);
 

@@ -1,13 +1,27 @@
 ﻿'use strict';
 
 import * as Chart from 'chart.js';
-import {calculateErrorBarValuesPixels} from './utils';
+import {calculateErrorBarValuesPixels, generateTooltip} from './utils';
 import {updateErrorBarElement} from '../elements/render';
 
-const defaults = {};
+const defaults = {
+  tooltips: {
+		callbacks: {
+      label: generateTooltip(false)
+		}
+	}
+};
+
+const horizontalDefaults = {
+  tooltips: {
+		callbacks: {
+      label: generateTooltip(true)
+		}
+	}
+};
 
 Chart.defaults.barWithErrorBars = Chart.helpers.merge({}, [Chart.defaults.bar, defaults]);
-Chart.defaults.horizontalBarWithErrorBars = Chart.helpers.merge({}, [Chart.defaults.horizontalBar, defaults]);
+Chart.defaults.horizontalBarWithErrorBars = Chart.helpers.merge({}, [Chart.defaults.horizontalBar, horizontalDefaults]);
 
 const barWithErrorBars = {
   dataElementType: Chart.elements.RectangleWithErrorBar,

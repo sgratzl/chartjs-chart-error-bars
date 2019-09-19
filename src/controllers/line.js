@@ -1,10 +1,16 @@
 ﻿'use strict';
 
 import * as Chart from 'chart.js';
-import {calculateErrorBarValuesPixelsScatter} from './utils';
+import {calculateErrorBarValuesPixelsScatter, generateTooltip} from './utils';
 import {updateErrorBarElement} from '../elements/render';
 
-const defaults = {};
+const defaults = {
+  tooltips: {
+		callbacks: {
+      label: generateTooltip(false)
+		}
+	}
+};
 
 Chart.defaults.lineWithErrorBars = Chart.helpers.merge({}, [Chart.defaults.line, defaults]);
 

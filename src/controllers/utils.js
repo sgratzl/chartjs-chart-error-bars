@@ -1,5 +1,5 @@
 import {modelKeys} from '../data';
-
+import * as Chart from 'chart.js';
 
 function calculateScale(model, data, scale, horizontal, reset) {
   const keys = modelKeys(horizontal);
@@ -60,4 +60,41 @@ export function calculateErrorBarValuesPixelsPolar(controller, arc, model, index
       model[key] = toAngle(v);
     }
   });
+}
+
+export function generateTooltip(horizontal) {
+  const keys = modelKeys(horizontal);
+  return (item, data) => {
+    const base = Chart.defaults.global.tooltips.callbacks.label.call(this, item, data);
+    const v = data.datasets[item.datasetIndex].data[item.index];
+    if (v == null || keys.every((k) => v[k] == null)) {
+      return base;
+    }
+    return `${base} (${v[keys[0]]} .. ${v[keys[1]]})`;
+  };
+}
+
+export function generateTooltipScatter(item, data) {
+  const v = data.datasets[item.datasetIndex].data[item.index];
+
+  const subLabel = (base, horizontal) => {
+    const keys = modelKeys(horizontal);
+    if (v == null || keys.every((k) => v[k] == null)) {
+      return base;
+    }
+    return `${base} [${v[keys[0]]} .. ${v[keys[1]]}]`;
+  };
+
+  return `(${subLabel(item.xLabel, true)}, ${subLabel(item.yLabel, false)})`;
+}
+
+export function generateTooltipPolar(item, data) {
+  const base = Chart.defaults.polarArea.tooltips.callbacks.label.call(this, item, data);
+  const v = data.datasets[item.datasetIndex].data[item.index];
+
+  const keys = modelKeys(false);
+  if (v == null || keys.every((k) => v[k] == null)) {
+    return base;
+  }
+  return `${base} [${v[keys[0]]} .. ${v[keys[1]]}]`;
 }
