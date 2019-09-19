@@ -5,6 +5,11 @@ import {calculateErrorBarValuesPixels, generateTooltip} from './utils';
 import {updateErrorBarElement} from '../elements/render';
 
 const defaults = {
+  scales: {
+    yAxes: [{
+      type: 'linearWithErrorBars'
+    }]
+  },
   tooltips: {
 		callbacks: {
       label: generateTooltip(false)
@@ -13,6 +18,11 @@ const defaults = {
 };
 
 const horizontalDefaults = {
+  scales: {
+    xAxes: [{
+      type: 'linearWithErrorBars'
+    }]
+  },
   tooltips: {
 		callbacks: {
       label: generateTooltip(true)

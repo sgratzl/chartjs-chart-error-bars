@@ -5,6 +5,14 @@ import {LineWithErrorBars} from './line';
 import {generateTooltipScatter} from './utils';
 
 const defaults = {
+  scales: {
+    xAxes: [{
+      type: 'linearWithErrorBars'
+    }],
+    yAxes: [{
+      type: 'linearWithErrorBars'
+    }]
+  },
   tooltips: {
 		callbacks: {
 			label: generateTooltipScatter

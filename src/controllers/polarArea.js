@@ -5,6 +5,9 @@ import {calculateErrorBarValuesPixelsPolar, generateTooltipPolar} from './utils'
 import {updateErrorBarElement} from '../elements/render';
 
 const defaults = {
+  scale: {
+    type: 'radialLinearWithErrorBars',
+  },
   tooltips: {
     callbacks: {
       label: generateTooltipPolar
