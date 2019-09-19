@@ -79,9 +79,9 @@ interface IErrorBarStyling {
 
 ## Data structure
 
-The data structure depends on the chart type. It uses the fact that chart.js is supporting scatterplot thus already prepared for object values.
+The data structure depends on the chart type. It uses the fact that chart.js is supporting scatterplot. Thus, it is already prepared for object values.
 
-chart types: `bar`, `line`, `scatter`, `polarArea`
+### Chart types: `bar`, `line`, `scatter`, `polarArea`
 
 ```typescript
 interface IErrorBarItem {
@@ -94,13 +94,13 @@ interface IErrorBarItem {
    */
   yMin: number
   /**
-   * the maximal error bar value
+   * the maximal absolute error bar value
    */
   yMax: number;
 }
 ```
 
-chart types: `horizontalBar`
+### Chart type: `horizontalBar`
 
 ```typescript
 interface IErrorBarItem {
@@ -113,13 +113,13 @@ interface IErrorBarItem {
    */
   xMin: number
   /**
-   * the maximal error bar value
+   * the maximal absolute error bar value
    */
   xMax: number;
 }
 ```
 
-chart types: `scatter`
+### Chart type: `scatter`
 
 ```typescript
 interface IErrorBarItem {
@@ -132,7 +132,7 @@ interface IErrorBarItem {
    */
   xMin: number
   /**
-   * the maximal error bar x value
+   * the maximal absolute error bar x value
    */
   xMax: number;
   /**
@@ -144,7 +144,7 @@ interface IErrorBarItem {
    */
   yMin: number
   /**
-   * the maximal error bar y value
+   * the maximal absolute error bar y value
    */
   yMax: number;
 }
