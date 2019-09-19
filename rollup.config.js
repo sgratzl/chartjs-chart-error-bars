@@ -20,7 +20,7 @@ export default [{
   ]
 }, {
   output: {
-    file: 'build/Chart.ErrorBars.mjs',
+    file: 'build/Chart.ErrorBars.esm.js',
     name: 'ChartErrorBars',
     format: 'esm',
     globals: {
