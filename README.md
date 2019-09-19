@@ -1,5 +1,5 @@
 # Chart.js Error Bars
-[![NPM Package][npm-image]][npm-url] [![Github Actions][github-actions-image]][github-action-url]
+[![NPM Package][npm-image]][npm-url] [![Github Actions][github-actions-image]][github-actions-url]
 
 Chart.js module for charting error bars plots. This plugin extends the several char types (`bar`, `horizontalBar`, `line`, `scatter`, `polarArea`)
 with their error bar equivalent (`barWithErrorBars`, `horizontalBarWithErrorBars`, `lineWithErrorBars`, `scatterWithErrorBars`, `polarAreaWithErrorBars`). In addition, it comes with equivalents for scales (`linearWithErrorBars`, `logarithmicWithErrorBars`, `radialLinearWithErrorBars`) that consider the error bars when computing the data limits.
