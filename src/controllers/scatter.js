@@ -14,10 +14,10 @@ const defaults = {
     }]
   },
   tooltips: {
-		callbacks: {
-			label: generateTooltipScatter
-		}
-	}
+    callbacks: {
+      label: generateTooltipScatter
+    }
+  }
 };
 
 Chart.defaults.scatterWithErrorBars = Chart.helpers.merge({}, [Chart.defaults.scatter, defaults]);

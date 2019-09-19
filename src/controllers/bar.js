@@ -11,10 +11,10 @@ const defaults = {
     }]
   },
   tooltips: {
-		callbacks: {
+    callbacks: {
       label: generateTooltip(false)
-		}
-	}
+    }
+  }
 };
 
 const horizontalDefaults = {
@@ -24,10 +24,10 @@ const horizontalDefaults = {
     }]
   },
   tooltips: {
-		callbacks: {
+    callbacks: {
       label: generateTooltip(true)
-		}
-	}
+    }
+  }
 };
 
 Chart.defaults.barWithErrorBars = Chart.helpers.merge({}, [Chart.defaults.bar, defaults]);

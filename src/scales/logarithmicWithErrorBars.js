@@ -16,8 +16,8 @@ export const LogarithmicWithErrorBarsScale = Chart.scaleService.getScaleConstruc
       }
     });
 
-		// Common base implementation to handle ticks.min, ticks.max
-		this.handleTickRangeOptions();
+    // Common base implementation to handle ticks.min, ticks.max
+    this.handleTickRangeOptions();
   }
 });
 Chart.scaleService.registerScaleType('logarithmicWithErrorBars', LogarithmicWithErrorBarsScale, logarithmicWithErrorBarsOptions);

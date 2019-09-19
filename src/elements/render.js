@@ -164,25 +164,6 @@ export function renderErrorBar(view, ctx) {
   }
 }
 
-// based on https://www.xarg.org/2016/10/calculate-the-tangent-line-of-a-circle/
-function tangentLine(center, radius, angle) {
-  const intersection = {
-    x: 0 + Math.cos(angle) * radius,
-    y: 0 + Math.sin(angle) * radius
-  };
-
-  const direction = {
-    x: intersection.y,
-    y: -intersection.x
-  };
-
-  const norm = Math.hypot(direction.x, direction.y);
-  direction.x /= norm;
-  direction.y /= norm;
-
-  return {t: intersection, v: direction};
-}
-
 /**
  * @param {number} vMin
  * @param {number} vMax
