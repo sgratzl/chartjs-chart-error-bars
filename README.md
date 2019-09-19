@@ -63,7 +63,7 @@ interface IErrorBarStyling {
    * width of the whiskers in relation to the bar width, use `0` to force a fixed with, see below
    * @default 0.2
    */
-  errorBarWhiskerRatio: number
+  errorBarWhiskerRatio: number;
   /**
    * pixel width of the whiskers for non bar chart cases
    * @default 20
@@ -73,7 +73,7 @@ interface IErrorBarStyling {
    * color of the whisker lines
    * @default black
    */
-  errorBarWhiskerColor: string;s
+  errorBarWhiskerColor: string;
 }
 ```
 
@@ -92,7 +92,7 @@ interface IErrorBarItem {
   /**
    * the minimal absolute error bar value
    */
-  yMin: number
+  yMin: number;
   /**
    * the maximal absolute error bar value
    */
@@ -111,7 +111,7 @@ interface IErrorBarItem {
   /**
    * the minimal absolute error bar value
    */
-  xMin: number
+  xMin: number;
   /**
    * the maximal absolute error bar value
    */
@@ -130,7 +130,7 @@ interface IErrorBarItem {
   /**
    * the minimal absolute error bar x value
    */
-  xMin: number
+  xMin: number;
   /**
    * the maximal absolute error bar x value
    */
@@ -142,7 +142,7 @@ interface IErrorBarItem {
   /**
    * the minimal absolute error bar y value
    */
-  yMin: number
+  yMin: number;
   /**
    * the maximal absolute error bar y value
    */
