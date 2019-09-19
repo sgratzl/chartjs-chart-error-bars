@@ -8,6 +8,8 @@ const defaults = {};
 
 Chart.defaults.polarAreaWithErrorBars = Chart.helpers.merge({}, [Chart.defaults.polarArea, defaults]);
 
+const superClass = Chart.controllers.polarArea.prototype;
+
 const polarAreaWithErrorBars = {
   dataElementType: Chart.elements.ArcWithErrorBar,
 
@@ -15,12 +17,37 @@ const polarAreaWithErrorBars = {
     return this.chart.options.elements.arcWithErrorBar;
   },
 
+  _getPatchedDataset() {
+    const dataset = superClass.getDataset.call(this);
+    return Object.assign({}, dataset, {
+      // inline d.v
+      data: dataset.data.map((d) => d != null && typeof d.y === 'number' ? d.y : d)
+    })
+  },
+
+  _withPatching(f) {
+    try {
+      this.getDataset = this._getPatchedDataset.bind(this);
+      return f();
+    } finally {
+      delete this.getDataset;
+    }
+  },
+
   updateElement(arc, index, reset) {
-    Chart.controllers.polarArea.prototype.updateElement.call(this, arc, index, reset);
+    this._withPatching(() => superClass.updateElement.call(this, arc, index, reset));
 
     updateErrorBarElement(this, arc, index, reset);
 
     calculateErrorBarValuesPixelsPolar(this, arc, arc._model, index, reset);
+  },
+
+  countVisibleElements() {
+    return this._withPatching(() => superClass.countVisibleElements.call(this));
+  },
+
+  _computeAngle(index) {
+    return this._withPatching(() => superClass._computeAngle.call(this, index));
   }
 };
 

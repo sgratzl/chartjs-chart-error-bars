@@ -164,6 +164,25 @@ export function renderErrorBar(view, ctx) {
   }
 }
 
+// based on https://www.xarg.org/2016/10/calculate-the-tangent-line-of-a-circle/
+function tangentLine(center, radius, angle) {
+  const intersection = {
+    x: 0 + Math.cos(angle) * radius,
+    y: 0 + Math.sin(angle) * radius
+  };
+
+  const direction = {
+    x: intersection.y,
+    y: -intersection.x
+  };
+
+  const norm = Math.hypot(direction.x, direction.y);
+  direction.x /= norm;
+  direction.y /= norm;
+
+  return {t: intersection, v: direction};
+}
+
 /**
  * @param {number} vMin
  * @param {number} vMax
@@ -186,28 +205,37 @@ function drawErrorBarArc(view, vMin, vMax, ctx) {
   ctx.lineWidth = view.errorBarLineWidth;
   ctx.strokeStyle = view.errorBarColor;
   ctx.beginPath();
-  // ctx.moveTo(vMin, 0);
-  // ctx.lineTo(vMax, 0);
+  const cosAngle = Math.cos(angle);
+  const sinAngle = Math.sin(angle);
+  ctx.moveTo(cosAngle * vMin, sinAngle * vMin);
+  ctx.lineTo(cosAngle * vMax, sinAngle * vMax);
   ctx.stroke();
 
   // whisker
   ctx.lineWidth = view.errorBarWhiskerLineWidth;
   ctx.strokeStyle = view.errorBarWhiskerColor;
   const halfHeight = calcuateHalfSize(null, view);
+
+  // perpendicular
+  const v = {
+    x: -sinAngle,
+    y: cosAngle
+  };
+  const length = Math.hypot(v.x, v.y);
+  v.x /= length;
+  v.y /= length;
+
   ctx.beginPath();
-  // ctx.moveTo(vMin, -halfHeight);
-  // ctx.lineTo(vMin, halfHeight);
-  // ctx.moveTo(vMax, -halfHeight);
-  // ctx.lineTo(vMax, halfHeight);
+  ctx.moveTo(cosAngle * vMin + v.x * halfHeight, sinAngle * vMin + v.y * halfHeight);
+  ctx.lineTo(cosAngle * vMin - v.x * halfHeight, sinAngle * vMin - v.y * halfHeight);
+  ctx.moveTo(cosAngle * vMax + v.x * halfHeight, sinAngle * vMax + v.y * halfHeight);
+  ctx.lineTo(cosAngle * vMax - v.x * halfHeight, sinAngle * vMax - v.y * halfHeight);
   ctx.stroke();
 
   ctx.restore();
 }
 
 export function renderErrorBarArc(view, ctx) {
-  if (view.xMin != null || view.xMax != null) {
-    drawErrorBarArc(view, view.xMin, view.xMax, ctx);
-  }
   if (view.yMin != null || view.yMax != null) {
     drawErrorBarArc(view, view.yMin, view.yMax, ctx);
   }

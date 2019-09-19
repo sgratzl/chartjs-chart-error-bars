@@ -46,10 +46,18 @@ export function calculateErrorBarValuesPixelsPolar(controller, arc, model, index
   const scale = chart.scale;
   const animationOpts = chart.options.animation;
 
-  const valueRadius = scale.getDistanceFromCenterForValue(data);
-  const resetRadius = animationOpts.animateScale ? 0 : valueRadius;
-  const outerRadius = reset ? resetRadius : (arc.hidden ? 0 : valueRadius);
+  const toAngle = (v) => {
+    const valueRadius = scale.getDistanceFromCenterForValue(v);
+    const resetRadius = animationOpts.animateScale ? 0 : valueRadius;
+    return reset ? resetRadius : (arc.hidden ? 0 : valueRadius);
+  };
 
-  // calculateScale(model, data, controller.getScaleForId(meta.xAxisID), true, reset);
-  // calculateScale(model, data, controller.getScaleForId(meta.yAxisID), false, reset);
+  modelKeys(false).forEach((key) => { // y variant
+    const v = data[key];
+    if (Array.isArray(v)) {
+      model[key] = v.map(toAngle);
+    } else if (typeof v === 'number') {
+      model[key] = toAngle(v);
+    }
+  });
 }
