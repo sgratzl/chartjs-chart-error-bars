@@ -47,31 +47,37 @@ interface IErrorBarStyling {
   /**
    * line width of the center line
    * @default 1
+   * @scriptable
    */
   errorBarLineWidth: number;
   /**
    * color of the center line
-   * @default black
+   * @default '#2c2c2c'
+   * @scriptable
    */
   errorBarColor: string;
   /**
    * line width of the whisker lines
    * @default 1
+   * @scriptable
    */
   errorBarWhiskerLineWidth: number;
   /**
    * width of the whiskers in relation to the bar width, use `0` to force a fixed with, see below
    * @default 0.2
+   * @scriptable
    */
   errorBarWhiskerRatio: number;
   /**
    * pixel width of the whiskers for non bar chart cases
    * @default 20
+   * @scriptable
    */
   errorBarWhiskerSize: number;
   /**
    * color of the whisker lines
-   * @default black
+   * @default '#2c2c2c'
+   * @scriptable
    */
   errorBarWhiskerColor: string;
 }
@@ -149,6 +155,74 @@ interface IErrorBarItem {
   yMax: number;
 }
 ```
+
+## Multiple Error Bars
+
+Multiple error bars are supported.
+
+![multiple error bars](https://user-images.githubusercontent.com/4129778/65359671-3d039600-dbcb-11e9-905e-1dd22b5e8783.png)
+
+
+### Styling
+
+The styling options support different array version.
+
+**Note**: as with other chart.js style options, using an array will be one value per dataset. Thus, to specify the values for different error bars, one needs to wrap it in another array. The outer for the dataset, the inner for the error bars.
+
+```typescript
+interface IErrorBarStyling {
+  /**
+   * line width of the center line
+   * @default [[1, 3]]
+   * @scriptable
+   */
+  errorBarLineWidth: number[][];
+  /**
+   * color of the center line
+   * @default [['#2c2c2c', '#1f1f1f']]
+   * @scriptable
+   */
+  errorBarColor: string[][];
+  /**
+   * line width of the whisker lines
+   * @default [[1, 3]]
+   * @scriptable
+   */
+  errorBarWhiskerLineWidth: number[][];
+  /**
+   * width of the whiskers in relation to the bar width, use `0` to force a fixed with, see below
+   * @default [[0.2, 0.25]]
+   * @scriptable
+   */
+  errorBarWhiskerRatio: number[][];
+  /**
+   * pixel width of the whiskers for non bar chart cases
+   * @default [[20, 24]]
+   * @scriptable
+   */
+  errorBarWhiskerSize: number[][];
+  /**
+   * color of the whisker lines
+   * @default [['#2c2c2c', '#1f1f1f']]
+   * @scriptable
+   */
+  errorBarWhiskerColor: string[][];
+}
+```
+
+### Data structure
+
+Just use array of numbers for the corresponding data structures attributes (`xMin`, `xMax`, `yMin`, `yMax`). The error bars will be rendered in reversed order. Thus, by convention the most inner error bar is in the first place.
+
+e.g.
+```typescript
+{
+  y: 4,
+  yMin: [2, 1],
+  yMax: [5, 6]
+}
+```
+
 
 ## Building
 

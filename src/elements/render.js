@@ -1,56 +1,80 @@
-import * as Chart from 'chart.js';
 import {allModelKeys, isSameArray} from '../data';
 
 export const defaults = {
-  errorBarLineWidth: 1,
-  errorBarColor: 'black',
-  errorBarWhiskerLineWidth: 1,
-  errorBarWhiskerRatio: 0.2,
-  errorBarWhiskerSize: 20,
-  errorBarWhiskerColor: 'black'
+  errorBarLineWidth: [[1, 3]],
+  errorBarColor: [['#2c2c2c', '#1f1f1f']],
+  errorBarWhiskerLineWidth: [[1, 3]],
+  errorBarWhiskerRatio: [[0.2, 0.25]],
+  errorBarWhiskerSize: [[20, 24]],
+  errorBarWhiskerColor: [['#2c2c2c', '#1f1f1f']]
 };
 
 export const styleKeys = Object.keys(defaults);
 
-export function transitionErrorBar(start, view, model, ease) {
+export function transitionErrorBarHelper(obj) {
+  if (!obj) {
+    return {};
+  }
+  const r = {};
   allModelKeys.forEach((key) => {
-    const target = model[key];
+    r[key] = obj[key];
+  });
+  return r;
+}
 
-    if (!Array.isArray(target)) {
+export function transitionErrorBar(start, startBak, view, model, ease) {
+  allModelKeys.forEach((key) => {
+    const m = model[key];
+
+    if (!Array.isArray(m)) {
       // primitive are alrady handled
       return;
     }
 
-    const actual = view[key];
-
     if (!view.hasOwnProperty(key)) {
-      view[key] = target.slice();
-    }
-
-    if (isSameArray(actual, target)) {
+      view[key] = m.slice();
       return;
     }
 
-    if (!start.hasOwnProperty(key)) {
-      start[key] = actual.slice();
+    let v = view[key];
+
+    if (!startBak.hasOwnProperty(key)) {
+      start[key] = v.slice();
     }
 
-    const origin = start[key];
+    const s = start[key];
 
-    if (isSameArray(origin, target)) {
+    if (isSameArray(s, m)) {
       return;
     }
 
-    const common = Math.min(target.length, origin.length);
+    const common = Math.min(m.length, s.length);
+    v = view[key] = new Array(common);
     for (let i = 0; i < common; ++i) {
-      actual[i] = origin[i] + (target[i] - origin[i]) * ease;
+      v[i] = s[i] + (m[i] - s[i]) * ease;
     }
-
-    view[key] = target.slice();
   });
 }
 
-const resolve = Chart.helpers.options.resolve;
+function resolve(inputs, context, index) {
+  for (let i = 0; i < inputs.length; ++i) {
+    let value = inputs[i];
+    if (value === undefined) {
+      continue;
+    }
+    if (context !== undefined && typeof value === 'function') {
+      value = value(context);
+    }
+    if (index !== undefined && Array.isArray(value)) {
+      // use mod to repeat the value and not returning undefined
+      value = value[index % value.length];
+    }
+    if (value !== undefined) {
+      return value;
+    }
+  }
+}
+
 /**
  * @param {number} index
  */
@@ -72,11 +96,32 @@ export function updateErrorBarElement(controller, elem, index) {
   });
 }
 
-function calcuateHalfSize(total, view) {
-  if (total != null && view.errorBarWhiskerRatio > 0) {
-    return total * view.errorBarWhiskerRatio * 0.5;
+function resolveMulti(vMin, vMax) {
+  const vMinArr = Array.isArray(vMin) ? vMin : [vMin];
+  const vMaxArr = Array.isArray(vMax) ? vMax : [vMax];
+
+  if (vMinArr.length === vMaxArr.length) {
+    return vMinArr.map((v, i) => [v, vMaxArr[i]]);
   }
-  return view.errorBarWhiskerSize * 0.5;
+  const max = Math.max(vMinArr.length, vMaxArr.length);
+
+  return Array(max).map((_, i) => [vMinArr[i % vMinArr.length], vMaxArr[i % vMaxArr.length]]);
+}
+
+function resolveOption(val, index) {
+  if (!Array.isArray(val)) {
+    return val;
+  }
+  return val[index % val.length];
+}
+
+function calcuateHalfSize(total, view, i) {
+  const ratio = resolveOption(view.errorBarWhiskerRatio, i);
+  if (total != null && ratio > 0) {
+    return total * ratio * 0.5;
+  }
+  const size = resolveOption(view.errorBarWhiskerSize, i);
+  return size * 0.5;
 }
 
 /**
@@ -95,24 +140,29 @@ function drawErrorBarVertical(view, vMin, vMax, ctx) {
     vMax = view.y;
   }
 
-  // center line
-  ctx.lineWidth = view.errorBarLineWidth;
-  ctx.strokeStyle = view.errorBarColor;
-  ctx.beginPath();
-  ctx.moveTo(0, vMin);
-  ctx.lineTo(0, vMax);
-  ctx.stroke();
+  const bars = resolveMulti(vMin, vMax);
 
-  // whisker
-  ctx.lineWidth = view.errorBarWhiskerLineWidth;
-  ctx.strokeStyle = view.errorBarWhiskerColor;
-  const halfWidth = calcuateHalfSize(view.width, view);
-  ctx.beginPath();
-  ctx.moveTo(-halfWidth, vMin);
-  ctx.lineTo(halfWidth, vMin);
-  ctx.moveTo(-halfWidth, vMax);
-  ctx.lineTo(halfWidth, vMax);
-  ctx.stroke();
+  bars.reverse().forEach(([mi, ma], j) => {
+    const i = bars.length - j - 1;
+    const halfWidth = calcuateHalfSize(view.width, view, i);
+    // center line
+    ctx.lineWidth = resolveOption(view.errorBarLineWidth, i);
+    ctx.strokeStyle = resolveOption(view.errorBarColor, i);
+    ctx.beginPath();
+    ctx.moveTo(0, mi);
+    ctx.lineTo(0, ma);
+    ctx.stroke();
+
+    // whisker
+    ctx.lineWidth = resolveOption(view.errorBarWhiskerLineWidth, i);
+    ctx.strokeStyle = resolveOption(view.errorBarWhiskerColor, i);
+    ctx.beginPath();
+    ctx.moveTo(-halfWidth, mi);
+    ctx.lineTo(halfWidth, mi);
+    ctx.moveTo(-halfWidth, ma);
+    ctx.lineTo(halfWidth, ma);
+    ctx.stroke();
+  });
 
   ctx.restore();
 }
@@ -133,24 +183,29 @@ function drawErrorBarHorizontal(view, vMin, vMax, ctx) {
     vMax = view.x;
   }
 
-  // center line
-  ctx.lineWidth = view.errorBarLineWidth;
-  ctx.strokeStyle = view.errorBarColor;
-  ctx.beginPath();
-  ctx.moveTo(vMin, 0);
-  ctx.lineTo(vMax, 0);
-  ctx.stroke();
+  const bars = resolveMulti(vMin, vMax);
 
-  // whisker
-  ctx.lineWidth = view.errorBarWhiskerLineWidth;
-  ctx.strokeStyle = view.errorBarWhiskerColor;
-  const halfHeight = calcuateHalfSize(view.height, view);
-  ctx.beginPath();
-  ctx.moveTo(vMin, -halfHeight);
-  ctx.lineTo(vMin, halfHeight);
-  ctx.moveTo(vMax, -halfHeight);
-  ctx.lineTo(vMax, halfHeight);
-  ctx.stroke();
+  bars.reverse().forEach(([mi, ma], j) => {
+    const i = bars.length - j - 1;
+    const halfHeight = calcuateHalfSize(view.height, view, i);
+    // center line
+    ctx.lineWidth = resolveOption(view.errorBarLineWidth, i);
+    ctx.strokeStyle = resolveOption(view.errorBarColor, i);
+    ctx.beginPath();
+    ctx.moveTo(mi, 0);
+    ctx.lineTo(ma, 0);
+    ctx.stroke();
+
+    // whisker
+    ctx.lineWidth = resolveOption(view.errorBarWhiskerLineWidth, i);
+    ctx.strokeStyle = resolveOption(view.errorBarWhiskerColor, i);
+    ctx.beginPath();
+    ctx.moveTo(mi, -halfHeight);
+    ctx.lineTo(mi, halfHeight);
+    ctx.moveTo(ma, -halfHeight);
+    ctx.lineTo(ma, halfHeight);
+    ctx.stroke();
+  });
 
   ctx.restore();
 }
@@ -181,22 +236,8 @@ function drawErrorBarArc(view, vMin, vMax, ctx) {
   }
 
   const angle = (view.startAngle + view.endAngle) / 2;
-
-  // center line
-  ctx.lineWidth = view.errorBarLineWidth;
-  ctx.strokeStyle = view.errorBarColor;
-  ctx.beginPath();
   const cosAngle = Math.cos(angle);
   const sinAngle = Math.sin(angle);
-  ctx.moveTo(cosAngle * vMin, sinAngle * vMin);
-  ctx.lineTo(cosAngle * vMax, sinAngle * vMax);
-  ctx.stroke();
-
-  // whisker
-  ctx.lineWidth = view.errorBarWhiskerLineWidth;
-  ctx.strokeStyle = view.errorBarWhiskerColor;
-  const halfHeight = calcuateHalfSize(null, view);
-
   // perpendicular
   const v = {
     x: -sinAngle,
@@ -206,12 +247,39 @@ function drawErrorBarArc(view, vMin, vMax, ctx) {
   v.x /= length;
   v.y /= length;
 
-  ctx.beginPath();
-  ctx.moveTo(cosAngle * vMin + v.x * halfHeight, sinAngle * vMin + v.y * halfHeight);
-  ctx.lineTo(cosAngle * vMin - v.x * halfHeight, sinAngle * vMin - v.y * halfHeight);
-  ctx.moveTo(cosAngle * vMax + v.x * halfHeight, sinAngle * vMax + v.y * halfHeight);
-  ctx.lineTo(cosAngle * vMax - v.x * halfHeight, sinAngle * vMax - v.y * halfHeight);
-  ctx.stroke();
+
+  const bars = resolveMulti(vMin, vMax);
+
+  bars.reverse().forEach(([mi, ma], j) => {
+    const i = bars.length - j - 1;
+
+    const minCos = mi * cosAngle;
+    const minSin = mi * sinAngle;
+    const maxCos = ma * cosAngle;
+    const maxSin = ma * sinAngle;
+
+    const halfHeight = calcuateHalfSize(null, view, i);
+    const eX = v.x * halfHeight;
+    const eY = v.y * halfHeight;
+
+    // center line
+    ctx.lineWidth = resolveOption(view.errorBarLineWidth, i);
+    ctx.strokeStyle = resolveOption(view.errorBarColor, i);
+    ctx.beginPath();
+    ctx.moveTo(minCos, minSin);
+    ctx.lineTo(maxCos, maxSin);
+    ctx.stroke();
+
+    // whisker
+    ctx.lineWidth = resolveOption(view.errorBarWhiskerLineWidth, i);
+    ctx.strokeStyle = resolveOption(view.errorBarWhiskerColor, i);
+    ctx.beginPath();
+    ctx.moveTo(minCos + eX, minSin + eY);
+    ctx.lineTo(minCos - eX, minSin - eY);
+    ctx.moveTo(maxCos + eX, maxSin + eY);
+    ctx.lineTo(maxCos - eX, maxSin - eY);
+    ctx.stroke();
+  });
 
   ctx.restore();
 }

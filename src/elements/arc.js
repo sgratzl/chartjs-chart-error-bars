@@ -1,7 +1,7 @@
 ﻿'use strict';
 
 import * as Chart from 'chart.js';
-import {transitionErrorBar, renderErrorBarArc, defaults} from './render';
+import {transitionErrorBar, transitionErrorBarHelper, renderErrorBarArc, defaults} from './render';
 
 Chart.defaults.global.elements.arcWithErrorBar = {
   ...Chart.defaults.global.elements.arc,
@@ -10,6 +10,7 @@ Chart.defaults.global.elements.arcWithErrorBar = {
 
 export const ArcWithErrorBar = Chart.elements.ArcWithErrorBar = Chart.elements.Arc.extend({
   transition(ease) {
+    const startBak = transitionErrorBarHelper(this._start);
     const r = Chart.elements.Arc.prototype.transition.call(this, ease);
     const model = this._model;
     const start = this._start;
@@ -20,7 +21,7 @@ export const ArcWithErrorBar = Chart.elements.ArcWithErrorBar = Chart.elements.A
       return r;
     }
 
-    transitionErrorBar(start, view, model, ease);
+    transitionErrorBar(start, startBak, view, model, ease);
 
     return r;
   },
