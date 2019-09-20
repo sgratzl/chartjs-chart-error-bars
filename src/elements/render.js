@@ -1,4 +1,3 @@
-import * as Chart from 'chart.js';
 import {allModelKeys, isSameArray} from '../data';
 
 export const defaults = {
@@ -17,7 +16,9 @@ export function transitionErrorBarHelper(obj) {
     return {};
   }
   const r = {};
-  allModelKeys.forEach((key) => r[key] = obj[key]);
+  allModelKeys.forEach((key) => {
+    r[key] = obj[key];
+  });
   return r;
 }
 
