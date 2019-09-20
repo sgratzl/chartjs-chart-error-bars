@@ -62,6 +62,10 @@ export function calculateErrorBarValuesPixelsPolar(controller, arc, model, index
   });
 }
 
+function reverseOrder(v) {
+  return Array.isArray(v) ? v.slice().reverse() : v;
+}
+
 export function generateTooltip(horizontal) {
   const keys = modelKeys(horizontal);
   return (item, data) => {
@@ -70,7 +74,7 @@ export function generateTooltip(horizontal) {
     if (v == null || keys.every((k) => v[k] == null)) {
       return base;
     }
-    return `${base} (${v[keys[0]]} .. ${v[keys[1]]})`;
+    return `${base} (${reverseOrder(v[keys[0]])} .. ${v[keys[1]]})`;
   };
 }
 
@@ -82,7 +86,7 @@ export function generateTooltipScatter(item, data) {
     if (v == null || keys.every((k) => v[k] == null)) {
       return base;
     }
-    return `${base} [${v[keys[0]]} .. ${v[keys[1]]}]`;
+    return `${base} [${reverseOrder(v[keys[0]])} .. ${v[keys[1]]}]`;
   };
 
   return `(${subLabel(item.xLabel, true)}, ${subLabel(item.yLabel, false)})`;
@@ -96,5 +100,5 @@ export function generateTooltipPolar(item, data) {
   if (v == null || keys.every((k) => v[k] == null)) {
     return base;
   }
-  return `${base} [${v[keys[0]]} .. ${v[keys[1]]}]`;
+  return `${base} [${reverseOrder(v[keys[0]])} .. ${v[keys[1]]}]`;
 }

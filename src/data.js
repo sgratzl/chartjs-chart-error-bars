@@ -31,13 +31,23 @@ export function commonDataLimits(isHorizontal, extraCallback, ignoreIdCheck) {
       if (isNaN(value) || meta.data[j].hidden) {
         return;
       }
-      const vMin = typeof rawValue[minKey] === 'number' ? rawValue[minKey] : value;
-      const vMax = typeof rawValue[maxKey] === 'number' ? rawValue[maxKey] : value;
 
+      let vMin = rawValue[minKey];
+      if (Array.isArray(vMin)) {
+        vMin = vMin.reduce((acc, v) => Math.min(acc, v), value);
+      } else if (typeof vMin !== 'number') {
+        vMin = value;
+      }
       if (!isNaN(vMin) && (this.min === null || vMin < this.min)) {
         this.min = vMin;
       }
 
+      let vMax = rawValue[maxKey];
+      if (Array.isArray(vMax)) {
+        vMax = vMax.reduce((acc, v) => Math.max(acc, v), value);
+      } else if (typeof vMin !== 'number') {
+        vMax = value;
+      }
       if (!isNaN(vMax) && (this.max === null || vMax > this.max)) {
         this.max = vMax;
       }

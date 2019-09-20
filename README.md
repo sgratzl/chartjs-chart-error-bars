@@ -51,7 +51,7 @@ interface IErrorBarStyling {
   errorBarLineWidth: number;
   /**
    * color of the center line
-   * @default black
+   * @default #444444
    */
   errorBarColor: string;
   /**
@@ -71,7 +71,7 @@ interface IErrorBarStyling {
   errorBarWhiskerSize: number;
   /**
    * color of the whisker lines
-   * @default black
+   * @default #444444
    */
   errorBarWhiskerColor: string;
 }
