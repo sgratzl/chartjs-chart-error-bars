@@ -12,41 +12,46 @@ export const defaults = {
 
 export const styleKeys = Object.keys(defaults);
 
-export function transitionErrorBar(start, view, model, ease) {
-  allModelKeys.forEach((key) => {
-    const target = model[key];
+export function transitionErrorBarHelper(obj) {
+  if (!obj) {
+    return {};
+  }
+  const r = {};
+  allModelKeys.forEach((key) => r[key] = obj[key]);
+  return r;
+}
 
-    if (!Array.isArray(target)) {
+export function transitionErrorBar(start, startBak, view, model, ease) {
+  allModelKeys.forEach((key) => {
+    const m = model[key];
+
+    if (!Array.isArray(m)) {
       // primitive are alrady handled
       return;
     }
 
-    const actual = view[key];
-
     if (!view.hasOwnProperty(key)) {
-      view[key] = target.slice();
-    }
-
-    if (isSameArray(actual, target)) {
+      view[key] = m.slice();
       return;
     }
 
-    if (!start.hasOwnProperty(key)) {
-      start[key] = actual.slice();
+    let v = view[key];
+
+    if (!startBak.hasOwnProperty(key)) {
+      start[key] = v.slice();
     }
 
-    const origin = start[key];
+    const s = start[key];
 
-    if (isSameArray(origin, target)) {
+    if (isSameArray(s, m)) {
       return;
     }
 
-    const common = Math.min(target.length, origin.length);
+    const common = Math.min(m.length, s.length);
+    v = view[key] = new Array(common);
     for (let i = 0; i < common; ++i) {
-      actual[i] = origin[i] + (target[i] - origin[i]) * ease;
+      v[i] = s[i] + (m[i] - s[i]) * ease;
     }
-
-    view[key] = target.slice();
   });
 }
 
@@ -187,7 +192,7 @@ function drawErrorBarHorizontal(view, vMin, vMax, ctx) {
     ctx.strokeStyle = resolveOption(view.errorBarColor, i);
     ctx.beginPath();
     ctx.moveTo(mi, 0);
-    ctx.lineTo(mi, 0);
+    ctx.lineTo(ma, 0);
     ctx.stroke();
 
     // whisker
