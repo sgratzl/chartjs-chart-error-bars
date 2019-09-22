@@ -30,8 +30,8 @@ const horizontalDefaults = {
   }
 };
 
-Chart.defaults.barWithErrorBars = Chart.helpers.merge({}, [Chart.defaults.bar, defaults]);
-Chart.defaults.horizontalBarWithErrorBars = Chart.helpers.merge({}, [Chart.defaults.horizontalBar, horizontalDefaults]);
+Chart.defaults.barWithErrorBars = Chart.helpers.configMerge(Chart.defaults.bar, defaults);
+Chart.defaults.horizontalBarWithErrorBars = Chart.helpers.configMerge(Chart.defaults.horizontalBar, horizontalDefaults);
 
 const barWithErrorBars = {
   dataElementType: Chart.elements.RectangleWithErrorBar,

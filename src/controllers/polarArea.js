@@ -15,7 +15,7 @@ const defaults = {
   }
 };
 
-Chart.defaults.polarAreaWithErrorBars = Chart.helpers.merge({}, [Chart.defaults.polarArea, defaults]);
+Chart.defaults.polarAreaWithErrorBars = Chart.helpers.configMerge(Chart.defaults.polarArea, defaults);
 
 const superClass = Chart.controllers.polarArea.prototype;
 

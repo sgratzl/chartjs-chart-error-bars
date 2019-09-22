@@ -17,7 +17,7 @@ const defaults = {
   }
 };
 
-Chart.defaults.lineWithErrorBars = Chart.helpers.merge({}, [Chart.defaults.line, defaults]);
+Chart.defaults.lineWithErrorBars = Chart.helpers.configMerge(Chart.defaults.line, defaults);
 
 const lineWithErrorBars = {
   dataElementType: Chart.elements.PointWithErrorBar,

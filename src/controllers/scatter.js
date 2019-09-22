@@ -20,6 +20,6 @@ const defaults = {
   }
 };
 
-Chart.defaults.scatterWithErrorBars = Chart.helpers.merge({}, [Chart.defaults.scatter, defaults]);
+Chart.defaults.scatterWithErrorBars = Chart.helpers.configMerge(Chart.defaults.scatter, defaults);
 
 export const ScatterithErrorBars = Chart.controllers.scatterWithErrorBars = LineWithErrorBars;
