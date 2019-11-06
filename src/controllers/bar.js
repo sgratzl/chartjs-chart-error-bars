@@ -6,9 +6,11 @@ import {updateErrorBarElement} from '../elements/render';
 
 const defaults = {
   scales: {
-    yAxes: [{
-      type: 'linearWithErrorBars'
-    }]
+    yAxes: [
+      {
+        type: 'linearWithErrorBars'
+      }
+    ]
   },
   tooltips: {
     callbacks: {
@@ -19,9 +21,11 @@ const defaults = {
 
 const horizontalDefaults = {
   scales: {
-    xAxes: [{
-      type: 'linearWithErrorBars'
-    }]
+    xAxes: [
+      {
+        type: 'linearWithErrorBars'
+      }
+    ]
   },
   tooltips: {
     callbacks: {
@@ -33,6 +37,13 @@ const horizontalDefaults = {
 Chart.defaults.barWithErrorBars = Chart.helpers.configMerge(Chart.defaults.bar, defaults);
 Chart.defaults.horizontalBarWithErrorBars = Chart.helpers.configMerge(Chart.defaults.horizontalBar, horizontalDefaults);
 
+if (Chart.defaults.global.datasets && Chart.defaults.global.datasets.bar) {
+  Chart.defaults.global.datasets.barWithErrorBars = {...Chart.defaults.global.datasets.bar};
+}
+if (Chart.defaults.global.datasets && Chart.defaults.global.datasets.horizontalBar) {
+  Chart.defaults.global.datasets.horizontalBarWithErrorBars = {...Chart.defaults.global.datasets.horizontalBar};
+}
+
 const barWithErrorBars = {
   dataElementType: Chart.elements.RectangleWithErrorBar,
 
@@ -43,10 +54,10 @@ const barWithErrorBars = {
   /**
    * @private
    */
-  _updateElementGeometry(elem, index, reset) {
+  _updateElementGeometry(elem, index, reset, ...args) {
     updateErrorBarElement(this, elem, index, reset);
 
-    Chart.controllers.bar.prototype._updateElementGeometry.call(this, elem, index, reset);
+    Chart.controllers.bar.prototype._updateElementGeometry.call(this, elem, index, reset, ...args);
     calculateErrorBarValuesPixels(this, elem._model, index, reset);
   }
 };
@@ -54,5 +65,5 @@ const barWithErrorBars = {
 /**
  * This class is based off controller.bar.js from the upstream Chart.js library
  */
-export const BarWithErrorBars = Chart.controllers.barWithErrorBars = Chart.controllers.bar.extend(barWithErrorBars);
-export const HorizontalBarWithErrorBars = Chart.controllers.horizontalBarWithErrorBars = Chart.controllers.horizontalBar.extend(barWithErrorBars);
+export const BarWithErrorBars = (Chart.controllers.barWithErrorBars = Chart.controllers.bar.extend(barWithErrorBars));
+export const HorizontalBarWithErrorBars = (Chart.controllers.horizontalBarWithErrorBars = Chart.controllers.horizontalBar.extend(barWithErrorBars));

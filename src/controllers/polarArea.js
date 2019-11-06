@@ -6,7 +6,7 @@ import {updateErrorBarElement} from '../elements/render';
 
 const defaults = {
   scale: {
-    type: 'radialLinearWithErrorBars',
+    type: 'radialLinearWithErrorBars'
   },
   tooltips: {
     callbacks: {
@@ -16,6 +16,10 @@ const defaults = {
 };
 
 Chart.defaults.polarAreaWithErrorBars = Chart.helpers.configMerge(Chart.defaults.polarArea, defaults);
+
+if (Chart.defaults.global.datasets && Chart.defaults.global.datasets.polarArea) {
+  Chart.defaults.global.datasets.polarAreaWithErrorBars = {...Chart.defaults.global.datasets.polarArea};
+}
 
 const superClass = Chart.controllers.polarArea.prototype;
 
@@ -30,7 +34,7 @@ const polarAreaWithErrorBars = {
     const dataset = superClass.getDataset.call(this);
     return Object.assign({}, dataset, {
       // inline d.v
-      data: dataset.data.map((d) => d != null && typeof d.y === 'number' ? d.y : d)
+      data: dataset.data.map((d) => (d != null && typeof d.y === 'number' ? d.y : d))
     });
   },
 
@@ -43,8 +47,8 @@ const polarAreaWithErrorBars = {
     }
   },
 
-  updateElement(arc, index, reset) {
-    this._withPatching(() => superClass.updateElement.call(this, arc, index, reset));
+  updateElement(arc, index, reset, ...args) {
+    this._withPatching(() => superClass.updateElement.call(this, arc, index, reset, ...args));
 
     updateErrorBarElement(this, arc, index, reset);
 
@@ -60,4 +64,4 @@ const polarAreaWithErrorBars = {
   }
 };
 
-export const PolarAreaWithErrorBars = Chart.controllers.polarAreaWithErrorBars = Chart.controllers.polarArea.extend(polarAreaWithErrorBars);
+export const PolarAreaWithErrorBars = (Chart.controllers.polarAreaWithErrorBars = Chart.controllers.polarArea.extend(polarAreaWithErrorBars));

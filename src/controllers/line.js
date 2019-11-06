@@ -6,9 +6,11 @@ import {updateErrorBarElement} from '../elements/render';
 
 const defaults = {
   scales: {
-    yAxes: [{
-      type: 'linearWithErrorBars'
-    }]
+    yAxes: [
+      {
+        type: 'linearWithErrorBars'
+      }
+    ]
   },
   tooltips: {
     callbacks: {
@@ -19,6 +21,10 @@ const defaults = {
 
 Chart.defaults.lineWithErrorBars = Chart.helpers.configMerge(Chart.defaults.line, defaults);
 
+if (Chart.defaults.global.datasets && Chart.defaults.global.datasets.line) {
+  Chart.defaults.global.datasets.lineWithErrorBars = {...Chart.defaults.global.datasets.line};
+}
+
 const lineWithErrorBars = {
   dataElementType: Chart.elements.PointWithErrorBar,
 
@@ -26,8 +32,8 @@ const lineWithErrorBars = {
     return this.chart.options.elements.pointWithErrorBar;
   },
 
-  updateElement(point, index, reset) {
-    Chart.controllers.line.prototype.updateElement.call(this, point, index, reset);
+  updateElement(point, index, reset, ...args) {
+    Chart.controllers.line.prototype.updateElement.call(this, point, index, reset, ...args);
 
     updateErrorBarElement(this, point, index, reset);
 
@@ -35,4 +41,4 @@ const lineWithErrorBars = {
   }
 };
 
-export const LineWithErrorBars = Chart.controllers.lineWithErrorBars = Chart.controllers.line.extend(lineWithErrorBars);
+export const LineWithErrorBars = (Chart.controllers.lineWithErrorBars = Chart.controllers.line.extend(lineWithErrorBars));

@@ -6,12 +6,16 @@ import {generateTooltipScatter} from './utils';
 
 const defaults = {
   scales: {
-    xAxes: [{
-      type: 'linearWithErrorBars'
-    }],
-    yAxes: [{
-      type: 'linearWithErrorBars'
-    }]
+    xAxes: [
+      {
+        type: 'linearWithErrorBars'
+      }
+    ],
+    yAxes: [
+      {
+        type: 'linearWithErrorBars'
+      }
+    ]
   },
   tooltips: {
     callbacks: {
@@ -22,4 +26,8 @@ const defaults = {
 
 Chart.defaults.scatterWithErrorBars = Chart.helpers.configMerge(Chart.defaults.scatter, defaults);
 
-export const ScatterithErrorBars = Chart.controllers.scatterWithErrorBars = LineWithErrorBars;
+if (Chart.defaults.global.datasets && Chart.defaults.global.datasets.scatter) {
+  Chart.defaults.global.datasets.scatterWithErrorBars = {...Chart.defaults.global.datasets.scatter};
+}
+
+export const ScatterithErrorBars = (Chart.controllers.scatterWithErrorBars = LineWithErrorBars);
