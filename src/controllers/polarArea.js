@@ -32,10 +32,11 @@ const polarAreaWithErrorBars = {
 
   _getPatchedDataset() {
     const dataset = superClass.getDataset.call(this);
-    return Object.assign({}, dataset, {
+    return {
+      ...dataset,
       // inline d.v
       data: dataset.data.map((d) => (d != null && typeof d.y === 'number' ? d.y : d))
-    });
+    };
   },
 
   _withPatching(f) {
