@@ -243,7 +243,7 @@ function drawErrorBarArc(view, vMin, vMax, ctx) {
     x: -sinAngle,
     y: cosAngle
   };
-  const length = Math.hypot(v.x, v.y);
+  const length = Math.sqrt(v.x * v.x + v.y * v.y);
   v.x /= length;
   v.y /= length;
 
