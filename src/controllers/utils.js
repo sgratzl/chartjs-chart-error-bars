@@ -1,4 +1,4 @@
-import {modelKeys} from '../data';
+import { modelKeys } from '../data';
 import * as Chart from 'chart.js';
 
 function calculateScale(model, data, scale, horizontal, reset) {
@@ -8,7 +8,7 @@ function calculateScale(model, data, scale, horizontal, reset) {
   keys.forEach((key) => {
     const v = data[key];
     if (Array.isArray(v)) {
-      model[key] = v.map((d) => reset ? base : scale.getPixelForValue(d));
+      model[key] = v.map((d) => (reset ? base : scale.getPixelForValue(d)));
     } else if (typeof v === 'number') {
       model[key] = reset ? base : scale.getPixelForValue(v);
     }
@@ -49,10 +49,11 @@ export function calculateErrorBarValuesPixelsPolar(controller, arc, model, index
   const toAngle = (v) => {
     const valueRadius = scale.getDistanceFromCenterForValue(v);
     const resetRadius = animationOpts.animateScale ? 0 : valueRadius;
-    return reset ? resetRadius : (arc.hidden ? 0 : valueRadius);
+    return reset ? resetRadius : arc.hidden ? 0 : valueRadius;
   };
 
-  modelKeys(false).forEach((key) => { // y variant
+  modelKeys(false).forEach((key) => {
+    // y variant
     const v = data[key];
     if (Array.isArray(v)) {
       model[key] = v.map(toAngle);

@@ -1,4 +1,4 @@
-import {allModelKeys, isSameArray} from '../data';
+import { allModelKeys, isSameArray } from '../data';
 
 export const defaults = {
   errorBarLineWidth: [[1, 3]],
@@ -6,7 +6,7 @@ export const defaults = {
   errorBarWhiskerLineWidth: [[1, 3]],
   errorBarWhiskerRatio: [[0.2, 0.25]],
   errorBarWhiskerSize: [[20, 24]],
-  errorBarWhiskerColor: [['#2c2c2c', '#1f1f1f']]
+  errorBarWhiskerColor: [['#2c2c2c', '#1f1f1f']],
 };
 
 export const styleKeys = Object.keys(defaults);
@@ -88,7 +88,7 @@ export function updateErrorBarElement(controller, elem, index) {
     chart: controller.chart,
     dataIndex: index,
     dataset,
-    datasetIndex: controller.index
+    datasetIndex: controller.index,
   };
 
   styleKeys.forEach((item) => {
@@ -241,12 +241,11 @@ function drawErrorBarArc(view, vMin, vMax, ctx) {
   // perpendicular
   const v = {
     x: -sinAngle,
-    y: cosAngle
+    y: cosAngle,
   };
   const length = Math.sqrt(v.x * v.x + v.y * v.y);
   v.x /= length;
   v.y /= length;
-
 
   const bars = resolveMulti(vMin, vMax);
 

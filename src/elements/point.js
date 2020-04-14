@@ -1,14 +1,12 @@
-﻿'use strict';
-
-import * as Chart from 'chart.js';
-import {transitionErrorBar, transitionErrorBarHelper, renderErrorBar, defaults} from './render';
+﻿import * as Chart from 'chart.js';
+import { transitionErrorBar, transitionErrorBarHelper, renderErrorBar, defaults } from './render';
 
 Chart.defaults.global.elements.pointWithErrorBar = {
   ...Chart.defaults.global.elements.point,
-  ...defaults
+  ...defaults,
 };
 
-export const PointWithErrorBar = Chart.elements.PointWithErrorBar = Chart.elements.Point.extend({
+export const PointWithErrorBar = (Chart.elements.PointWithErrorBar = Chart.elements.Point.extend({
   transition(ease) {
     const startBak = transitionErrorBarHelper(this._start);
     const r = Chart.elements.Point.prototype.transition.call(this, ease);
@@ -30,5 +28,5 @@ export const PointWithErrorBar = Chart.elements.PointWithErrorBar = Chart.elemen
     Chart.elements.Point.prototype.draw.call(this);
 
     renderErrorBar(this._view, this._chart.ctx);
-  }
-});
+  },
+}));

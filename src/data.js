@@ -1,4 +1,3 @@
-
 export const allModelKeys = ['xMin', 'xMax', 'yMin', 'yMax'];
 
 export function modelKeys(horizontal) {
@@ -11,7 +10,7 @@ export function isSameArray(a, b) {
 
 export function commonDataLimits(isHorizontal, extraCallback, ignoreIdCheck) {
   const chart = this.chart;
-  const matchID = (meta) => isHorizontal ? meta.xAxisID === this.id : meta.yAxisID === this.id;
+  const matchID = (meta) => (isHorizontal ? meta.xAxisID === this.id : meta.yAxisID === this.id);
 
   // First Calculate the range
   this.min = null;

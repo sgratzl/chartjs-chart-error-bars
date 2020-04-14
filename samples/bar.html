@@ -1,48 +1,50 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
+  <head>
+    <script src="../node_modules/chart.js/dist/Chart.bundle.js"></script>
+    <script src="../build/Chart.ErrorBars.js"></script>
+  </head>
 
-<head>
-  <script src="../node_modules/chart.js/dist/Chart.bundle.js"></script>
-  <script src="../build/Chart.ErrorBars.js"></script>
-</head>
-
-<body>
-  <div style="width: 75%;">
-    <canvas id="canvas"></canvas>
-  </div>
-  <script>
-    window.onload = function() {
-      new Chart(document.getElementById("canvas").getContext("2d"), {
-        type: 'barWithErrorBars',
-        data: {
-          labels: ['A', 'B'],
-          datasets: [{
-            data: [
+  <body>
+    <div style="width: 75%;">
+      <canvas id="canvas"></canvas>
+    </div>
+    <script>
+      window.onload = function () {
+        new Chart(document.getElementById('canvas').getContext('2d'), {
+          type: 'barWithErrorBars',
+          data: {
+            labels: ['A', 'B'],
+            datasets: [
               {
-                y: 4,
-                yMin: 1,
-                yMax: 6
+                data: [
+                  {
+                    y: 4,
+                    yMin: 1,
+                    yMax: 6,
+                  },
+                  {
+                    y: 2,
+                    yMin: 1,
+                    yMax: 4,
+                  },
+                ],
               },
-              {
-                y: 2,
-                yMin: 1,
-                yMax: 4
-              }
-            ]
-          }]
-        },
-        options: {
-          scales: {
-            yAxes: [{
-              ticks: {
-                  beginAtZero: true
-              }
-            }]
-          }
-        }
-      });
-    };
-  </script>
-</body>
-
+            ],
+          },
+          options: {
+            scales: {
+              yAxes: [
+                {
+                  ticks: {
+                    beginAtZero: true,
+                  },
+                },
+              ],
+            },
+          },
+        });
+      };
+    </script>
+  </body>
 </html>

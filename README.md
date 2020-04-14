@@ -1,4 +1,5 @@
 # Chart.js Error Bars
+
 [![License: MIT][mit-image]][mit-url] [![NPM Package][npm-image]][npm-url] [![Github Actions][github-actions-image]][github-actions-url]
 
 Chart.js module for charting error bars plots. This plugin extends the several char types (`bar`, `horizontalBar`, `line`, `scatter`, `polarArea`)
@@ -26,7 +27,6 @@ Polar Area plot
 
 ![polar area plot with error bars](https://user-images.githubusercontent.com/4129778/65203794-1a05a480-da5a-11e9-9b17-316ecc6ae0d9.png)
 
-
 ## Install
 
 ```bash
@@ -34,12 +34,13 @@ npm install --save chart.js chartjs-chart-error-bars
 ```
 
 ## Usage
+
 see [Samples](https://github.com/sgratzl/chartjs-chart-error-bars/tree/master/samples) on Github
 
 and [![Open in CodePen][codepen]](https://codepen.io/sgratzl/pen/TODO)
 
-
 ## Styling
+
 Several new styling keys are added to the indiviual chart types
 
 ```typescript
@@ -162,7 +163,6 @@ Multiple error bars are supported.
 
 ![multiple error bars](https://user-images.githubusercontent.com/4129778/65359671-3d039600-dbcb-11e9-905e-1dd22b5e8783.png)
 
-
 ### Styling
 
 The styling options support different array version.
@@ -215,6 +215,7 @@ interface IErrorBarStyling {
 Just use array of numbers for the corresponding data structures attributes (`xMin`, `xMax`, `yMin`, `yMax`). The error bars will be rendered in reversed order. Thus, by convention the most inner error bar is in the first place.
 
 e.g.
+
 ```typescript
 {
   y: 4,
@@ -222,7 +223,6 @@ e.g.
   yMax: [5, 6]
 }
 ```
-
 
 ## Building
 
