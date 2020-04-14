@@ -37,7 +37,7 @@ npm install --save chart.js chartjs-chart-error-bars
 
 see [Samples](https://github.com/sgratzl/chartjs-chart-error-bars/tree/master/samples) on Github
 
-and [![Open in CodePen][codepen]](https://codepen.io/sgratzl/pen/TODO)
+and [![Open in CodePen][codepen]](https://codepen.io/sgratzl/pen/QWjjVgY)
 
 ## Styling
 
