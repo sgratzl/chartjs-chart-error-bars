@@ -235,6 +235,6 @@ npm run build
 [mit-url]: https://opensource.org/licenses/MIT
 [npm-image]: https://badge.fury.io/js/chartjs-chart-error-bars.svg
 [npm-url]: https://npmjs.org/package/chartjs-chart-error-bars
-[github-actions-image]: https://github.com/sgratzl/chartjs-chart-error-bars/workflows/nodeci/badge.svg
+[github-actions-image]: https://github.com/sgratzl/chartjs-chart-error-bars/workflows/ci/badge.svg
 [github-actions-url]: https://github.com/sgratzl/chartjs-chart-error-bars/actions
 [codepen]: https://img.shields.io/badge/CodePen-open-blue?logo=codepen
