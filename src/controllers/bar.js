@@ -2,31 +2,9 @@
 import { calculateScale } from './utils';
 import { styleKeys } from '../elements/render';
 import { RectangleWithErrorBar } from '../elements';
-import { generateTooltip } from './tooltip';
+import { verticalTooltipDefaults, horizontalTooltipDefaults } from './tooltip';
 import { animationHints } from '../animate';
-import { getMinMax, parseErrorBarData } from './base';
-
-const verticalDefaults = {
-  tooltips: {
-    callbacks: {
-      label: generateTooltip(false),
-    },
-  },
-};
-
-const horizontalDefaults = {
-  tooltips: {
-    callbacks: {
-      label: generateTooltip(true),
-    },
-  },
-};
-// _updateElementGeometry(elem, index, reset, ...args) {
-//   updateErrorBarElement(this, elem, index, reset);
-
-//   Chart.controllers.bar.prototype._updateElementGeometry.call(this, elem, index, reset, ...args);
-//   calculateErrorBarValuesPixels(this, elem._model, index, reset);
-// },\
+import { getMinMax, parseErrorNumberData, parseErrorLabelData } from './base';
 
 export class BarWithErrorBars extends controllers.bar {
   getMinMax(scale, canStack) {
@@ -35,7 +13,9 @@ export class BarWithErrorBars extends controllers.bar {
 
   parseObjectData(meta, data, start, count) {
     const parsed = super.parseObjectData(meta, data, start, count);
-    return parseErrorBarData(parsed, meta, data, start, count);
+    parseErrorNumberData(parsed, meta.vScale, data, start, count);
+    parseErrorLabelData(parsed, meta.iScale, start, count);
+    return parsed;
   }
 
   updateElement(element, index, properties, mode) {
@@ -45,7 +25,7 @@ export class BarWithErrorBars extends controllers.bar {
   }
 }
 BarWithErrorBars.id = 'barWithErrorBars';
-BarWithErrorBars.defaults = helpers.merge({}, [defaults.bar, verticalDefaults, animationHints]);
+BarWithErrorBars.defaults = helpers.merge({}, [defaults.bar, verticalTooltipDefaults, animationHints]);
 BarWithErrorBars.prototype.dataElementType = RectangleWithErrorBar;
 BarWithErrorBars.prototype.dataElementOptions = controllers.bar.prototype.dataElementOptions.concat(styleKeys);
 
@@ -56,7 +36,9 @@ export class HorizontalBarWithErrorBars extends controllers.horizontalBar {
 
   parseObjectData(meta, data, start, count) {
     const parsed = super.parseObjectData(meta, data, start, count);
-    return parseErrorBarData(parsed, meta, data, start, count);
+    parseErrorNumberData(parsed, meta.vScale, data, start, count);
+    parseErrorLabelData(parsed, meta.iScale, start, count);
+    return parsed;
   }
 
   updateElement(element, index, properties, mode) {
@@ -67,7 +49,11 @@ export class HorizontalBarWithErrorBars extends controllers.horizontalBar {
 }
 
 HorizontalBarWithErrorBars.id = 'horizontalBarWithErrorBars';
-HorizontalBarWithErrorBars.defaults = helpers.merge({}, [defaults.horizontalBar, horizontalDefaults, animationHints]);
+HorizontalBarWithErrorBars.defaults = helpers.merge({}, [
+  defaults.horizontalBar,
+  horizontalTooltipDefaults,
+  animationHints,
+]);
 HorizontalBarWithErrorBars.prototype.dataElementType = RectangleWithErrorBar;
 HorizontalBarWithErrorBars.prototype.dataElementOptions = controllers.horizontalBar.prototype.dataElementOptions.concat(
   styleKeys

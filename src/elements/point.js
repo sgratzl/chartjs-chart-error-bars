@@ -5,7 +5,7 @@ export class PointWithErrorBar extends elements.Point {
   draw(ctx) {
     super.draw(ctx);
 
-    renderErrorBar(this.options, ctx);
+    renderErrorBar(this, ctx);
   }
 }
 PointWithErrorBar._type = 'pointWithErrorBar';

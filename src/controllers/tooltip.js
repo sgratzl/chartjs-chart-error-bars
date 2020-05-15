@@ -17,6 +17,22 @@ export function generateTooltip(horizontal) {
   };
 }
 
+export const verticalTooltipDefaults = {
+  tooltips: {
+    callbacks: {
+      label: generateTooltip(false),
+    },
+  },
+};
+
+export const horizontalTooltipDefaults = {
+  tooltips: {
+    callbacks: {
+      label: generateTooltip(true),
+    },
+  },
+};
+
 export function generateTooltipScatter(item, data) {
   const v = data.datasets[item.datasetIndex].data[item.index];
 

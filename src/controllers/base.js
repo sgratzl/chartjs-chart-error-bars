@@ -8,34 +8,37 @@ export function getMinMax(scale, canStack, superMethod) {
   return { min, max };
 }
 
-export function parseErrorBarData(parsed, meta, data, start, count) {
-  const iScale = meta.iScale;
-  const vScale = meta.vScale;
-  const vMin = `${vScale.axis}Min`;
-  const vMax = `${vScale.axis}Max`;
-  const vMinMin = `${vScale.axis}MinMin`;
-  const vMaxMax = `${vScale.axis}MaxMax`;
-  const labels = iScale.getLabels();
+function computeExtrema(v, vm, op) {
+  if (Array.isArray(vm)) {
+    return op(...vm);
+  }
+  if (typeof vm === 'number') {
+    return vm;
+  }
+  return v;
+}
 
-  const compute = (v, vm, op) => {
-    if (Array.isArray(vm)) {
-      return op(...vm);
-    }
-    if (typeof vm === 'number') {
-      return vm;
-    }
-    v;
-  };
-
+export function parseErrorNumberData(parsed, scale, data, start, count) {
+  const axis = scale.axis;
+  const vMin = `${axis}Min`;
+  const vMax = `${axis}Max`;
+  const vMinMin = `${axis}MinMin`;
+  const vMaxMax = `${axis}MaxMax`;
   for (let i = 0; i < count; i++) {
     const index = i + start;
     const p = parsed[i];
-    p[iScale.axis] = iScale.parse(labels[index], index);
     p[vMin] = data[index][vMin];
     p[vMax] = data[index][vMax];
-    p[vMinMin] = compute(p[vScale.axis], p[vMin], Math.min);
-    p[vMaxMax] = compute(p[vScale.axis], p[vMax], Math.max);
+    p[vMinMin] = computeExtrema(p[axis], p[vMin], Math.min);
+    p[vMaxMax] = computeExtrema(p[axis], p[vMax], Math.max);
   }
-
-  return parsed;
+}
+export function parseErrorLabelData(parsed, scale, start, count) {
+  const axis = scale.axis;
+  const labels = scale.getLabels();
+  for (let i = 0; i < count; i++) {
+    const index = i + start;
+    const p = parsed[i];
+    p[axis] = scale.parse(labels[index], index);
+  }
 }

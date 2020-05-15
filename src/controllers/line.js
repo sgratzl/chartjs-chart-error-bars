@@ -1,46 +1,37 @@
-﻿import * as Chart from 'chart.js';
-import { calculateErrorBarValuesPixelsScatter, generateTooltip } from './utils';
-import { updateErrorBarElement } from '../elements/render';
+﻿import { controllers, helpers, defaults } from 'chart.js';
+import { calculateScale } from './utils';
+import { styleObjectKeys } from '../elements/render';
+import { PointWithErrorBar } from '../elements';
+import { verticalTooltipDefaults } from './tooltip';
+import { animationHints } from '../animate';
+import { getMinMax, parseErrorNumberData, parseErrorLabelData } from './base';
 
-const defaults = {
-  scales: {
-    yAxes: [
-      {
-        type: 'linearWithErrorBars',
-      },
-    ],
-  },
-  tooltips: {
-    callbacks: {
-      label: generateTooltip(false),
-    },
-  },
-};
+export class LineWithErrorBars extends controllers.line {
+  getMinMax(scale, canStack) {
+    return getMinMax(scale, canStack, (scale, canStack) => super.getMinMax(scale, canStack));
+  }
 
-Chart.defaults.lineWithErrorBars = Chart.helpers.configMerge(Chart.defaults.line, defaults);
+  parseObjectData(meta, data, start, count) {
+    const parsed = super.parseObjectData(meta, data, start, count);
+    parseErrorNumberData(parsed, meta.vScale, data, start, count);
+    parseErrorLabelData(parsed, meta.iScale, start, count);
+    return parsed;
+  }
 
-if (Chart.defaults.global.datasets && Chart.defaults.global.datasets.line) {
-  Chart.defaults.global.datasets.lineWithErrorBars = {
-    ...Chart.defaults.global.datasets.line,
-  };
+  updateElement(element, index, properties, mode) {
+    if (element instanceof PointWithErrorBar) {
+      // inject the other error bar related properties
+      calculateScale(properties, this.getParsed(index), this._cachedMeta.xScale, mode === 'reset');
+      calculateScale(properties, this.getParsed(index), this._cachedMeta.yScale, mode === 'reset');
+    }
+    super.updateElement(element, index, properties, mode);
+  }
 }
-
-const lineWithErrorBars = {
-  dataElementType: Chart.elements.PointWithErrorBar,
-
-  _elementOptions() {
-    return this.chart.options.elements.pointWithErrorBar;
-  },
-
-  updateElement(point, index, reset, ...args) {
-    Chart.controllers.line.prototype.updateElement.call(this, point, index, reset, ...args);
-
-    updateErrorBarElement(this, point, index, reset);
-
-    calculateErrorBarValuesPixelsScatter(this, point._model, index, reset);
-  },
-};
-
-export const LineWithErrorBars = (Chart.controllers.lineWithErrorBars = Chart.controllers.line.extend(
-  lineWithErrorBars
-));
+LineWithErrorBars.id = 'lineWithErrorBars';
+LineWithErrorBars.defaults = helpers.merge({}, [defaults.line, verticalTooltipDefaults, animationHints]);
+LineWithErrorBars.prototype.dataElementType = PointWithErrorBar;
+LineWithErrorBars.prototype.dataElementOptions = Object.assign(
+  {},
+  controllers.line.prototype.dataElementOptions,
+  styleObjectKeys
+);

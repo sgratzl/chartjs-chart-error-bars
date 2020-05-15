@@ -11,6 +11,9 @@ export const errorBarDefaults = {
 
 export const styleKeys = Object.keys(errorBarDefaults);
 
+export const styleObjectKeys = {};
+styleKeys.forEach((key) => (styleObjectKeys[key] = key));
+
 function resolveMulti(vMin, vMax) {
   const vMinArr = Array.isArray(vMin) ? vMin : [vMin];
   const vMaxArr = Array.isArray(vMax) ? vMax : [vMax];

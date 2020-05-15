@@ -18,17 +18,6 @@ export function calculateScale(properties, data, scale, reset) {
   });
 }
 
-export function calculateErrorBarValuesPixelsScatter(controller, model, index, reset) {
-  const data = controller.getDataset().data[index];
-  if (!data) {
-    return;
-  }
-
-  const meta = controller.getMeta();
-  calculateScale(model, data, controller.getScaleForId(meta.xAxisID), true, reset);
-  calculateScale(model, data, controller.getScaleForId(meta.yAxisID), false, reset);
-}
-
 export function calculateErrorBarValuesPixelsPolar(controller, arc, model, index, reset) {
   const data = controller.getDataset().data[index];
   if (!data) {
