@@ -1,5 +1,5 @@
 ﻿import { defaults, elements } from 'chart.js';
-import { transitionErrorBar, transitionErrorBarHelper, renderErrorBarArc, errorBarDefaults } from './render';
+import { renderErrorBarArc, errorBarDefaults } from './render';
 
 export class ArcWithErrorBar extends elements.Arc {
   // transition(ease) {

@@ -1,28 +1,21 @@
-import { modelKeys } from '../data';
-import * as Chart from 'chart.js';
+export const allModelKeys = ['xMin', 'xMax', 'yMin', 'yMax'];
 
-function calculateScale(model, data, scale, horizontal, reset) {
-  const keys = modelKeys(horizontal);
+export function modelKeys(horizontal) {
+  return horizontal ? allModelKeys.slice(0, 2) : allModelKeys.slice(2);
+}
+
+export function calculateScale(properties, data, scale, reset) {
+  const keys = modelKeys(scale.isHorizontal());
   const base = scale.getBasePixel();
 
   keys.forEach((key) => {
     const v = data[key];
     if (Array.isArray(v)) {
-      model[key] = v.map((d) => (reset ? base : scale.getPixelForValue(d)));
+      properties[key] = v.map((d) => (reset ? base : scale.getPixelForValue(d)));
     } else if (typeof v === 'number') {
-      model[key] = reset ? base : scale.getPixelForValue(v);
+      properties[key] = reset ? base : scale.getPixelForValue(v);
     }
   });
-}
-
-export function calculateErrorBarValuesPixels(controller, model, index, reset) {
-  const data = controller.getDataset().data[index];
-  if (!data) {
-    return;
-  }
-
-  const scale = controller._getValueScale();
-  calculateScale(model, data, scale, scale.isHorizontal(), reset);
 }
 
 export function calculateErrorBarValuesPixelsScatter(controller, model, index, reset) {
@@ -61,45 +54,4 @@ export function calculateErrorBarValuesPixelsPolar(controller, arc, model, index
       model[key] = toAngle(v);
     }
   });
-}
-
-function reverseOrder(v) {
-  return Array.isArray(v) ? v.slice().reverse() : v;
-}
-
-export function generateTooltip(horizontal) {
-  const keys = modelKeys(horizontal);
-  return (item, data) => {
-    const base = Chart.defaults.tooltips.callbacks.label.call(this, item, data);
-    const v = data.datasets[item.datasetIndex].data[item.index];
-    if (v == null || keys.every((k) => v[k] == null)) {
-      return base;
-    }
-    return `${base} (${reverseOrder(v[keys[0]])} .. ${v[keys[1]]})`;
-  };
-}
-
-export function generateTooltipScatter(item, data) {
-  const v = data.datasets[item.datasetIndex].data[item.index];
-
-  const subLabel = (base, horizontal) => {
-    const keys = modelKeys(horizontal);
-    if (v == null || keys.every((k) => v[k] == null)) {
-      return base;
-    }
-    return `${base} [${reverseOrder(v[keys[0]])} .. ${v[keys[1]]}]`;
-  };
-
-  return `(${subLabel(item.xLabel, true)}, ${subLabel(item.yLabel, false)})`;
-}
-
-export function generateTooltipPolar(item, data) {
-  const base = Chart.defaults.polarArea.tooltips.callbacks.label.call(this, item, data);
-  const v = data.datasets[item.datasetIndex].data[item.index];
-
-  const keys = modelKeys(false);
-  if (v == null || keys.every((k) => v[k] == null)) {
-    return base;
-  }
-  return `${base} [${reverseOrder(v[keys[0]])} .. ${v[keys[1]]}]`;
 }

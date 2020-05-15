@@ -1,7 +1,9 @@
 ﻿import { controllers, helpers, defaults } from 'chart.js';
-import { calculateErrorBarValuesPixels, generateTooltip } from './utils';
-import { updateErrorBarElement, animationHints, styleKeys } from '../elements/render';
+import { calculateScale } from './utils';
+import { styleKeys } from '../elements/render';
 import { RectangleWithErrorBar } from '../elements';
+import { generateTooltip } from './tooltip';
+import { animationHints } from '../animate';
 
 const verticalDefaults = {
   tooltips: {
@@ -72,6 +74,11 @@ export class BarWithErrorBars extends controllers.bar {
       p[vMaxMax] = compute(p[vScale.axis], p[vMax], Math.max);
     }
     return parsed;
+  }
+  updateElement(element, index, properties, mode) {
+    // inject the other error bar related properties
+    calculateScale(properties, this.getParsed(index), this._cachedMeta.vScale, mode === 'reset');
+    super.updateElement(element, index, properties, mode);
   }
 }
 BarWithErrorBars.id = 'barWithErrorBars';

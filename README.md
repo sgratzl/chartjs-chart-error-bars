@@ -167,46 +167,46 @@ Multiple error bars are supported.
 
 The styling options support different array version.
 
-**Note**: as with other chart.js style options, using an array will be one value per dataset. Thus, to specify the values for different error bars, one needs to wrap it in another array. The outer for the dataset, the inner for the error bars.
+**Note**: as with other chart.js style options, using an array will be one value per dataset. Thus, to specify the values for different error bars, one needs to wrap it in an object with a `v` key having the value itself. The outer for the dataset, the inner for the error bars.
 
 ```typescript
 interface IErrorBarStyling {
   /**
    * line width of the center line
-   * @default [[1, 3]]
+   * @default {v: [1, 3]}
    * @scriptable
    */
-  errorBarLineWidth: number[][];
+  errorBarLineWidth: number | { v: number[] };
   /**
    * color of the center line
-   * @default [['#2c2c2c', '#1f1f1f']]
+   * @default {v: ['#2c2c2c', '#1f1f1f']}
    * @scriptable
    */
-  errorBarColor: string[][];
+  errorBarColor: string | { v: string[] };
   /**
    * line width of the whisker lines
-   * @default [[1, 3]]
+   * @default {v: [1, 3]}
    * @scriptable
    */
-  errorBarWhiskerLineWidth: number[][];
+  errorBarWhiskerLineWidth: number | { v: number[] };
   /**
    * width of the whiskers in relation to the bar width, use `0` to force a fixed with, see below
-   * @default [[0.2, 0.25]]
+   * @default {v: [0.2, 0.25]}
    * @scriptable
    */
-  errorBarWhiskerRatio: number[][];
+  errorBarWhiskerRatio: number | { v: number[] };
   /**
    * pixel width of the whiskers for non bar chart cases
-   * @default [[20, 24]]
+   * @default {v: [20, 24]}
    * @scriptable
    */
-  errorBarWhiskerSize: number[][];
+  errorBarWhiskerSize: number | { v: number[] };
   /**
    * color of the whisker lines
-   * @default [['#2c2c2c', '#1f1f1f']]
+   * @default {v: ['#2c2c2c', '#1f1f1f']}
    * @scriptable
    */
-  errorBarWhiskerColor: string[][];
+  errorBarWhiskerColor: string | { v: string[] };
 }
 ```
 

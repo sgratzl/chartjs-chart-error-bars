@@ -1,5 +1,5 @@
 ﻿import { defaults, elements } from 'chart.js';
-import { transitionErrorBar, transitionErrorBarHelper, renderErrorBar, errorBarDefaults } from './render';
+import { renderErrorBar, errorBarDefaults } from './render';
 
 export class PointWithErrorBar extends elements.Point {
   draw(ctx) {

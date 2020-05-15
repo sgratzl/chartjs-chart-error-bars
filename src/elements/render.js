@@ -1,113 +1,15 @@
-import { allModelKeys, isSameArray } from '../data';
+import { allModelKeys } from '../controllers/utils';
 
 export const errorBarDefaults = {
-  errorBarLineWidth: [[1, 3]],
-  errorBarColor: [['#2c2c2c', '#1f1f1f']],
-  errorBarWhiskerLineWidth: [[1, 3]],
-  errorBarWhiskerRatio: [[0.2, 0.25]],
-  errorBarWhiskerSize: [[20, 24]],
-  errorBarWhiskerColor: [['#2c2c2c', '#1f1f1f']],
+  errorBarLineWidth: { v: [1, 3] },
+  errorBarColor: { v: ['#2c2c2c', '#1f1f1f'] },
+  errorBarWhiskerLineWidth: { v: [1, 3] },
+  errorBarWhiskerRatio: { v: [0.2, 0.25] },
+  errorBarWhiskerSize: { v: [20, 24] },
+  errorBarWhiskerColor: { v: ['#2c2c2c', '#1f1f1f'] },
 };
 
 export const styleKeys = Object.keys(errorBarDefaults);
-
-export const animationHints = {
-  datasets: {
-    animation: {
-      numbers: {
-        properties: styleKeys.filter((d) => !d.endsWith('Color')),
-      },
-      colors: {
-        properties: styleKeys.filter((d) => d.endsWith('Color')),
-      },
-    },
-  },
-};
-
-export function transitionErrorBarHelper(obj) {
-  if (!obj) {
-    return {};
-  }
-  const r = {};
-  allModelKeys.forEach((key) => {
-    r[key] = obj[key];
-  });
-  return r;
-}
-
-export function transitionErrorBar(start, startBak, view, model, ease) {
-  allModelKeys.forEach((key) => {
-    const m = model[key];
-
-    if (!Array.isArray(m)) {
-      // primitive are alrady handled
-      return;
-    }
-
-    if (!view.hasOwnProperty(key)) {
-      view[key] = m.slice();
-      return;
-    }
-
-    let v = view[key];
-
-    if (!startBak.hasOwnProperty(key)) {
-      start[key] = v.slice();
-    }
-
-    const s = start[key];
-
-    if (isSameArray(s, m)) {
-      return;
-    }
-
-    const common = Math.min(m.length, s.length);
-    v = view[key] = new Array(common);
-    for (let i = 0; i < common; ++i) {
-      v[i] = s[i] + (m[i] - s[i]) * ease;
-    }
-  });
-}
-
-function resolve(inputs, context, index) {
-  for (let i = 0; i < inputs.length; ++i) {
-    let value = inputs[i];
-    if (value === undefined) {
-      continue;
-    }
-    if (context !== undefined && typeof value === 'function') {
-      value = value(context);
-    }
-    if (index !== undefined && Array.isArray(value)) {
-      // use mod to repeat the value and not returning undefined
-      value = value[index % value.length];
-    }
-    if (value !== undefined) {
-      return value;
-    }
-  }
-}
-
-/**
- * @param {number} index
- */
-export function updateErrorBarElement(controller, elem, index) {
-  const dataset = controller.getDataset();
-  const custom = elem.custom || {};
-  const options = controller._elementOptions();
-
-  // Scriptable options
-  const context = {
-    chart: controller.chart,
-    dataIndex: index,
-    dataset,
-    datasetIndex: controller.index,
-  };
-
-  styleKeys.forEach((item) => {
-    elem._model[item] = resolve([custom[item], dataset[item], options[item]], context, index);
-  });
-}
 
 function resolveMulti(vMin, vMax) {
   const vMinArr = Array.isArray(vMin) ? vMin : [vMin];
@@ -122,53 +24,52 @@ function resolveMulti(vMin, vMax) {
 }
 
 function resolveOption(val, index) {
-  if (!Array.isArray(val)) {
+  if (typeof val === 'string' || typeof val === 'number') {
     return val;
   }
-  return val[index % val.length];
+  const v = Array.isArray(val) ? val : val.v;
+  return v[index % v.length];
 }
 
-function calcuateHalfSize(total, view, i) {
-  const ratio = resolveOption(view.errorBarWhiskerRatio, i);
+function calculateHalfSize(total, options, i) {
+  const ratio = resolveOption(options.errorBarWhiskerRatio, i);
   if (total != null && ratio > 0) {
     return total * ratio * 0.5;
   }
-  const size = resolveOption(view.errorBarWhiskerSize, i);
+  const size = resolveOption(options.errorBarWhiskerSize, i);
   return size * 0.5;
 }
 
 /**
- * @param {number} vMin
- * @param {number} vMax
  * @param {CanvasRenderingContext2D} ctx
  */
-function drawErrorBarVertical(view, vMin, vMax, ctx) {
+function drawErrorBarVertical(props, vMin, vMax, options, ctx) {
   ctx.save();
-  ctx.translate(view.x, 0);
+  ctx.translate(props.x, 0);
 
   if (vMin == null) {
-    vMin = view.y;
+    vMin = props.y;
   }
   if (vMax == null) {
-    vMax = view.y;
+    vMax = props.y;
   }
 
   const bars = resolveMulti(vMin, vMax);
 
   bars.reverse().forEach(([mi, ma], j) => {
     const i = bars.length - j - 1;
-    const halfWidth = calcuateHalfSize(view.width, view, i);
+    const halfWidth = calculateHalfSize(props.width, options, i);
     // center line
-    ctx.lineWidth = resolveOption(view.errorBarLineWidth, i);
-    ctx.strokeStyle = resolveOption(view.errorBarColor, i);
+    ctx.lineWidth = resolveOption(options.errorBarLineWidth, i);
+    ctx.strokeStyle = resolveOption(options.errorBarColor, i);
     ctx.beginPath();
     ctx.moveTo(0, mi);
     ctx.lineTo(0, ma);
     ctx.stroke();
 
     // whisker
-    ctx.lineWidth = resolveOption(view.errorBarWhiskerLineWidth, i);
-    ctx.strokeStyle = resolveOption(view.errorBarWhiskerColor, i);
+    ctx.lineWidth = resolveOption(options.errorBarWhiskerLineWidth, i);
+    ctx.strokeStyle = resolveOption(options.errorBarWhiskerColor, i);
     ctx.beginPath();
     ctx.moveTo(-halfWidth, mi);
     ctx.lineTo(halfWidth, mi);
@@ -181,37 +82,35 @@ function drawErrorBarVertical(view, vMin, vMax, ctx) {
 }
 
 /**
- * @param {number} vMin
- * @param {number} vMax
  * @param {CanvasRenderingContext2D} ctx
  */
-function drawErrorBarHorizontal(view, vMin, vMax, ctx) {
+function drawErrorBarHorizontal(props, vMin, vMax, options, ctx) {
   ctx.save();
-  ctx.translate(0, view.y);
+  ctx.translate(0, props.y);
 
   if (vMin == null) {
-    vMin = view.x;
+    vMin = props.x;
   }
   if (vMax == null) {
-    vMax = view.x;
+    vMax = props.x;
   }
 
   const bars = resolveMulti(vMin, vMax);
 
   bars.reverse().forEach(([mi, ma], j) => {
     const i = bars.length - j - 1;
-    const halfHeight = calcuateHalfSize(view.height, view, i);
+    const halfHeight = calculateHalfSize(props.height, options, i);
     // center line
-    ctx.lineWidth = resolveOption(view.errorBarLineWidth, i);
-    ctx.strokeStyle = resolveOption(view.errorBarColor, i);
+    ctx.lineWidth = resolveOption(options.errorBarLineWidth, i);
+    ctx.strokeStyle = resolveOption(options.errorBarColor, i);
     ctx.beginPath();
     ctx.moveTo(mi, 0);
     ctx.lineTo(ma, 0);
     ctx.stroke();
 
     // whisker
-    ctx.lineWidth = resolveOption(view.errorBarWhiskerLineWidth, i);
-    ctx.strokeStyle = resolveOption(view.errorBarWhiskerColor, i);
+    ctx.lineWidth = resolveOption(options.errorBarWhiskerLineWidth, i);
+    ctx.strokeStyle = resolveOption(options.errorBarWhiskerColor, i);
     ctx.beginPath();
     ctx.moveTo(mi, -halfHeight);
     ctx.lineTo(mi, halfHeight);
@@ -223,12 +122,13 @@ function drawErrorBarHorizontal(view, vMin, vMax, ctx) {
   ctx.restore();
 }
 
-export function renderErrorBar(view, ctx) {
-  if (view.xMin != null || view.xMax != null) {
-    drawErrorBarHorizontal(view, view.xMin, view.xMax, ctx);
+export function renderErrorBar(elem, ctx) {
+  const props = elem.getProps(['x', 'y', 'width', 'height'].concat(allModelKeys));
+  if (props.xMin != null || props.xMax != null) {
+    drawErrorBarHorizontal(props, props.xMin, props.xMax, elem.options, ctx);
   }
-  if (view.yMin != null || view.yMax != null) {
-    drawErrorBarVertical(view, view.yMin, view.yMax, ctx);
+  if (props.yMin != null || props.yMax != null) {
+    drawErrorBarVertical(props, props.yMin, props.yMax, elem.options, ctx);
   }
 }
 
@@ -237,18 +137,18 @@ export function renderErrorBar(view, ctx) {
  * @param {number} vMax
  * @param {CanvasRenderingContext2D} ctx
  */
-function drawErrorBarArc(view, vMin, vMax, ctx) {
+function drawErrorBarArc(props, vMin, vMax, options, ctx) {
   ctx.save();
-  ctx.translate(view.x, view.y); // move to center
+  ctx.translate(props.x, props.y); // move to center
 
   if (vMin == null) {
-    vMin = view.outerRadius;
+    vMin = options.outerRadius;
   }
   if (vMax == null) {
-    vMax = view.outerRadius;
+    vMax = options.outerRadius;
   }
 
-  const angle = (view.startAngle + view.endAngle) / 2;
+  const angle = (props.startAngle + props.endAngle) / 2;
   const cosAngle = Math.cos(angle);
   const sinAngle = Math.sin(angle);
   // perpendicular
@@ -270,21 +170,21 @@ function drawErrorBarArc(view, vMin, vMax, ctx) {
     const maxCos = ma * cosAngle;
     const maxSin = ma * sinAngle;
 
-    const halfHeight = calcuateHalfSize(null, view, i);
+    const halfHeight = calculateHalfSize(null, options, i);
     const eX = v.x * halfHeight;
     const eY = v.y * halfHeight;
 
     // center line
-    ctx.lineWidth = resolveOption(view.errorBarLineWidth, i);
-    ctx.strokeStyle = resolveOption(view.errorBarColor, i);
+    ctx.lineWidth = resolveOption(options.errorBarLineWidth, i);
+    ctx.strokeStyle = resolveOption(options.errorBarColor, i);
     ctx.beginPath();
     ctx.moveTo(minCos, minSin);
     ctx.lineTo(maxCos, maxSin);
     ctx.stroke();
 
     // whisker
-    ctx.lineWidth = resolveOption(view.errorBarWhiskerLineWidth, i);
-    ctx.strokeStyle = resolveOption(view.errorBarWhiskerColor, i);
+    ctx.lineWidth = resolveOption(options.errorBarWhiskerLineWidth, i);
+    ctx.strokeStyle = resolveOption(options.errorBarWhiskerColor, i);
     ctx.beginPath();
     ctx.moveTo(minCos + eX, minSin + eY);
     ctx.lineTo(minCos - eX, minSin - eY);
@@ -296,8 +196,9 @@ function drawErrorBarArc(view, vMin, vMax, ctx) {
   ctx.restore();
 }
 
-export function renderErrorBarArc(view, ctx) {
-  if (view.yMin != null || view.yMax != null) {
-    drawErrorBarArc(view, view.yMin, view.yMax, ctx);
+export function renderErrorBarArc(elem, ctx) {
+  const props = elem.getProps(['x', 'y', 'startAngle', 'endAngle'].concat(allModelKeys));
+  if (props.yMin != null || props.yMax != null) {
+    drawErrorBarArc(props, props.yMin, props.yMax, elem.options, ctx);
   }
 }
