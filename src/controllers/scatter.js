@@ -1,20 +1,12 @@
-﻿import * as Chart from 'chart.js';
-import { LineWithErrorBars } from './line';
-import { generateTooltipScatter } from './utils';
+﻿import { controllers, helpers, defaults } from 'chart.js';
+import { calculateScale } from './utils';
+import { getMinMax, parseErrorNumberData } from './base';
+import { generateTooltipScatter } from './tooltip';
+import { animationHints } from '../animate';
+import { PointWithErrorBar } from '../elements';
+import { styleObjectKeys } from '../elements/render';
 
-const defaults = {
-  scales: {
-    xAxes: [
-      {
-        type: 'linearWithErrorBars',
-      },
-    ],
-    yAxes: [
-      {
-        type: 'linearWithErrorBars',
-      },
-    ],
-  },
+const tooltipDefaults = {
   tooltips: {
     callbacks: {
       label: generateTooltipScatter,
@@ -22,12 +14,32 @@ const defaults = {
   },
 };
 
-Chart.defaults.scatterWithErrorBars = Chart.helpers.configMerge(Chart.defaults.scatter, defaults);
+export class ScatterWithErrorBars extends controllers.scatter {
+  getMinMax(scale, canStack) {
+    return getMinMax(scale, canStack, (scale, canStack) => super.getMinMax(scale, canStack));
+  }
 
-if (Chart.defaults.global.datasets && Chart.defaults.global.datasets.scatter) {
-  Chart.defaults.global.datasets.scatterWithErrorBars = {
-    ...Chart.defaults.global.datasets.scatter,
-  };
+  parseObjectData(meta, data, start, count) {
+    const parsed = super.parseObjectData(meta, data, start, count);
+    parseErrorNumberData(parsed, meta.xScale, data, start, count);
+    parseErrorNumberData(parsed, meta.yScale, data, start, count);
+    return parsed;
+  }
+
+  updateElement(element, index, properties, mode) {
+    if (element instanceof PointWithErrorBar) {
+      // inject the other error bar related properties
+      calculateScale(properties, this.getParsed(index), this._cachedMeta.xScale, mode === 'reset');
+      calculateScale(properties, this.getParsed(index), this._cachedMeta.yScale, mode === 'reset');
+    }
+    super.updateElement(element, index, properties, mode);
+  }
 }
-
-export const ScatterithErrorBars = (Chart.controllers.scatterWithErrorBars = LineWithErrorBars);
+ScatterWithErrorBars.id = 'scatterWithErrorBars';
+ScatterWithErrorBars.defaults = helpers.merge({}, [defaults.scatter, tooltipDefaults, animationHints]);
+ScatterWithErrorBars.prototype.dataElementType = PointWithErrorBar;
+ScatterWithErrorBars.prototype.dataElementOptions = Object.assign(
+  {},
+  controllers.scatter.prototype.dataElementOptions,
+  styleObjectKeys
+);

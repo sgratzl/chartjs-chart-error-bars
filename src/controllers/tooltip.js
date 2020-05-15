@@ -44,7 +44,7 @@ export function generateTooltipScatter(item, data) {
     return `${base} [${reverseOrder(v[keys[0]])} .. ${v[keys[1]]}]`;
   };
 
-  return `(${subLabel(item.xLabel, true)}, ${subLabel(item.yLabel, false)})`;
+  return `(${subLabel(item.label, true)}, ${subLabel(item.value, false)})`;
 }
 
 export function generateTooltipPolar(item, data) {

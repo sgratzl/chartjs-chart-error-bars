@@ -21,8 +21,7 @@ export class LineWithErrorBars extends controllers.line {
   updateElement(element, index, properties, mode) {
     if (element instanceof PointWithErrorBar) {
       // inject the other error bar related properties
-      calculateScale(properties, this.getParsed(index), this._cachedMeta.xScale, mode === 'reset');
-      calculateScale(properties, this.getParsed(index), this._cachedMeta.yScale, mode === 'reset');
+      calculateScale(properties, this.getParsed(index), this._cachedMeta.vScale, mode === 'reset');
     }
     super.updateElement(element, index, properties, mode);
   }
