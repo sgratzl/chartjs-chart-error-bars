@@ -1,15 +1,9 @@
-﻿import * as Chart from 'chart.js';
+﻿import { controllers, helpers, defaults } from 'chart.js';
 import { calculateErrorBarValuesPixels, generateTooltip } from './utils';
-import { updateErrorBarElement } from '../elements/render';
+import { updateErrorBarElement, animationHints, styleKeys } from '../elements/render';
+import { RectangleWithErrorBar } from '../elements';
 
-const defaults = {
-  scales: {
-    yAxes: [
-      {
-        type: 'linearWithErrorBars',
-      },
-    ],
-  },
+const verticalDefaults = {
   tooltips: {
     callbacks: {
       label: generateTooltip(false),
@@ -18,56 +12,79 @@ const defaults = {
 };
 
 const horizontalDefaults = {
-  scales: {
-    xAxes: [
-      {
-        type: 'linearWithErrorBars',
-      },
-    ],
-  },
   tooltips: {
     callbacks: {
       label: generateTooltip(true),
     },
   },
 };
+// _updateElementGeometry(elem, index, reset, ...args) {
+//   updateErrorBarElement(this, elem, index, reset);
 
-Chart.defaults.barWithErrorBars = Chart.helpers.configMerge(Chart.defaults.bar, defaults);
-Chart.defaults.horizontalBarWithErrorBars = Chart.helpers.configMerge(Chart.defaults.horizontalBar, horizontalDefaults);
+//   Chart.controllers.bar.prototype._updateElementGeometry.call(this, elem, index, reset, ...args);
+//   calculateErrorBarValuesPixels(this, elem._model, index, reset);
+// },\
 
-if (Chart.defaults.global.datasets && Chart.defaults.global.datasets.bar) {
-  Chart.defaults.global.datasets.barWithErrorBars = {
-    ...Chart.defaults.global.datasets.bar,
-  };
+function mergerAnimations(key, target, source, options) {
+  if (key === 'properties') {
+    target[key] = (target[key] || []).concat(source[key]);
+  } else {
+    helpers._merger(key, target, source, options);
+  }
 }
-if (Chart.defaults.global.datasets && Chart.defaults.global.datasets.horizontalBar) {
-  Chart.defaults.global.datasets.horizontalBarWithErrorBars = {
-    ...Chart.defaults.global.datasets.horizontalBar,
-  };
+
+export class BarWithErrorBars extends controllers.bar {
+  getMinMax(scale, canStack) {
+    const axis = scale.axis;
+    scale.axis = `${axis}MinMin`;
+    const min = super.getMinMax(scale, canStack).min;
+    scale.axis = `${axis}MaxMax`;
+    const max = super.getMinMax(scale, canStack).max;
+    scale.axis = axis;
+    return { min, max };
+  }
+  parseObjectData(meta, data, start, count) {
+    const parsed = super.parseObjectData(meta, data, start, count);
+    const iScale = meta.iScale;
+    const vScale = meta.vScale;
+    const vMin = `${vScale.axis}Min`;
+    const vMax = `${vScale.axis}Max`;
+    const vMinMin = `${vScale.axis}MinMin`;
+    const vMaxMax = `${vScale.axis}MaxMax`;
+    const labels = iScale.getLabels();
+
+    const compute = (v, vm, op) => {
+      if (Array.isArray(vm)) {
+        return op(...vm);
+      }
+      if (typeof vm === 'number') {
+        return vm;
+      }
+      v;
+    };
+
+    for (let i = 0; i < parsed.length; i++) {
+      const p = parsed[i];
+      p[iScale.axis] = iScale.parse(labels[i], i);
+      p[vMin] = data[i][vMin];
+      p[vMax] = data[i][vMax];
+      p[vMinMin] = compute(p[vScale.axis], p[vMin], Math.min);
+      p[vMaxMax] = compute(p[vScale.axis], p[vMax], Math.max);
+    }
+    return parsed;
+  }
 }
+BarWithErrorBars.id = 'barWithErrorBars';
+BarWithErrorBars.defaults = helpers.merge({}, [defaults.bar, verticalDefaults, animationHints], {
+  merger: mergerAnimations,
+});
+BarWithErrorBars.prototype.dataElementType = RectangleWithErrorBar;
+BarWithErrorBars.prototype.dataElementOptions = controllers.bar.prototype.dataElementOptions.concat(styleKeys);
 
-const barWithErrorBars = {
-  dataElementType: Chart.elements.RectangleWithErrorBar,
-
-  _elementOptions() {
-    return this.chart.options.elements.rectangleWithErrorBar;
-  },
-
-  /**
-   * @private
-   */
-  _updateElementGeometry(elem, index, reset, ...args) {
-    updateErrorBarElement(this, elem, index, reset);
-
-    Chart.controllers.bar.prototype._updateElementGeometry.call(this, elem, index, reset, ...args);
-    calculateErrorBarValuesPixels(this, elem._model, index, reset);
-  },
-};
-
-/**
- * This class is based off controller.bar.js from the upstream Chart.js library
- */
-export const BarWithErrorBars = (Chart.controllers.barWithErrorBars = Chart.controllers.bar.extend(barWithErrorBars));
-export const HorizontalBarWithErrorBars = (Chart.controllers.horizontalBarWithErrorBars = Chart.controllers.horizontalBar.extend(
-  barWithErrorBars
-));
+export class HorizontalBarWithErrorBars extends controllers.horizontalBar {}
+HorizontalBarWithErrorBars.id = 'horizontalBarWithErrorBars';
+HorizontalBarWithErrorBars.defaults = helpers.merge({}, [defaults.horizontalBar, horizontalDefaults, animationHints]);
+HorizontalBarWithErrorBars.prototype.dataElementType = RectangleWithErrorBar;
+HorizontalBarWithErrorBars.prototype.dataElementOptions = controllers.horizontalBar.prototype.dataElementOptions.concat(
+  styleKeys
+);

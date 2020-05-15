@@ -70,7 +70,7 @@ function reverseOrder(v) {
 export function generateTooltip(horizontal) {
   const keys = modelKeys(horizontal);
   return (item, data) => {
-    const base = Chart.defaults.global.tooltips.callbacks.label.call(this, item, data);
+    const base = Chart.defaults.tooltips.callbacks.label.call(this, item, data);
     const v = data.datasets[item.datasetIndex].data[item.index];
     if (v == null || keys.every((k) => v[k] == null)) {
       return base;

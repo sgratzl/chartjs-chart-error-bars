@@ -7,8 +7,8 @@ import babel from '@rollup/plugin-babel';
 export default [
   {
     output: {
-      file: 'build/Chart.Geo.js',
-      name: 'ChartGeo',
+      file: 'build/Chart.ErrorBars.js',
+      name: 'ChartErrorBars',
       format: 'umd',
       globals: {
         'chart.js': 'Chart',
@@ -19,14 +19,14 @@ export default [
   },
   {
     output: {
-      file: 'build/Chart.Geo.esm.js',
-      name: 'ChartGeo',
+      file: 'build/Chart.ErrorBars.esm.js',
+      name: 'ChartErrorBars',
       format: 'esm',
       globals: {
         'chart.js': 'Chart',
       },
     },
-    external: ['chart.js', '@babel/runtime', 'd3-geo', 'd3-scale-chromatic', 'topojson-client'],
+    external: ['chart.js', '@babel/runtime'],
     plugins: [commonjs(), pnp(), resolve(), babel({ babelHelpers: 'runtime' })],
   },
 ];

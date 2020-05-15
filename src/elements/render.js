@@ -1,6 +1,6 @@
 import { allModelKeys, isSameArray } from '../data';
 
-export const defaults = {
+export const errorBarDefaults = {
   errorBarLineWidth: [[1, 3]],
   errorBarColor: [['#2c2c2c', '#1f1f1f']],
   errorBarWhiskerLineWidth: [[1, 3]],
@@ -9,7 +9,20 @@ export const defaults = {
   errorBarWhiskerColor: [['#2c2c2c', '#1f1f1f']],
 };
 
-export const styleKeys = Object.keys(defaults);
+export const styleKeys = Object.keys(errorBarDefaults);
+
+export const animationHints = {
+  datasets: {
+    animation: {
+      numbers: {
+        properties: styleKeys.filter((d) => !d.endsWith('Color')),
+      },
+      colors: {
+        properties: styleKeys.filter((d) => d.endsWith('Color')),
+      },
+    },
+  },
+};
 
 export function transitionErrorBarHelper(obj) {
   if (!obj) {
