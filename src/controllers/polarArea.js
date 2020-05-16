@@ -81,7 +81,6 @@ export class PolarAreaWithErrorBars extends controllers.polarArea {
   }
 }
 
-PolarAreaWithErrorBars.prototype.dataElementType = ArcWithErrorBar.register();
 PolarAreaWithErrorBars.prototype.dataElementOptions = Object.assign(
   {},
   controllers.polarArea.prototype.dataElementOptions,
@@ -90,6 +89,7 @@ PolarAreaWithErrorBars.prototype.dataElementOptions = Object.assign(
 
 PolarAreaWithErrorBars.id = 'polarAreaWithErrorBars';
 PolarAreaWithErrorBars.register = () => {
+  PolarAreaWithErrorBars.prototype.dataElementType = ArcWithErrorBar.register();
   controllers[PolarAreaWithErrorBars.id] = PolarAreaWithErrorBars;
   defaults.set(PolarAreaWithErrorBars.id, helpers.merge({}, [defaults.polarArea, tooltipDefaults, animationHints]));
   return PolarAreaWithErrorBars;

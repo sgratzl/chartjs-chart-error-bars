@@ -27,7 +27,6 @@ export class LineWithErrorBars extends controllers.line {
   }
 }
 
-LineWithErrorBars.prototype.dataElementType = PointWithErrorBar.register();
 LineWithErrorBars.prototype.dataElementOptions = Object.assign(
   {},
   controllers.line.prototype.dataElementOptions,
@@ -36,6 +35,7 @@ LineWithErrorBars.prototype.dataElementOptions = Object.assign(
 
 LineWithErrorBars.id = 'lineWithErrorBars';
 LineWithErrorBars.register = () => {
+  LineWithErrorBars.prototype.dataElementType = PointWithErrorBar.register();
   controllers[LineWithErrorBars.id] = LineWithErrorBars;
   defaults.set(LineWithErrorBars.id, helpers.merge({}, [defaults.line, verticalTooltipDefaults, animationHints]));
   return LineWithErrorBars;

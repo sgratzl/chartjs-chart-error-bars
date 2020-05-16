@@ -24,11 +24,11 @@ export class BarWithErrorBars extends controllers.bar {
     super.updateElement(element, index, properties, mode);
   }
 }
-BarWithErrorBars.prototype.dataElementType = RectangleWithErrorBar.register();
 BarWithErrorBars.prototype.dataElementOptions = controllers.bar.prototype.dataElementOptions.concat(styleKeys);
 
 BarWithErrorBars.id = 'barWithErrorBars';
 BarWithErrorBars.register = () => {
+  BarWithErrorBars.prototype.dataElementType = RectangleWithErrorBar.register();
   controllers[BarWithErrorBars.id] = BarWithErrorBars;
   defaults.set(BarWithErrorBars.id, helpers.merge({}, [defaults.bar, verticalTooltipDefaults, animationHints]));
   return BarWithErrorBars;
@@ -53,12 +53,13 @@ export class HorizontalBarWithErrorBars extends controllers.horizontalBar {
   }
 }
 
-HorizontalBarWithErrorBars.prototype.dataElementType = RectangleWithErrorBar.register();
 HorizontalBarWithErrorBars.prototype.dataElementOptions = controllers.horizontalBar.prototype.dataElementOptions.concat(
   styleKeys
 );
 HorizontalBarWithErrorBars.id = 'horizontalBarWithErrorBars';
 HorizontalBarWithErrorBars.register = () => {
+  HorizontalBarWithErrorBars.prototype.dataElementType = RectangleWithErrorBar.register();
+
   controllers[HorizontalBarWithErrorBars.id] = HorizontalBarWithErrorBars;
   defaults.set(
     HorizontalBarWithErrorBars.id,
