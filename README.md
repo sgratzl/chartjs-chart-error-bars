@@ -3,9 +3,9 @@
 [![License: MIT][mit-image]][mit-url] [![NPM Package][npm-image]][npm-url] [![Github Actions][github-actions-image]][github-actions-url]
 
 Chart.js module for charting error bars plots. This plugin extends the several char types (`bar`, `horizontalBar`, `line`, `scatter`, `polarArea`)
-with their error bar equivalent (`barWithErrorBars`, `horizontalBarWithErrorBars`, `lineWithErrorBars`, `scatterWithErrorBars`, `polarAreaWithErrorBars`). In addition, it comes with equivalents for scales (`linearWithErrorBars`, `logarithmicWithErrorBars`, `radialLinearWithErrorBars`) that consider the error bars when computing the data limits.
+with their error bar equivalent (`barWithErrorBars`, `horizontalBarWithErrorBars`, `lineWithErrorBars`, `scatterWithErrorBars`, `polarAreaWithErrorBars`).
 
-**Works only with Chart.js >= 2.8.0**
+**Works only with Chart.js >= 3.0.0**
 
 Bar Chart
 
@@ -222,6 +222,41 @@ e.g.
   yMin: [2, 1],
   yMax: [5, 6]
 }
+```
+
+### ESM and Tree Shaking
+
+The ESM build of the library supports three shaking but having no side effects. As a consequence the chart.js library won't be automatically manipulated nor new controllers automatically registered. One has to manually import and register them.
+
+```js
+import Chart from 'chart.js';
+import { BarWithErrorBars } from 'chartjs-chart-error-bars';
+
+// register controller in chart.js and ensure the defaults are set
+BarWithErrorBars.register();
+
+const chart = new Chart(document.getElementById('canvas').getContext('2d'), {
+  type: BarWithErrorBars.id,
+  data: {
+    labels: ['A', 'B'],
+    datasets: [
+      {
+        data: [
+          {
+            y: 4,
+            yMin: 1,
+            yMax: 6,
+          },
+          {
+            y: 2,
+            yMin: 1,
+            yMax: 4,
+          },
+        ],
+      },
+    ],
+  },
+});
 ```
 
 ## Building

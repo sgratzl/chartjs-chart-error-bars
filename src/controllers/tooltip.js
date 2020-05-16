@@ -5,7 +5,7 @@ function reverseOrder(v) {
   return Array.isArray(v) ? v.slice().reverse() : v;
 }
 
-export function generateTooltip(horizontal) {
+function generateTooltip(horizontal) {
   const keys = modelKeys(horizontal);
   return (item, data) => {
     const base = defaults.tooltips.callbacks.label.call(this, item, data);
@@ -51,7 +51,7 @@ export function generateTooltipPolar(item, data) {
   const base = defaults.polarArea.tooltips.callbacks.label.call(this, item, data);
   const v = data.datasets[item.datasetIndex].data[item.index];
 
-  const keys = modelKeys(false);
+  const keys = ['rMin', 'rMax'];
   if (v == null || keys.every((k) => v[k] == null)) {
     return base;
   }

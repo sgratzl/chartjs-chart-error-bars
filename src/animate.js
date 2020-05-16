@@ -47,7 +47,10 @@ export const animationHints = {
     animation: {
       numberArray: {
         fn: interpolateNumberOptionArray,
-        properties: allModelKeys.concat(styleKeys.filter((d) => !d.endsWith('Color'))),
+        properties: allModelKeys.concat(
+          styleKeys.filter((d) => !d.endsWith('Color')),
+          ['rMin', 'rMax']
+        ),
       },
       colorArray: {
         fn: interpolateColorOptionArray,

@@ -5,12 +5,12 @@ import {
   BarWithErrorBars,
   HorizontalBarWithErrorBars,
   LineWithErrorBars,
-  // PolarAreaWithErrorBars,
+  PolarAreaWithErrorBars,
   ScatterWithErrorBars,
 } from './controllers';
 
 BarWithErrorBars.register();
 HorizontalBarWithErrorBars.register();
 LineWithErrorBars.register();
-// PolarAreaWithErrorBars.register();
+PolarAreaWithErrorBars.register();
 ScatterWithErrorBars.register();

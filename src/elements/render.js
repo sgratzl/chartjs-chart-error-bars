@@ -145,10 +145,10 @@ function drawErrorBarArc(props, vMin, vMax, options, ctx) {
   ctx.translate(props.x, props.y); // move to center
 
   if (vMin == null) {
-    vMin = options.outerRadius;
+    vMin = props.outerRadius;
   }
   if (vMax == null) {
-    vMax = options.outerRadius;
+    vMax = props.outerRadius;
   }
 
   const angle = (props.startAngle + props.endAngle) / 2;
@@ -200,8 +200,8 @@ function drawErrorBarArc(props, vMin, vMax, options, ctx) {
 }
 
 export function renderErrorBarArc(elem, ctx) {
-  const props = elem.getProps(['x', 'y', 'startAngle', 'endAngle'].concat(allModelKeys));
-  if (props.yMin != null || props.yMax != null) {
-    drawErrorBarArc(props, props.yMin, props.yMax, elem.options, ctx);
+  const props = elem.getProps(['x', 'y', 'startAngle', 'endAngle', 'rMin', 'rMax', 'outerRadius']);
+  if (props.rMin != null || props.rMax != null) {
+    drawErrorBarArc(props, props.rMin, props.rMax, elem.options, ctx);
   }
 }

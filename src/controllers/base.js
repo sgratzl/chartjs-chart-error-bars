@@ -19,7 +19,7 @@ function computeExtrema(v, vm, op) {
 }
 
 export function parseErrorNumberData(parsed, scale, data, start, count) {
-  const axis = scale.axis;
+  const axis = typeof scale === 'string' ? scale : scale.axis;
   const vMin = `${axis}Min`;
   const vMax = `${axis}Max`;
   const vMinMin = `${axis}MinMin`;
