@@ -278,11 +278,20 @@ const chart = new Chart(document.getElementById('canvas').getContext('2d'), {
 });
 ```
 
-## Building
+## Development Environment
 
 ```sh
-npm install
-npm run build
+npm i -g yarn
+yarn set version 2
+yarn
+yarn pnpify --sdk
+```
+
+### Building
+
+```sh
+yarn install
+yarn build
 ```
 
 [mit-image]: https://img.shields.io/badge/License-MIT-yellow.svg
