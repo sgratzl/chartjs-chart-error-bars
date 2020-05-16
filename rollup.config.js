@@ -6,6 +6,7 @@ import babel from '@rollup/plugin-babel';
 
 export default [
   {
+    input: 'src/bundle.js',
     output: {
       file: 'build/Chart.ErrorBars.js',
       name: 'ChartErrorBars',
@@ -18,6 +19,7 @@ export default [
     plugins: [commonjs(), pnp(), resolve(), babel({ babelHelpers: 'runtime' })],
   },
   {
+    input: 'src/index.js',
     output: {
       file: 'build/Chart.ErrorBars.esm.js',
       name: 'ChartErrorBars',
@@ -27,6 +29,6 @@ export default [
       },
     },
     external: ['chart.js', '@babel/runtime'],
-    plugins: [commonjs(), pnp(), resolve(), babel({ babelHelpers: 'runtime' })],
+    plugins: [commonjs(), pnp(), resolve()],
   },
 ];

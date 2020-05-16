@@ -9,6 +9,9 @@ export class RectangleWithErrorBar extends elements.Rectangle {
   }
 }
 RectangleWithErrorBar._type = 'rectangleWithErrorBar';
-defaults.set('elements', {
-  [RectangleWithErrorBar._type]: Object.assign({}, defaults.elements.rectangle, errorBarDefaults),
-});
+RectangleWithErrorBar.register = () => {
+  defaults.set('elements', {
+    [RectangleWithErrorBar._type]: Object.assign({}, defaults.elements.rectangle, errorBarDefaults),
+  });
+  return RectangleWithErrorBar;
+};

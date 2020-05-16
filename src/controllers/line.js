@@ -26,11 +26,17 @@ export class LineWithErrorBars extends controllers.line {
     super.updateElement(element, index, properties, mode);
   }
 }
-LineWithErrorBars.id = 'lineWithErrorBars';
-LineWithErrorBars.defaults = helpers.merge({}, [defaults.line, verticalTooltipDefaults, animationHints]);
-LineWithErrorBars.prototype.dataElementType = PointWithErrorBar;
+
+LineWithErrorBars.prototype.dataElementType = PointWithErrorBar.register();
 LineWithErrorBars.prototype.dataElementOptions = Object.assign(
   {},
   controllers.line.prototype.dataElementOptions,
   styleObjectKeys
 );
+
+LineWithErrorBars.id = 'lineWithErrorBars';
+LineWithErrorBars.register = () => {
+  controllers[LineWithErrorBars.id] = LineWithErrorBars;
+  defaults.set(LineWithErrorBars.id, helpers.merge({}, [defaults.line, verticalTooltipDefaults, animationHints]));
+  return LineWithErrorBars;
+};

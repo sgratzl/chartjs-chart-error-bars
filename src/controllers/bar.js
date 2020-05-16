@@ -24,10 +24,15 @@ export class BarWithErrorBars extends controllers.bar {
     super.updateElement(element, index, properties, mode);
   }
 }
-BarWithErrorBars.id = 'barWithErrorBars';
-BarWithErrorBars.defaults = helpers.merge({}, [defaults.bar, verticalTooltipDefaults, animationHints]);
-BarWithErrorBars.prototype.dataElementType = RectangleWithErrorBar;
+BarWithErrorBars.prototype.dataElementType = RectangleWithErrorBar.register();
 BarWithErrorBars.prototype.dataElementOptions = controllers.bar.prototype.dataElementOptions.concat(styleKeys);
+
+BarWithErrorBars.id = 'barWithErrorBars';
+BarWithErrorBars.register = () => {
+  controllers[BarWithErrorBars.id] = BarWithErrorBars;
+  defaults.set(BarWithErrorBars.id, helpers.merge({}, [defaults.bar, verticalTooltipDefaults, animationHints]));
+  return BarWithErrorBars;
+};
 
 export class HorizontalBarWithErrorBars extends controllers.horizontalBar {
   getMinMax(scale, canStack) {
@@ -48,13 +53,16 @@ export class HorizontalBarWithErrorBars extends controllers.horizontalBar {
   }
 }
 
-HorizontalBarWithErrorBars.id = 'horizontalBarWithErrorBars';
-HorizontalBarWithErrorBars.defaults = helpers.merge({}, [
-  defaults.horizontalBar,
-  horizontalTooltipDefaults,
-  animationHints,
-]);
-HorizontalBarWithErrorBars.prototype.dataElementType = RectangleWithErrorBar;
+HorizontalBarWithErrorBars.prototype.dataElementType = RectangleWithErrorBar.register();
 HorizontalBarWithErrorBars.prototype.dataElementOptions = controllers.horizontalBar.prototype.dataElementOptions.concat(
   styleKeys
 );
+HorizontalBarWithErrorBars.id = 'horizontalBarWithErrorBars';
+HorizontalBarWithErrorBars.register = () => {
+  controllers[HorizontalBarWithErrorBars.id] = HorizontalBarWithErrorBars;
+  defaults.set(
+    HorizontalBarWithErrorBars.id,
+    helpers.merge({}, [defaults.horizontalBar, horizontalTooltipDefaults, animationHints])
+  );
+  return HorizontalBarWithErrorBars;
+};

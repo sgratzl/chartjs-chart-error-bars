@@ -9,7 +9,9 @@ export class PointWithErrorBar extends elements.Point {
   }
 }
 PointWithErrorBar._type = 'pointWithErrorBar';
-
-defaults.set('elements', {
-  [PointWithErrorBar._type]: Object.assign({}, defaults.elements.point, errorBarDefaults),
-});
+PointWithErrorBar.register = () => {
+  defaults.set('elements', {
+    [PointWithErrorBar._type]: Object.assign({}, defaults.elements.point, errorBarDefaults),
+  });
+  return PointWithErrorBar;
+};
