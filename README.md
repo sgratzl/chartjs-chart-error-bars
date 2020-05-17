@@ -37,11 +37,11 @@ npm install --save chart.js chartjs-chart-error-bars
 
 see [Samples](https://github.com/sgratzl/chartjs-chart-error-bars/tree/master/samples) on Github
 
-and [![Open in CodePen][codepen]](https://codepen.io/sgratzl/pen/QWjjVgY)
+and [![Open in CodePen][codepen]](https://codepen.io/sgratzl/pen/ZEbqmqx)
 
 ## Styling
 
-Several new styling keys are added to the indiviual chart types
+Several new styling keys are added to the individual chart types
 
 ```typescript
 interface IErrorBarStyling {
