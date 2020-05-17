@@ -88,7 +88,7 @@ interface IErrorBarStyling {
 
 The data structure depends on the chart type. It uses the fact that chart.js is supporting scatterplot. Thus, it is already prepared for object values.
 
-### Chart types: `bar`, `line`, `scatter``
+### Chart types: `bar` and `line`
 
 ```typescript
 interface IErrorBarItem {
