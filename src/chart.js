@@ -7,7 +7,7 @@ export const defaults = ChartNS.defaults;
 // export const helpers = ChartNS.helpers;
 // export const scaleService = ChartNS.scaleService;
 
-// export const DataSetController = ChartNS.DataSetController;
+// export const DatasetController = ChartNS.DatasetController;
 export const BarController = controllers.bar;
 export const HorizontalBarController = controllers.horizontalBar;
 export const LineController = controllers.line;

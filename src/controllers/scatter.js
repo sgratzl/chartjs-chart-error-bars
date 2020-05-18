@@ -1,5 +1,5 @@
-﻿import { controllers, ScatterController, defaults, merge } from '../chart';
-import { calculateScale } from './utils';
+﻿import { Chart, controllers, ScatterController, defaults, merge } from '../chart';
+import { calculateScale, patchControllerConfig } from './utils';
 import { getMinMax, parseErrorNumberData } from './base';
 import { generateTooltipScatter } from './tooltip';
 import { animationHints } from '../animate';
@@ -48,3 +48,10 @@ ScatterWithErrorBarsController.register = () => {
   defaults.set(ScatterWithErrorBarsController.id, merge({}, [defaults.scatter, tooltipDefaults, animationHints]));
   return ScatterWithErrorBarsController;
 };
+
+export class ScatterWithErrorBarsChart extends Chart {
+  constructor(item, config) {
+    super(item, patchControllerConfig(config, ScatterWithErrorBarsController));
+  }
+}
+ScatterWithErrorBarsChart.id = ScatterWithErrorBarsController.id;

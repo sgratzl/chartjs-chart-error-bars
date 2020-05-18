@@ -1,5 +1,5 @@
-﻿import { controllers, PolarAreaController, defaults, merge, resolve } from '../chart';
-import { calculatePolarScale } from './utils';
+﻿import { Chart, controllers, PolarAreaController, defaults, merge, resolve } from '../chart';
+import { calculatePolarScale, patchControllerConfig } from './utils';
 import { getMinMax, parseErrorNumberData } from './base';
 import { generateTooltipPolar } from './tooltip';
 import { animationHints } from '../animate';
@@ -94,3 +94,10 @@ PolarAreaWithErrorBarsController.register = () => {
   defaults.set(PolarAreaWithErrorBarsController.id, merge({}, [defaults.polarArea, tooltipDefaults, animationHints]));
   return PolarAreaWithErrorBarsController;
 };
+
+export class PolarAreaWithErrorBarsChart extends Chart {
+  constructor(item, config) {
+    super(item, patchControllerConfig(config, PolarAreaWithErrorBarsController));
+  }
+}
+PolarAreaWithErrorBarsChart.id = PolarAreaWithErrorBarsController.id;
