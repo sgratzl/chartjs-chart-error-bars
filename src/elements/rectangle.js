@@ -1,7 +1,7 @@
-﻿import { defaults, elements } from 'chart.js';
+﻿import { defaults, Rectangle } from '../chart';
 import { renderErrorBar, errorBarDefaults } from './render';
 
-export class RectangleWithErrorBar extends elements.Rectangle {
+export class RectangleWithErrorBar extends Rectangle {
   draw(ctx) {
     super.draw(ctx);
 

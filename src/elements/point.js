@@ -1,7 +1,7 @@
-﻿import { defaults, elements } from 'chart.js';
+﻿import { defaults, Point } from '../chart';
 import { renderErrorBar, errorBarDefaults } from './render';
 
-export class PointWithErrorBar extends elements.Point {
+export class PointWithErrorBar extends Point {
   draw(ctx) {
     super.draw(ctx);
 

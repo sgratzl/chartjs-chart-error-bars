@@ -1,4 +1,4 @@
-﻿import { controllers, helpers, defaults } from 'chart.js';
+﻿import { controllers, LineController, defaults, merge } from '../chart';
 import { calculateScale } from './utils';
 import { styleObjectKeys } from '../elements/render';
 import { PointWithErrorBar } from '../elements';
@@ -6,7 +6,7 @@ import { verticalTooltipDefaults } from './tooltip';
 import { animationHints } from '../animate';
 import { getMinMax, parseErrorNumberData, parseErrorLabelData } from './base';
 
-export class LineWithErrorBars extends controllers.line {
+export class LineWithErrorBarsController extends LineController {
   getMinMax(scale, canStack) {
     return getMinMax(scale, canStack, (scale, canStack) => super.getMinMax(scale, canStack));
   }
@@ -27,16 +27,16 @@ export class LineWithErrorBars extends controllers.line {
   }
 }
 
-LineWithErrorBars.prototype.dataElementOptions = Object.assign(
+LineWithErrorBarsController.prototype.dataElementOptions = Object.assign(
   {},
-  controllers.line.prototype.dataElementOptions,
+  LineController.prototype.dataElementOptions,
   styleObjectKeys
 );
 
-LineWithErrorBars.id = 'lineWithErrorBars';
-LineWithErrorBars.register = () => {
-  LineWithErrorBars.prototype.dataElementType = PointWithErrorBar.register();
-  controllers[LineWithErrorBars.id] = LineWithErrorBars;
-  defaults.set(LineWithErrorBars.id, helpers.merge({}, [defaults.line, verticalTooltipDefaults, animationHints]));
-  return LineWithErrorBars;
+LineWithErrorBarsController.id = 'lineWithErrorBars';
+LineWithErrorBarsController.register = () => {
+  LineWithErrorBarsController.prototype.dataElementType = PointWithErrorBar.register();
+  controllers[LineWithErrorBarsController.id] = LineWithErrorBarsController;
+  defaults.set(LineWithErrorBarsController.id, merge({}, [defaults.line, verticalTooltipDefaults, animationHints]));
+  return LineWithErrorBarsController;
 };

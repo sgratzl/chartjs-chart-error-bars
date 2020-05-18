@@ -1,15 +1,15 @@
 export * from '.';
 
 import {
-  BarWithErrorBars,
-  HorizontalBarWithErrorBars,
-  LineWithErrorBars,
-  PolarAreaWithErrorBars,
-  ScatterWithErrorBars,
+  BarWithErrorBarsController,
+  HorizontalBarWithErrorBarsController,
+  LineWithErrorBarsController,
+  PolarAreaWithErrorBarsController,
+  ScatterWithErrorBarsController,
 } from './controllers';
 
-BarWithErrorBars.register();
-HorizontalBarWithErrorBars.register();
-LineWithErrorBars.register();
-PolarAreaWithErrorBars.register();
-ScatterWithErrorBars.register();
+BarWithErrorBarsController.register();
+HorizontalBarWithErrorBarsController.register();
+LineWithErrorBarsController.register();
+PolarAreaWithErrorBarsController.register();
+ScatterWithErrorBarsController.register();

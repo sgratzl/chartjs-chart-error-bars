@@ -1,12 +1,12 @@
-﻿import { controllers, helpers, defaults } from 'chart.js';
-import { calculateScale } from './utils';
+﻿import { Chart, controllers, BarController, HorizontalBarController, defaults, merge } from '../chart';
+import { calculateScale, patchControllerConfig } from './utils';
 import { styleKeys } from '../elements/render';
 import { RectangleWithErrorBar } from '../elements';
 import { verticalTooltipDefaults, horizontalTooltipDefaults } from './tooltip';
 import { animationHints } from '../animate';
 import { getMinMax, parseErrorNumberData, parseErrorLabelData } from './base';
 
-export class BarWithErrorBars extends controllers.bar {
+export class BarWithErrorBarsController extends BarController {
   getMinMax(scale, canStack) {
     return getMinMax(scale, canStack, (scale, canStack) => super.getMinMax(scale, canStack));
   }
@@ -24,17 +24,24 @@ export class BarWithErrorBars extends controllers.bar {
     super.updateElement(element, index, properties, mode);
   }
 }
-BarWithErrorBars.prototype.dataElementOptions = controllers.bar.prototype.dataElementOptions.concat(styleKeys);
+BarWithErrorBarsController.prototype.dataElementOptions = BarController.prototype.dataElementOptions.concat(styleKeys);
 
-BarWithErrorBars.id = 'barWithErrorBars';
-BarWithErrorBars.register = () => {
-  BarWithErrorBars.prototype.dataElementType = RectangleWithErrorBar.register();
-  controllers[BarWithErrorBars.id] = BarWithErrorBars;
-  defaults.set(BarWithErrorBars.id, helpers.merge({}, [defaults.bar, verticalTooltipDefaults, animationHints]));
-  return BarWithErrorBars;
+BarWithErrorBarsController.id = 'barWithErrorBars';
+BarWithErrorBarsController.register = () => {
+  BarWithErrorBarsController.prototype.dataElementType = RectangleWithErrorBar.register();
+  controllers[BarWithErrorBarsController.id] = BarWithErrorBarsController;
+  defaults.set(BarWithErrorBarsController.id, merge({}, [defaults.bar, verticalTooltipDefaults, animationHints]));
+  return BarWithErrorBarsController;
 };
 
-export class HorizontalBarWithErrorBars extends controllers.horizontalBar {
+export class BarWithErrorBarsChart extends Chart {
+  constructor(item, config) {
+    super(item, patchControllerConfig(config, BarWithErrorBarsController));
+  }
+}
+BarWithErrorBarsChart.id = BarWithErrorBarsController.id;
+
+export class HorizontalBarWithErrorBarsController extends HorizontalBarController {
   getMinMax(scale, canStack) {
     return getMinMax(scale, canStack, (scale, canStack) => super.getMinMax(scale, canStack));
   }
@@ -53,17 +60,24 @@ export class HorizontalBarWithErrorBars extends controllers.horizontalBar {
   }
 }
 
-HorizontalBarWithErrorBars.prototype.dataElementOptions = controllers.horizontalBar.prototype.dataElementOptions.concat(
+HorizontalBarWithErrorBarsController.prototype.dataElementOptions = HorizontalBarController.prototype.dataElementOptions.concat(
   styleKeys
 );
-HorizontalBarWithErrorBars.id = 'horizontalBarWithErrorBars';
-HorizontalBarWithErrorBars.register = () => {
-  HorizontalBarWithErrorBars.prototype.dataElementType = RectangleWithErrorBar.register();
+HorizontalBarWithErrorBarsController.id = 'horizontalBarWithErrorBars';
+HorizontalBarWithErrorBarsController.register = () => {
+  HorizontalBarWithErrorBarsController.prototype.dataElementType = RectangleWithErrorBar.register();
 
-  controllers[HorizontalBarWithErrorBars.id] = HorizontalBarWithErrorBars;
+  controllers[HorizontalBarWithErrorBarsController.id] = HorizontalBarWithErrorBarsController;
   defaults.set(
-    HorizontalBarWithErrorBars.id,
-    helpers.merge({}, [defaults.horizontalBar, horizontalTooltipDefaults, animationHints])
+    HorizontalBarWithErrorBarsController.id,
+    merge({}, [defaults.horizontalBar, horizontalTooltipDefaults, animationHints])
   );
-  return HorizontalBarWithErrorBars;
+  return HorizontalBarWithErrorBarsController;
 };
+
+export class HorizontalBarWithErrorBarsChart extends Chart {
+  constructor(item, config) {
+    super(item, patchControllerConfig(config, HorizontalBarWithErrorBarsController));
+  }
+}
+HorizontalBarWithErrorBarsChart.id = HorizontalBarWithErrorBarsController.id;

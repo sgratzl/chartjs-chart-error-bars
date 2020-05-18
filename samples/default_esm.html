@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Bar with Error Bars</title>
+  </head>
+  <body>
+    <div id="container" style="width: 75%;">
+      <canvas id="canvas"></canvas>
+    </div>
+    <script defer src="https://unpkg.com/es-module-shims"></script>
+    <script type="importmap-shim">
+      {
+        "imports": {
+          "chart.js": "https://unpkg.com/chart.js@3.0.0-alpha/dist/Chart.esm.js",
+          "chartjs-chart-error-bars": "../build/Chart.ErrorBars.esm.js"
+        }
+      }
+    </script>
+    <script type="module-shim">
+      import Chart from 'chart.js';
+      import { BarWithErrorBarsChart } from 'chartjs-chart-error-bars';
+
+      const chart = new BarWithErrorBarsChart(document.getElementById('canvas'), {
+        data: {
+          labels: ['A', 'B'],
+          datasets: [
+            {
+              data: [
+                {
+                  y: 4,
+                  yMin: 1,
+                  yMax: 6,
+                },
+                {
+                  y: 2,
+                  yMin: 1,
+                  yMax: 4,
+                },
+              ],
+            },
+          ],
+        },
+      })
+    </script>
+  </body>
+</html>

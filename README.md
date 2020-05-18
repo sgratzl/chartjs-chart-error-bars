@@ -247,15 +247,17 @@ e.g.
 
 The ESM build of the library supports tree shaking thus having no side effects. As a consequence the chart.js library won't be automatically manipulated nor new controllers automatically registered. One has to manually import and register them.
 
+Variant A:
+
 ```js
 import Chart from 'chart.js';
-import { BarWithErrorBars } from 'chartjs-chart-error-bars';
+import { BarWithErrorBarsController } from 'chartjs-chart-error-bars';
 
 // register controller in chart.js and ensure the defaults are set
-BarWithErrorBars.register();
+BarWithErrorBarsController.register();
 
 const chart = new Chart(document.getElementById('canvas').getContext('2d'), {
-  type: BarWithErrorBars.id,
+  type: BarWithErrorBarsController.id,
   data: {
     labels: ['A', 'B'],
     datasets: [
@@ -274,6 +276,18 @@ const chart = new Chart(document.getElementById('canvas').getContext('2d'), {
         ],
       },
     ],
+  },
+});
+```
+
+Variant B:
+
+```js
+import { BarWithErrorBarsChart } from 'chartjs-chart-error-bars';
+
+const chart = new BarWithErrorBarsChart(document.getElementById('canvas').getContext('2d'), {
+  data: {
+    //...
   },
 });
 ```

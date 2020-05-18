@@ -1,5 +1,5 @@
 import { modelKeys } from './utils';
-import { defaults } from 'chart.js';
+import { defaults } from '../chart';
 
 function reverseOrder(v) {
   return Array.isArray(v) ? v.slice().reverse() : v;

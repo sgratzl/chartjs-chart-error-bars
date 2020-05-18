@@ -1,4 +1,4 @@
-﻿import { controllers, helpers, defaults } from 'chart.js';
+﻿import { controllers, PolarAreaController, defaults, merge, resolve } from '../chart';
 import { calculatePolarScale } from './utils';
 import { getMinMax, parseErrorNumberData } from './base';
 import { generateTooltipPolar } from './tooltip';
@@ -14,7 +14,7 @@ const tooltipDefaults = {
   },
 };
 
-export class PolarAreaWithErrorBars extends controllers.polarArea {
+export class PolarAreaWithErrorBarsController extends PolarAreaController {
   getMinMax(scale, canStack) {
     return getMinMax(scale, canStack, (scale, canStack) => super.getMinMax(scale, canStack));
   }
@@ -38,7 +38,7 @@ export class PolarAreaWithErrorBars extends controllers.polarArea {
       return 0;
     }
     const context = this._getContext(index, true);
-    return helpers.options.resolve([this.chart.options.elements.arc.angle, (2 * Math.PI) / count], context, index);
+    return resolve([this.chart.options.elements.arc.angle, (2 * Math.PI) / count], context, index);
   }
 
   parseObjectData(meta, data, start, count) {
@@ -81,16 +81,16 @@ export class PolarAreaWithErrorBars extends controllers.polarArea {
   }
 }
 
-PolarAreaWithErrorBars.prototype.dataElementOptions = Object.assign(
+PolarAreaWithErrorBarsController.prototype.dataElementOptions = Object.assign(
   {},
-  controllers.polarArea.prototype.dataElementOptions,
+  PolarAreaController.prototype.dataElementOptions,
   styleObjectKeys
 );
 
-PolarAreaWithErrorBars.id = 'polarAreaWithErrorBars';
-PolarAreaWithErrorBars.register = () => {
-  PolarAreaWithErrorBars.prototype.dataElementType = ArcWithErrorBar.register();
-  controllers[PolarAreaWithErrorBars.id] = PolarAreaWithErrorBars;
-  defaults.set(PolarAreaWithErrorBars.id, helpers.merge({}, [defaults.polarArea, tooltipDefaults, animationHints]));
-  return PolarAreaWithErrorBars;
+PolarAreaWithErrorBarsController.id = 'polarAreaWithErrorBars';
+PolarAreaWithErrorBarsController.register = () => {
+  PolarAreaWithErrorBarsController.prototype.dataElementType = ArcWithErrorBar.register();
+  controllers[PolarAreaWithErrorBarsController.id] = PolarAreaWithErrorBarsController;
+  defaults.set(PolarAreaWithErrorBarsController.id, merge({}, [defaults.polarArea, tooltipDefaults, animationHints]));
+  return PolarAreaWithErrorBarsController;
 };

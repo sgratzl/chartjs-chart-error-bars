@@ -1,7 +1,7 @@
-﻿import { defaults, elements } from 'chart.js';
+﻿import { defaults, Arc } from '../chart';
 import { renderErrorBarArc, errorBarDefaults } from './render';
 
-export class ArcWithErrorBar extends elements.Arc {
+export class ArcWithErrorBar extends Arc {
   draw(ctx) {
     super.draw(ctx);
 

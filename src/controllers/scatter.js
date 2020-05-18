@@ -1,4 +1,4 @@
-﻿import { controllers, helpers, defaults } from 'chart.js';
+﻿import { controllers, ScatterController, defaults, merge } from '../chart';
 import { calculateScale } from './utils';
 import { getMinMax, parseErrorNumberData } from './base';
 import { generateTooltipScatter } from './tooltip';
@@ -14,7 +14,7 @@ const tooltipDefaults = {
   },
 };
 
-export class ScatterWithErrorBars extends controllers.scatter {
+export class ScatterWithErrorBarsController extends ScatterController {
   getMinMax(scale, canStack) {
     return getMinMax(scale, canStack, (scale, canStack) => super.getMinMax(scale, canStack));
   }
@@ -35,16 +35,16 @@ export class ScatterWithErrorBars extends controllers.scatter {
     super.updateElement(element, index, properties, mode);
   }
 }
-ScatterWithErrorBars.prototype.dataElementOptions = Object.assign(
+ScatterWithErrorBarsController.prototype.dataElementOptions = Object.assign(
   {},
-  controllers.scatter.prototype.dataElementOptions,
+  ScatterController.prototype.dataElementOptions,
   styleObjectKeys
 );
 
-ScatterWithErrorBars.id = 'scatterWithErrorBars';
-ScatterWithErrorBars.register = () => {
-  ScatterWithErrorBars.prototype.dataElementType = PointWithErrorBar.register();
-  controllers[ScatterWithErrorBars.id] = ScatterWithErrorBars;
-  defaults.set(ScatterWithErrorBars.id, helpers.merge({}, [defaults.scatter, tooltipDefaults, animationHints]));
-  return ScatterWithErrorBars;
+ScatterWithErrorBarsController.id = 'scatterWithErrorBars';
+ScatterWithErrorBarsController.register = () => {
+  ScatterWithErrorBarsController.prototype.dataElementType = PointWithErrorBar.register();
+  controllers[ScatterWithErrorBarsController.id] = ScatterWithErrorBarsController;
+  defaults.set(ScatterWithErrorBarsController.id, merge({}, [defaults.scatter, tooltipDefaults, animationHints]));
+  return ScatterWithErrorBarsController;
 };

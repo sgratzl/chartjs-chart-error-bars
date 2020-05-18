@@ -1,4 +1,4 @@
-import { helpers } from 'chart.js';
+import { color } from './chart';
 import { styleKeys } from './elements/render';
 import { allModelKeys } from './controllers/utils';
 
@@ -9,8 +9,8 @@ const interpolators = {
     if (f === t) {
       return to;
     }
-    var c0 = helpers.color(f);
-    var c1 = c0.valid && helpers.color(t);
+    var c0 = color(f);
+    var c1 = c0.valid && color(t);
     return c1 && c1.valid ? c1.mix(c0, factor).hexString() : to;
   },
   number(from, to, factor) {
