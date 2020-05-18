@@ -3,32 +3,29 @@ import pnp from 'rollup-plugin-pnp-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import babel from '@rollup/plugin-babel';
+import pkg from './package.json';
 
 export default [
   {
     input: 'src/bundle.js',
     output: {
-      file: 'build/Chart.ErrorBars.js',
+      file: pkg.main,
       name: 'ChartErrorBars',
       format: 'umd',
       globals: {
         'chart.js': 'Chart',
       },
     },
-    external: ['chart.js'],
+    external: Object.keys(pkg.peerDependencies),
     plugins: [commonjs(), pnp(), resolve(), babel({ babelHelpers: 'runtime' })],
   },
   {
     input: 'src/index.js',
     output: {
-      file: 'build/Chart.ErrorBars.esm.js',
-      name: 'ChartErrorBars',
+      file: pkg.module,
       format: 'esm',
-      globals: {
-        'chart.js': 'Chart',
-      },
     },
-    external: ['chart.js', '@babel/runtime'],
+    external: Object.keys(pkg.peerDependencies).concat(Object.keys(pkg.dependencies)),
     plugins: [commonjs(), pnp(), resolve()],
   },
 ];
