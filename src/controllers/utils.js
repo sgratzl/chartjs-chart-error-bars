@@ -25,7 +25,7 @@ export function calculatePolarScale(arc, properties, data, scale, reset, options
   const toAngle = (v) => {
     const valueRadius = scale.getDistanceFromCenterForValue(v);
     const resetRadius = animationOpts.animateScale ? 0 : valueRadius;
-    return reset ? resetRadius : arc.hidden ? 0 : valueRadius;
+    return reset ? resetRadius : valueRadius;
   };
 
   for (const key of keys) {
