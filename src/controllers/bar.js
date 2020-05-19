@@ -1,5 +1,5 @@
-﻿import { Chart, controllers, BarController, HorizontalBarController, defaults, merge } from '../chart';
-import { calculateScale, patchControllerConfig } from './utils';
+﻿import { Chart, registerController, BarController, HorizontalBarController, defaults, merge, patchControllerConfig} from '../chart';
+import { calculateScale } from './utils';
 import { styleKeys } from '../elements/render';
 import { RectangleWithErrorBar } from '../elements';
 import { verticalTooltipDefaults, horizontalTooltipDefaults } from './tooltip';
@@ -29,9 +29,8 @@ BarWithErrorBarsController.prototype.dataElementOptions = BarController.prototyp
 BarWithErrorBarsController.id = 'barWithErrorBars';
 BarWithErrorBarsController.register = () => {
   BarWithErrorBarsController.prototype.dataElementType = RectangleWithErrorBar.register();
-  controllers[BarWithErrorBarsController.id] = BarWithErrorBarsController;
-  defaults.set(BarWithErrorBarsController.id, merge({}, [defaults.bar, verticalTooltipDefaults, animationHints]));
-  return BarWithErrorBarsController;
+  BarWithErrorBarsController.defaults = merge({}, [defaults.bar, verticalTooltipDefaults, animationHints]);
+  return registerController(BarWithErrorBarsController);
 };
 
 export class BarWithErrorBarsChart extends Chart {
@@ -66,13 +65,8 @@ HorizontalBarWithErrorBarsController.prototype.dataElementOptions = HorizontalBa
 HorizontalBarWithErrorBarsController.id = 'horizontalBarWithErrorBars';
 HorizontalBarWithErrorBarsController.register = () => {
   HorizontalBarWithErrorBarsController.prototype.dataElementType = RectangleWithErrorBar.register();
-
-  controllers[HorizontalBarWithErrorBarsController.id] = HorizontalBarWithErrorBarsController;
-  defaults.set(
-    HorizontalBarWithErrorBarsController.id,
-    merge({}, [defaults.horizontalBar, horizontalTooltipDefaults, animationHints])
-  );
-  return HorizontalBarWithErrorBarsController;
+  HorizontalBarWithErrorBarsController.defaults = merge({}, [defaults.horizontalBar, horizontalTooltipDefaults, animationHints]);
+  return registerController(HorizontalBarWithErrorBarsController);
 };
 
 export class HorizontalBarWithErrorBarsChart extends Chart {

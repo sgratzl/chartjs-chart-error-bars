@@ -1,5 +1,5 @@
-﻿import { Chart, controllers, PolarAreaController, defaults, merge, resolve } from '../chart';
-import { calculatePolarScale, patchControllerConfig } from './utils';
+﻿import { Chart, registerController, PolarAreaController, defaults, merge, resolve, patchControllerConfig } from '../chart';
+import { calculatePolarScale } from './utils';
 import { getMinMax, parseErrorNumberData } from './base';
 import { generateTooltipPolar } from './tooltip';
 import { animationHints } from '../animate';
@@ -90,9 +90,8 @@ PolarAreaWithErrorBarsController.prototype.dataElementOptions = Object.assign(
 PolarAreaWithErrorBarsController.id = 'polarAreaWithErrorBars';
 PolarAreaWithErrorBarsController.register = () => {
   PolarAreaWithErrorBarsController.prototype.dataElementType = ArcWithErrorBar.register();
-  controllers[PolarAreaWithErrorBarsController.id] = PolarAreaWithErrorBarsController;
-  defaults.set(PolarAreaWithErrorBarsController.id, merge({}, [defaults.polarArea, tooltipDefaults, animationHints]));
-  return PolarAreaWithErrorBarsController;
+  PolarAreaWithErrorBarsController.defaults = merge({}, [defaults.polarArea, tooltipDefaults, animationHints]);
+  return registerController(PolarAreaWithErrorBarsController);
 };
 
 export class PolarAreaWithErrorBarsChart extends Chart {

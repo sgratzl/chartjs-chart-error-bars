@@ -1,4 +1,4 @@
-﻿import { defaults, Point } from '../chart';
+﻿import { defaults, Point, registerElement } from '../chart';
 import { renderErrorBar, errorBarDefaults } from './render';
 
 export class PointWithErrorBar extends Point {
@@ -8,10 +8,6 @@ export class PointWithErrorBar extends Point {
     renderErrorBar(this, ctx);
   }
 }
-PointWithErrorBar._type = 'pointWithErrorBar';
-PointWithErrorBar.register = () => {
-  defaults.set('elements', {
-    [PointWithErrorBar._type]: Object.assign({}, defaults.elements.point, errorBarDefaults),
-  });
-  return PointWithErrorBar;
-};
+PointWithErrorBar.id = PointWithErrorBar._type = 'pointWithErrorBar';
+PointWithErrorBar.defaults = Object.assign({}, defaults.elements.point, errorBarDefaults);
+PointWithErrorBar.register = () => registerElement(PointWithErrorBar);

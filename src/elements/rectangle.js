@@ -1,4 +1,4 @@
-﻿import { defaults, Rectangle } from '../chart';
+﻿import { defaults, Rectangle, registerElement } from '../chart';
 import { renderErrorBar, errorBarDefaults } from './render';
 
 export class RectangleWithErrorBar extends Rectangle {
@@ -8,10 +8,6 @@ export class RectangleWithErrorBar extends Rectangle {
     renderErrorBar(this, ctx);
   }
 }
-RectangleWithErrorBar._type = 'rectangleWithErrorBar';
-RectangleWithErrorBar.register = () => {
-  defaults.set('elements', {
-    [RectangleWithErrorBar._type]: Object.assign({}, defaults.elements.rectangle, errorBarDefaults),
-  });
-  return RectangleWithErrorBar;
-};
+RectangleWithErrorBar.id = RectangleWithErrorBar._type = 'rectangleWithErrorBar';
+RectangleWithErrorBar.defaults = Object.assign({}, defaults.elements.rectangle, errorBarDefaults);
+RectangleWithErrorBar.register = () => registerElement(RectangleWithErrorBar);

@@ -1,5 +1,5 @@
-﻿import { Chart, controllers, LineController, defaults, merge } from '../chart';
-import { calculateScale, patchControllerConfig } from './utils';
+﻿import { Chart, registerController, LineController, defaults, merge, patchControllerConfig } from '../chart';
+import { calculateScale } from './utils';
 import { styleObjectKeys } from '../elements/render';
 import { PointWithErrorBar } from '../elements';
 import { verticalTooltipDefaults } from './tooltip';
@@ -36,9 +36,8 @@ LineWithErrorBarsController.prototype.dataElementOptions = Object.assign(
 LineWithErrorBarsController.id = 'lineWithErrorBars';
 LineWithErrorBarsController.register = () => {
   LineWithErrorBarsController.prototype.dataElementType = PointWithErrorBar.register();
-  controllers[LineWithErrorBarsController.id] = LineWithErrorBarsController;
-  defaults.set(LineWithErrorBarsController.id, merge({}, [defaults.line, verticalTooltipDefaults, animationHints]));
-  return LineWithErrorBarsController;
+  LineWithErrorBarsController.defaults = merge({}, [defaults.line, verticalTooltipDefaults, animationHints]);
+  return registerController(LineWithErrorBarsController);
 };
 
 export class LineWithErrorBarsChart extends Chart {

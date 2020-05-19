@@ -1,5 +1,5 @@
-﻿import { Chart, controllers, ScatterController, defaults, merge } from '../chart';
-import { calculateScale, patchControllerConfig } from './utils';
+﻿import { Chart, registerController, ScatterController, defaults, merge, patchControllerConfig } from '../chart';
+import { calculateScale } from './utils';
 import { getMinMax, parseErrorNumberData } from './base';
 import { generateTooltipScatter } from './tooltip';
 import { animationHints } from '../animate';
@@ -44,9 +44,8 @@ ScatterWithErrorBarsController.prototype.dataElementOptions = Object.assign(
 ScatterWithErrorBarsController.id = 'scatterWithErrorBars';
 ScatterWithErrorBarsController.register = () => {
   ScatterWithErrorBarsController.prototype.dataElementType = PointWithErrorBar.register();
-  controllers[ScatterWithErrorBarsController.id] = ScatterWithErrorBarsController;
-  defaults.set(ScatterWithErrorBarsController.id, merge({}, [defaults.scatter, tooltipDefaults, animationHints]));
-  return ScatterWithErrorBarsController;
+  ScatterWithErrorBarsController.defaults = merge({}, [defaults.scatter, tooltipDefaults, animationHints]);
+  return registerController(ScatterWithErrorBarsController);
 };
 
 export class ScatterWithErrorBarsChart extends Chart {

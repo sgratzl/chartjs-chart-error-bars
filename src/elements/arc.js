@@ -1,4 +1,4 @@
-﻿import { defaults, Arc } from '../chart';
+﻿import { defaults, Arc, registerElement } from '../chart';
 import { renderErrorBarArc, errorBarDefaults } from './render';
 
 export class ArcWithErrorBar extends Arc {
@@ -8,10 +8,6 @@ export class ArcWithErrorBar extends Arc {
     renderErrorBarArc(this, ctx);
   }
 }
-ArcWithErrorBar._type = 'arcWithErrorBar';
-ArcWithErrorBar.register = () => {
-  defaults.set('elements', {
-    [ArcWithErrorBar._type]: Object.assign({}, defaults.elements.arc, errorBarDefaults),
-  });
-  return ArcWithErrorBar;
-};
+ArcWithErrorBar.id = ArcWithErrorBar._type = 'arcWithErrorBar';
+ArcWithErrorBar.defaults = Object.assign({}, defaults.elements.arc, errorBarDefaults);
+ArcWithErrorBar.register = () => registerElement(ArcWithErrorBar);

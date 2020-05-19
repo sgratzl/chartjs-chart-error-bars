@@ -1,9 +1,3 @@
-export function patchControllerConfig(config, controller) {
-  controller.register();
-  config.type = controller.id;
-  return config;
-}
-
 export const allModelKeys = ['xMin', 'xMax', 'yMin', 'yMax'];
 
 export function modelKeys(horizontal) {
