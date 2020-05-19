@@ -11,9 +11,9 @@ export const PolarAreaController = ChartNS.controllers.polarArea;
 export const ScatterController = ChartNS.controllers.scatter;
 
 export function registerController(controller) {
-    ChartNS.controllers[controller.id] = controller;
-    ChartNS.defaults.set(controller.id, controller.defaults);
-    return controller;
+  ChartNS.controllers[controller.id] = controller;
+  ChartNS.defaults.set(controller.id, controller.defaults);
+  return controller;
 }
 
 // export const Element = ChartNS.Element;
@@ -23,10 +23,10 @@ export const Point = ChartNS.elements.Point;
 export const Arc = ChartNS.elements.Arc;
 
 export function registerElement(element) {
-    ChartNS.defaults.set('elements', {
-        [element.id]: element.defaults,
-    });
-    return element;
+  ChartNS.defaults.set('elements', {
+    [element.id]: element.defaults,
+  });
+  return element;
 }
 
 export const merge = ChartNS.helpers.merge;
@@ -35,7 +35,7 @@ export const resolve = ChartNS.helpers.options.resolve;
 export const color = ChartNS.helpers.color;
 
 export function patchControllerConfig(config, controller) {
-    controller.register();
-    config.type = controller.id;
-    return config;
+  controller.register();
+  config.type = controller.id;
+  return config;
 }

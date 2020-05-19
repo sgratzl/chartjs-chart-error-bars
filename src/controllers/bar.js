@@ -1,4 +1,12 @@
-﻿import { Chart, registerController, BarController, HorizontalBarController, defaults, merge, patchControllerConfig} from '../chart';
+﻿import {
+  Chart,
+  registerController,
+  BarController,
+  HorizontalBarController,
+  defaults,
+  merge,
+  patchControllerConfig,
+} from '../chart';
 import { calculateScale } from './utils';
 import { styleKeys } from '../elements/render';
 import { RectangleWithErrorBar } from '../elements';
@@ -65,7 +73,11 @@ HorizontalBarWithErrorBarsController.prototype.dataElementOptions = HorizontalBa
 HorizontalBarWithErrorBarsController.id = 'horizontalBarWithErrorBars';
 HorizontalBarWithErrorBarsController.register = () => {
   HorizontalBarWithErrorBarsController.prototype.dataElementType = RectangleWithErrorBar.register();
-  HorizontalBarWithErrorBarsController.defaults = merge({}, [defaults.horizontalBar, horizontalTooltipDefaults, animationHints]);
+  HorizontalBarWithErrorBarsController.defaults = merge({}, [
+    defaults.horizontalBar,
+    horizontalTooltipDefaults,
+    animationHints,
+  ]);
   return registerController(HorizontalBarWithErrorBarsController);
 };
 

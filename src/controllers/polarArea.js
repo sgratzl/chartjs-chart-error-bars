@@ -1,4 +1,12 @@
-﻿import { Chart, registerController, PolarAreaController, defaults, merge, resolve, patchControllerConfig } from '../chart';
+﻿import {
+  Chart,
+  registerController,
+  PolarAreaController,
+  defaults,
+  merge,
+  resolve,
+  patchControllerConfig,
+} from '../chart';
 import { calculatePolarScale } from './utils';
 import { getMinMax, parseErrorNumberData } from './base';
 import { generateTooltipPolar } from './tooltip';
