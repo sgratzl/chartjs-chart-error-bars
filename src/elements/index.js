@@ -1,3 +1,3 @@
-export * from './rectangle';
-export * from './point';
-export * from './arc';
+export * from './RectangleWithErrorBar';
+export * from './PointWithErrorBar';
+export * from './ArcWithErrorBar';
