@@ -8,6 +8,6 @@ export class RectangleWithErrorBar extends Rectangle {
     renderErrorBar(this, ctx);
   }
 }
-RectangleWithErrorBar.id = RectangleWithErrorBar._type = 'rectangleWithErrorBar';
-RectangleWithErrorBar.defaults = Object.assign({}, defaults.elements.rectangle, errorBarDefaults);
+RectangleWithErrorBar.id = 'rectangleWithErrorBar';
+RectangleWithErrorBar.defaults = /*#__PURE__*/ Object.assign({}, defaults.elements.rectangle, errorBarDefaults);
 RectangleWithErrorBar.register = () => registerElement(RectangleWithErrorBar);

@@ -35,16 +35,16 @@ export class ScatterWithErrorBarsController extends ScatterController {
     super.updateElement(element, index, properties, mode);
   }
 }
-ScatterWithErrorBarsController.prototype.dataElementOptions = Object.assign(
-  {},
-  ScatterController.prototype.dataElementOptions,
-  styleObjectKeys
-);
 
 ScatterWithErrorBarsController.id = 'scatterWithErrorBars';
+ScatterWithErrorBarsController.defaults = /*#__PURE__*/ merge({}, [defaults.scatter, tooltipDefaults, animationHints]);
 ScatterWithErrorBarsController.register = () => {
   ScatterWithErrorBarsController.prototype.dataElementType = PointWithErrorBar.register();
-  ScatterWithErrorBarsController.defaults = merge({}, [defaults.scatter, tooltipDefaults, animationHints]);
+  ScatterWithErrorBarsController.prototype.dataElementOptions = Object.assign(
+    {},
+    ScatterController.prototype.dataElementOptions,
+    styleObjectKeys
+  );
   return registerController(ScatterWithErrorBarsController);
 };
 

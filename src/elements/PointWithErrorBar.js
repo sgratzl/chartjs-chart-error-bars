@@ -8,6 +8,6 @@ export class PointWithErrorBar extends Point {
     renderErrorBar(this, ctx);
   }
 }
-PointWithErrorBar.id = PointWithErrorBar._type = 'pointWithErrorBar';
-PointWithErrorBar.defaults = Object.assign({}, defaults.elements.point, errorBarDefaults);
+PointWithErrorBar.id = 'pointWithErrorBar';
+PointWithErrorBar.defaults = /*#__PURE__*/ Object.assign({}, defaults.elements.point, errorBarDefaults);
 PointWithErrorBar.register = () => registerElement(PointWithErrorBar);

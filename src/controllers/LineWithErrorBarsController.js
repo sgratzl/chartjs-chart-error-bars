@@ -27,16 +27,19 @@ export class LineWithErrorBarsController extends LineController {
   }
 }
 
-LineWithErrorBarsController.prototype.dataElementOptions = Object.assign(
-  {},
-  LineController.prototype.dataElementOptions,
-  styleObjectKeys
-);
-
 LineWithErrorBarsController.id = 'lineWithErrorBars';
+LineWithErrorBarsController.defaults = /*#__PURE__*/ merge({}, [
+  defaults.line,
+  verticalTooltipDefaults,
+  animationHints,
+]);
 LineWithErrorBarsController.register = () => {
   LineWithErrorBarsController.prototype.dataElementType = PointWithErrorBar.register();
-  LineWithErrorBarsController.defaults = merge({}, [defaults.line, verticalTooltipDefaults, animationHints]);
+  LineWithErrorBarsController.prototype.dataElementOptions = Object.assign(
+    {},
+    LineController.prototype.dataElementOptions,
+    styleObjectKeys
+  );
   return registerController(LineWithErrorBarsController);
 };
 

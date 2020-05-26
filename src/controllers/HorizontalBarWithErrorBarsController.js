@@ -25,17 +25,17 @@ export class HorizontalBarWithErrorBarsController extends HorizontalBarControlle
   }
 }
 
-HorizontalBarWithErrorBarsController.prototype.dataElementOptions = HorizontalBarController.prototype.dataElementOptions.concat(
-  styleKeys
-);
 HorizontalBarWithErrorBarsController.id = 'horizontalBarWithErrorBars';
+HorizontalBarWithErrorBarsController.defaults = /*#__PURE__*/ merge({}, [
+  defaults.horizontalBar,
+  horizontalTooltipDefaults,
+  animationHints,
+]);
 HorizontalBarWithErrorBarsController.register = () => {
   HorizontalBarWithErrorBarsController.prototype.dataElementType = RectangleWithErrorBar.register();
-  HorizontalBarWithErrorBarsController.defaults = merge({}, [
-    defaults.horizontalBar,
-    horizontalTooltipDefaults,
-    animationHints,
-  ]);
+  HorizontalBarWithErrorBarsController.prototype.dataElementOptions = HorizontalBarController.prototype.dataElementOptions.concat(
+    styleKeys
+  );
   return registerController(HorizontalBarWithErrorBarsController);
 };
 

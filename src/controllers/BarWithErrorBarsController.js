@@ -24,12 +24,13 @@ export class BarWithErrorBarsController extends BarController {
     super.updateElement(element, index, properties, mode);
   }
 }
-BarWithErrorBarsController.prototype.dataElementOptions = BarController.prototype.dataElementOptions.concat(styleKeys);
-
 BarWithErrorBarsController.id = 'barWithErrorBars';
+BarWithErrorBarsController.defaults = /*#__PURE__*/ merge({}, [defaults.bar, verticalTooltipDefaults, animationHints]);
 BarWithErrorBarsController.register = () => {
+  BarWithErrorBarsController.prototype.dataElementOptions = BarController.prototype.dataElementOptions.concat(
+    styleKeys
+  );
   BarWithErrorBarsController.prototype.dataElementType = RectangleWithErrorBar.register();
-  BarWithErrorBarsController.defaults = merge({}, [defaults.bar, verticalTooltipDefaults, animationHints]);
   return registerController(BarWithErrorBarsController);
 };
 

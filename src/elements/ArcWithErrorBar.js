@@ -8,6 +8,6 @@ export class ArcWithErrorBar extends Arc {
     renderErrorBarArc(this, ctx);
   }
 }
-ArcWithErrorBar.id = ArcWithErrorBar._type = 'arcWithErrorBar';
-ArcWithErrorBar.defaults = Object.assign({}, defaults.elements.arc, errorBarDefaults);
+ArcWithErrorBar.id = 'arcWithErrorBar';
+ArcWithErrorBar.defaults = /*#__PURE__*/ Object.assign({}, defaults.elements.arc, errorBarDefaults);
 ArcWithErrorBar.register = () => registerElement(ArcWithErrorBar);

@@ -11,6 +11,9 @@ export const PolarAreaController = ChartNS.controllers.polarArea;
 export const ScatterController = ChartNS.controllers.scatter;
 
 export function registerController(controller) {
+  if (ChartNS.controllers[controller.id]) {
+    return;
+  }
   ChartNS.controllers[controller.id] = controller;
   ChartNS.defaults.set(controller.id, controller.defaults);
   return controller;
@@ -23,6 +26,10 @@ export const Point = ChartNS.elements.Point;
 export const Arc = ChartNS.elements.Arc;
 
 export function registerElement(element) {
+  if (ChartNS.defaults.elements[element.id]) {
+    return;
+  }
+  element._type = element.id;
   ChartNS.defaults.set('elements', {
     [element.id]: element.defaults,
   });
