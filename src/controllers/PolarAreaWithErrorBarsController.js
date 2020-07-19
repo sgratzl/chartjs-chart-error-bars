@@ -1,26 +1,11 @@
-﻿import {
-  Chart,
-  registerController,
-  PolarAreaController,
-  defaults,
-  merge,
-  resolve,
-  patchControllerConfig,
-} from '../chart';
+﻿import { Chart, PolarAreaController, merge, resolve } from '@sgratzl/chartjs-esm-facade';
 import { calculatePolarScale } from './utils';
 import { getMinMax, parseErrorNumberData } from './base';
 import { generateTooltipPolar } from './tooltip';
 import { animationHints } from '../animate';
 import { ArcWithErrorBar } from '../elements';
 import { styleObjectKeys } from '../elements/render';
-
-const tooltipDefaults = {
-  tooltips: {
-    callbacks: {
-      label: generateTooltipPolar,
-    },
-  },
-};
+import patchController from './patchController';
 
 export class PolarAreaWithErrorBarsController extends PolarAreaController {
   getMinMax(scale, canStack) {
@@ -91,24 +76,22 @@ export class PolarAreaWithErrorBarsController extends PolarAreaController {
 
 PolarAreaWithErrorBarsController.id = 'polarAreaWithErrorBars';
 PolarAreaWithErrorBarsController.defaults = /*#__PURE__*/ merge({}, [
-  defaults.polarArea,
-  tooltipDefaults,
+  PolarAreaController.defaults,
   animationHints,
+  {
+    tooltips: {
+      callbacks: {
+        label: generateTooltipPolar,
+      },
+    },
+    dataElementType: ArcWithErrorBar.id,
+    dataElementOptions: Object.assign({}, PolarAreaController.defaults.dataElementOptions, styleObjectKeys),
+  },
 ]);
-PolarAreaWithErrorBarsController.register = () => {
-  PolarAreaWithErrorBarsController.prototype.dataElementType = ArcWithErrorBar.register();
-
-  PolarAreaWithErrorBarsController.prototype.dataElementOptions = Object.assign(
-    {},
-    PolarAreaController.prototype.dataElementOptions,
-    styleObjectKeys
-  );
-  return registerController(PolarAreaWithErrorBarsController);
-};
 
 export class PolarAreaWithErrorBarsChart extends Chart {
   constructor(item, config) {
-    super(item, patchControllerConfig(config, PolarAreaWithErrorBarsController));
+    super(item, patchController(config, PolarAreaWithErrorBarsController, ArcWithErrorBar));
   }
 }
 PolarAreaWithErrorBarsChart.id = PolarAreaWithErrorBarsController.id;

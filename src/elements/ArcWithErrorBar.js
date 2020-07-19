@@ -1,4 +1,4 @@
-﻿import { defaults, Arc, registerElement } from '../chart';
+﻿import { Arc } from '@sgratzl/chartjs-esm-facade';
 import { renderErrorBarArc, errorBarDefaults } from './render';
 
 export class ArcWithErrorBar extends Arc {
@@ -9,5 +9,5 @@ export class ArcWithErrorBar extends Arc {
   }
 }
 ArcWithErrorBar.id = 'arcWithErrorBar';
-ArcWithErrorBar.defaults = /*#__PURE__*/ Object.assign({}, defaults.elements.arc, errorBarDefaults);
-ArcWithErrorBar.register = () => registerElement(ArcWithErrorBar);
+ArcWithErrorBar.defaults = /*#__PURE__*/ Object.assign({}, Arc.defaults, errorBarDefaults);
+ArcWithErrorBar.defaultRoutes = Arc.defaultRoutes;

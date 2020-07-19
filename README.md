@@ -30,7 +30,7 @@ Polar Area plot
 ## Install
 
 ```bash
-npm install --save chart.js chartjs-chart-error-bars
+npm install --save chart.js@next @sgratzl/chartjs-esm-facade@next  chartjs-chart-error-bars@next
 ```
 
 ## Usage
@@ -43,7 +43,7 @@ and [![Open in CodePen][codepen]](https://codepen.io/sgratzl/pen/ZEbqmqx)
 
 Several new styling keys are added to the individual chart types
 
-```typescript
+```ts
 interface IErrorBarStyling {
   /**
    * line width of the center line
@@ -90,7 +90,7 @@ The data structure depends on the chart type. It uses the fact that chart.js is 
 
 ### Chart types: `bar` and `line`
 
-```typescript
+```ts
 interface IErrorBarItem {
   /**
    * the actual value
@@ -109,7 +109,7 @@ interface IErrorBarItem {
 
 ### Chart type: `horizontalBar`
 
-```typescript
+```ts
 interface IErrorBarItem {
   /**
    * the actual value
@@ -128,7 +128,7 @@ interface IErrorBarItem {
 
 ### Chart type: `scatter`
 
-```typescript
+```ts
 interface IErrorBarItem {
   /**
    * the actual x value
@@ -159,7 +159,7 @@ interface IErrorBarItem {
 
 ### Chart type: `polarArea`
 
-```typescript
+```ts
 interface IErrorBarItem {
   /**
    * the actual value
@@ -188,7 +188,7 @@ The styling options support different array version.
 
 **Note**: as with other chart.js style options, using an array will be one value per dataset. Thus, to specify the values for different error bars, one needs to wrap it in an object with a `v` key having the value itself. The outer for the dataset, the inner for the error bars.
 
-```typescript
+```ts
 interface IErrorBarStyling {
   /**
    * line width of the center line
@@ -235,7 +235,7 @@ Just use array of numbers for the corresponding data structures attributes (`xMi
 
 e.g.
 
-```typescript
+```ts
 {
   y: 4,
   yMin: [2, 1],
@@ -254,7 +254,7 @@ import Chart from 'chart.js';
 import { BarWithErrorBarsController } from 'chartjs-chart-error-bars';
 
 // register controller in chart.js and ensure the defaults are set
-BarWithErrorBarsController.register();
+Chart.register(BarWithErrorBarsController);
 
 const chart = new Chart(document.getElementById('canvas').getContext('2d'), {
   type: BarWithErrorBarsController.id,

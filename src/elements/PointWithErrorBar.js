@@ -1,4 +1,4 @@
-﻿import { defaults, Point, registerElement } from '../chart';
+﻿import { Point } from '@sgratzl/chartjs-esm-facade';
 import { renderErrorBar, errorBarDefaults } from './render';
 
 export class PointWithErrorBar extends Point {
@@ -9,5 +9,5 @@ export class PointWithErrorBar extends Point {
   }
 }
 PointWithErrorBar.id = 'pointWithErrorBar';
-PointWithErrorBar.defaults = /*#__PURE__*/ Object.assign({}, defaults.elements.point, errorBarDefaults);
-PointWithErrorBar.register = () => registerElement(PointWithErrorBar);
+PointWithErrorBar.defaults = /*#__PURE__*/ Object.assign({}, Point.defaults, errorBarDefaults);
+PointWithErrorBar.defaultRoutes = Point.defaultRoutes;

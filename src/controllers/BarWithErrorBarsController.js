@@ -1,10 +1,11 @@
-﻿import { Chart, registerController, BarController, defaults, merge, patchControllerConfig } from '../chart';
+﻿import { Chart, BarController, merge } from '@sgratzl/chartjs-esm-facade';
 import { calculateScale } from './utils';
 import { styleKeys } from '../elements/render';
 import { RectangleWithErrorBar } from '../elements';
-import { verticalTooltipDefaults } from './tooltip';
+import { generateBarTooltip } from './tooltip';
 import { animationHints } from '../animate';
 import { getMinMax, parseErrorNumberData, parseErrorLabelData } from './base';
+import patchController from './patchController';
 
 export class BarWithErrorBarsController extends BarController {
   getMinMax(scale, canStack) {
@@ -25,18 +26,23 @@ export class BarWithErrorBarsController extends BarController {
   }
 }
 BarWithErrorBarsController.id = 'barWithErrorBars';
-BarWithErrorBarsController.defaults = /*#__PURE__*/ merge({}, [defaults.bar, verticalTooltipDefaults, animationHints]);
-BarWithErrorBarsController.register = () => {
-  BarWithErrorBarsController.prototype.dataElementOptions = BarController.prototype.dataElementOptions.concat(
-    styleKeys
-  );
-  BarWithErrorBarsController.prototype.dataElementType = RectangleWithErrorBar.register();
-  return registerController(BarWithErrorBarsController);
-};
+BarWithErrorBarsController.defaults = /*#__PURE__*/ merge({}, [
+  BarController.defaults,
+  animationHints,
+  {
+    tooltips: {
+      callbacks: {
+        label: generateBarTooltip,
+      },
+    },
+    dataElementOptions: BarController.defaults.dataElementOptions.concat(styleKeys),
+    dataElementType: RectangleWithErrorBar.id,
+  },
+]);
 
 export class BarWithErrorBarsChart extends Chart {
   constructor(item, config) {
-    super(item, patchControllerConfig(config, BarWithErrorBarsController));
+    super(item, patchController(config, BarWithErrorBarsController, RectangleWithErrorBar));
   }
 }
 BarWithErrorBarsChart.id = BarWithErrorBarsController.id;

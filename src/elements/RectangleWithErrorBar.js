@@ -1,4 +1,4 @@
-﻿import { defaults, Rectangle, registerElement } from '../chart';
+﻿import { Rectangle } from '@sgratzl/chartjs-esm-facade';
 import { renderErrorBar, errorBarDefaults } from './render';
 
 export class RectangleWithErrorBar extends Rectangle {
@@ -9,5 +9,5 @@ export class RectangleWithErrorBar extends Rectangle {
   }
 }
 RectangleWithErrorBar.id = 'rectangleWithErrorBar';
-RectangleWithErrorBar.defaults = /*#__PURE__*/ Object.assign({}, defaults.elements.rectangle, errorBarDefaults);
-RectangleWithErrorBar.register = () => registerElement(RectangleWithErrorBar);
+RectangleWithErrorBar.defaults = /*#__PURE__*/ Object.assign({}, Rectangle.defaults, errorBarDefaults);
+RectangleWithErrorBar.defaultRoutes = Rectangle.defaultRoutes;

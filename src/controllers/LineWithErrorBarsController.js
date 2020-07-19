@@ -1,10 +1,11 @@
-﻿import { Chart, registerController, LineController, defaults, merge, patchControllerConfig } from '../chart';
+﻿import { Chart, LineController, merge } from '@sgratzl/chartjs-esm-facade';
 import { calculateScale } from './utils';
 import { styleObjectKeys } from '../elements/render';
 import { PointWithErrorBar } from '../elements';
-import { verticalTooltipDefaults } from './tooltip';
+import { generateBarTooltip } from './tooltip';
 import { animationHints } from '../animate';
 import { getMinMax, parseErrorNumberData, parseErrorLabelData } from './base';
+import patchController from './patchController';
 
 export class LineWithErrorBarsController extends LineController {
   getMinMax(scale, canStack) {
@@ -29,23 +30,21 @@ export class LineWithErrorBarsController extends LineController {
 
 LineWithErrorBarsController.id = 'lineWithErrorBars';
 LineWithErrorBarsController.defaults = /*#__PURE__*/ merge({}, [
-  defaults.line,
-  verticalTooltipDefaults,
+  LineController.defaults,
   animationHints,
+  {
+    tooltips: {
+      callbacks: {
+        label: generateBarTooltip,
+      },
+    },
+    dataElementType: PointWithErrorBar.id,
+    dataElementOptions: Object.assign({}, LineController.defaults.dataElementOptions, styleObjectKeys),
+  },
 ]);
-LineWithErrorBarsController.register = () => {
-  LineWithErrorBarsController.prototype.dataElementType = PointWithErrorBar.register();
-  LineWithErrorBarsController.prototype.dataElementOptions = Object.assign(
-    {},
-    LineController.prototype.dataElementOptions,
-    styleObjectKeys
-  );
-  return registerController(LineWithErrorBarsController);
-};
-
 export class LineWithErrorBarsChart extends Chart {
   constructor(item, config) {
-    super(item, patchControllerConfig(config, LineWithErrorBarsController));
+    super(item, patchController(config, LineWithErrorBarsController, PointWithErrorBar));
   }
 }
 LineWithErrorBarsChart.id = LineWithErrorBarsController.id;

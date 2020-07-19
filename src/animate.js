@@ -1,4 +1,4 @@
-import { color } from './chart';
+import { color } from '@sgratzl/chartjs-esm-facade';
 import { styleKeys } from './elements/render';
 import { allModelKeys } from './controllers/utils';
 

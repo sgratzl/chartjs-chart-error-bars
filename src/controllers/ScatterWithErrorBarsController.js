@@ -1,18 +1,11 @@
-﻿import { Chart, registerController, ScatterController, defaults, merge, patchControllerConfig } from '../chart';
+﻿import { Chart, ScatterController, merge } from '@sgratzl/chartjs-esm-facade';
 import { calculateScale } from './utils';
 import { getMinMax, parseErrorNumberData } from './base';
 import { generateTooltipScatter } from './tooltip';
 import { animationHints } from '../animate';
 import { PointWithErrorBar } from '../elements';
 import { styleObjectKeys } from '../elements/render';
-
-const tooltipDefaults = {
-  tooltips: {
-    callbacks: {
-      label: generateTooltipScatter,
-    },
-  },
-};
+import patchController from './patchController';
 
 export class ScatterWithErrorBarsController extends ScatterController {
   getMinMax(scale, canStack) {
@@ -37,20 +30,23 @@ export class ScatterWithErrorBarsController extends ScatterController {
 }
 
 ScatterWithErrorBarsController.id = 'scatterWithErrorBars';
-ScatterWithErrorBarsController.defaults = /*#__PURE__*/ merge({}, [defaults.scatter, tooltipDefaults, animationHints]);
-ScatterWithErrorBarsController.register = () => {
-  ScatterWithErrorBarsController.prototype.dataElementType = PointWithErrorBar.register();
-  ScatterWithErrorBarsController.prototype.dataElementOptions = Object.assign(
-    {},
-    ScatterController.prototype.dataElementOptions,
-    styleObjectKeys
-  );
-  return registerController(ScatterWithErrorBarsController);
-};
+ScatterWithErrorBarsController.defaults = /*#__PURE__*/ merge({}, [
+  ScatterController.defaults,
+  animationHints,
+  {
+    tooltips: {
+      callbacks: {
+        label: generateTooltipScatter,
+      },
+    },
+    dataElementType: PointWithErrorBar.id,
+    dataElementOptions: Object.assign({}, ScatterController.prototype.dataElementOptions, styleObjectKeys),
+  },
+]);
 
 export class ScatterWithErrorBarsChart extends Chart {
   constructor(item, config) {
-    super(item, patchControllerConfig(config, ScatterWithErrorBarsController));
+    super(item, patchController(config, ScatterWithErrorBarsController, PointWithErrorBar));
   }
 }
 ScatterWithErrorBarsChart.id = ScatterWithErrorBarsController.id;
