@@ -1,9 +1,13 @@
 import matchChart from '../__tests__/matchChart';
+import { registry, LinearScale, CategoryScale } from '@sgratzl/chartjs-esm-facade';
 import { BarWithErrorBarsController } from './BarWithErrorBarsController';
+import { RectangleWithErrorBar } from '../elements';
 
 describe('bar', () => {
   beforeAll(() => {
-    BarWithErrorBarsController.register();
+    registry.addControllers(BarWithErrorBarsController);
+    registry.addElements(RectangleWithErrorBar);
+    registry.addScales(LinearScale, CategoryScale);
   });
   test('default', () => {
     return matchChart({

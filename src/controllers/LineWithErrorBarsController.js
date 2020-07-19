@@ -1,4 +1,4 @@
-﻿import { Chart, LineController, merge } from '@sgratzl/chartjs-esm-facade';
+﻿import { Chart, LineController, merge, LinearScale } from '@sgratzl/chartjs-esm-facade';
 import { calculateScale } from './utils';
 import { styleObjectKeys } from '../elements/render';
 import { PointWithErrorBar } from '../elements';
@@ -44,7 +44,7 @@ LineWithErrorBarsController.defaults = /*#__PURE__*/ merge({}, [
 ]);
 export class LineWithErrorBarsChart extends Chart {
   constructor(item, config) {
-    super(item, patchController(config, LineWithErrorBarsController, PointWithErrorBar));
+    super(item, patchController(config, LineWithErrorBarsController, PointWithErrorBar, LinearScale));
   }
 }
 LineWithErrorBarsChart.id = LineWithErrorBarsController.id;

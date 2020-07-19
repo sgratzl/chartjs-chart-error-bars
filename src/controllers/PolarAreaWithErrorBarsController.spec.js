@@ -1,9 +1,13 @@
 import matchChart from '../__tests__/matchChart';
+import { registry, RadialLinearScale } from '@sgratzl/chartjs-esm-facade';
 import { PolarAreaWithErrorBarsController } from './PolarAreaWithErrorBarsController';
+import { ArcWithErrorBar } from '../elements';
 
 describe('bar', () => {
   beforeAll(() => {
-    PolarAreaWithErrorBarsController.register();
+    registry.addControllers(PolarAreaWithErrorBarsController);
+    registry.addElements(ArcWithErrorBar);
+    registry.addScales(RadialLinearScale);
   });
   test('default', () => {
     return matchChart({

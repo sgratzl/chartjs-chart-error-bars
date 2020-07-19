@@ -1,4 +1,4 @@
-﻿import { Chart, BarController, merge } from '@sgratzl/chartjs-esm-facade';
+﻿import { Chart, BarController, merge, LinearScale, CategoryScale } from '@sgratzl/chartjs-esm-facade';
 import { calculateScale } from './utils';
 import { styleKeys } from '../elements/render';
 import { RectangleWithErrorBar } from '../elements';
@@ -42,7 +42,10 @@ BarWithErrorBarsController.defaults = /*#__PURE__*/ merge({}, [
 
 export class BarWithErrorBarsChart extends Chart {
   constructor(item, config) {
-    super(item, patchController(config, BarWithErrorBarsController, RectangleWithErrorBar));
+    super(
+      item,
+      patchController(config, BarWithErrorBarsController, RectangleWithErrorBar, [LinearScale, CategoryScale])
+    );
   }
 }
 BarWithErrorBarsChart.id = BarWithErrorBarsController.id;

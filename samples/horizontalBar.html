@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/chart.js@3.0.0-alpha/dist/Chart.js"></script>
+    <script src="https://unpkg.com/chart.js@3.0.0-alpha.2"></script>
+    <script src="https://unpkg.com/@sgratzl/chartjs-esm-facade@3.0.0-alpha.2"></script>
     <script src="../build/Chart.ErrorBars.js"></script>
   </head>
 
@@ -12,7 +13,7 @@
     <script>
       window.onload = function () {
         new Chart(document.getElementById('canvas').getContext('2d'), {
-          type: 'horizontalBarWithErrorBars',
+          type: 'barWithErrorBars',
           data: {
             labels: ['A', 'B'],
             datasets: [
@@ -31,6 +32,9 @@
                 ],
               },
             ],
+          },
+          options: {
+            indexAxis: 'y',
           },
         });
       };

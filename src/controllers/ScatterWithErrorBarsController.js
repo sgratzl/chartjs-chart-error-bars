@@ -1,4 +1,4 @@
-﻿import { Chart, ScatterController, LineController, merge } from '@sgratzl/chartjs-esm-facade';
+﻿import { Chart, ScatterController, LineController, merge, LinearScale } from '@sgratzl/chartjs-esm-facade';
 import { calculateScale } from './utils';
 import { getMinMax, parseErrorNumberData } from './base';
 import { generateTooltipScatter } from './tooltip';
@@ -46,7 +46,7 @@ ScatterWithErrorBarsController.defaults = /*#__PURE__*/ merge({}, [
 
 export class ScatterWithErrorBarsChart extends Chart {
   constructor(item, config) {
-    super(item, patchController(config, ScatterWithErrorBarsController, PointWithErrorBar));
+    super(item, patchController(config, ScatterWithErrorBarsController, PointWithErrorBar, LinearScale));
   }
 }
 ScatterWithErrorBarsChart.id = ScatterWithErrorBarsController.id;

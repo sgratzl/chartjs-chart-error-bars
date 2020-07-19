@@ -1,4 +1,4 @@
-﻿import { Chart, PolarAreaController, merge, resolve } from '@sgratzl/chartjs-esm-facade';
+﻿import { Chart, PolarAreaController, merge, resolve, RadialLinearScale } from '@sgratzl/chartjs-esm-facade';
 import { calculatePolarScale } from './utils';
 import { getMinMax, parseErrorNumberData } from './base';
 import { generateTooltipPolar } from './tooltip';
@@ -92,7 +92,7 @@ PolarAreaWithErrorBarsController.defaults = /*#__PURE__*/ merge({}, [
 
 export class PolarAreaWithErrorBarsChart extends Chart {
   constructor(item, config) {
-    super(item, patchController(config, PolarAreaWithErrorBarsController, ArcWithErrorBar));
+    super(item, patchController(config, PolarAreaWithErrorBarsController, ArcWithErrorBar, RadialLinearScale));
   }
 }
 PolarAreaWithErrorBarsChart.id = PolarAreaWithErrorBarsController.id;
