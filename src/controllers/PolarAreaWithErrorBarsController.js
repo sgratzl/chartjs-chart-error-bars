@@ -4,7 +4,7 @@ import { getMinMax, parseErrorNumberData } from './base';
 import { generateTooltipPolar } from './tooltip';
 import { animationHints } from '../animate';
 import { ArcWithErrorBar } from '../elements';
-import { styleObjectKeys } from '../elements/render';
+import { styleKeys } from '../elements/render';
 import patchController from './patchController';
 
 export class PolarAreaWithErrorBarsController extends PolarAreaController {
@@ -36,12 +36,13 @@ export class PolarAreaWithErrorBarsController extends PolarAreaController {
 
   parseObjectData(meta, data, start, count) {
     const parsed = new Array(count);
+    const scale = meta.rScale;
     for (let i = 0; i < count; ++i) {
       const index = i + start;
       const item = data[index];
-      const v = meta.rScale.parseObject(item, 'r', index);
+      const v = scale.parse(item[scale.axis], index);
       parsed[i] = {
-        [meta.rScale.axis]: v,
+        [scale.axis]: v,
       };
     }
     parseErrorNumberData(parsed, meta.rScale, data, start, count);
@@ -85,7 +86,7 @@ PolarAreaWithErrorBarsController.defaults = /*#__PURE__*/ merge({}, [
       },
     },
     dataElementType: ArcWithErrorBar.id,
-    dataElementOptions: Object.assign({}, PolarAreaController.defaults.dataElementOptions, styleObjectKeys),
+    dataElementOptions: PolarAreaController.defaults.dataElementOptions.concat(styleKeys),
   },
 ]);
 
