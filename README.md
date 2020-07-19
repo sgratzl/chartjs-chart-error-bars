@@ -3,7 +3,7 @@
 [![License: MIT][mit-image]][mit-url] [![NPM Package][npm-image]][npm-url] [![Github Actions][github-actions-image]][github-actions-url]
 
 Chart.js module for charting error bars plots. This plugin extends the several char types (`bar`, `horizontalBar`, `line`, `scatter`, `polarArea`)
-with their error bar equivalent (`barWithErrorBars`, `horizontalBarWithErrorBars`, `lineWithErrorBars`, `scatterWithErrorBars`, `polarAreaWithErrorBars`).
+with their error bar equivalent (`barWithErrorBars`, `lineWithErrorBars`, `scatterWithErrorBars`, `polarAreaWithErrorBars`).
 
 **Works only with Chart.js >= 3.0.0**
 
@@ -107,7 +107,7 @@ interface IErrorBarItem {
 }
 ```
 
-### Chart type: `horizontalBar`
+### Chart type: `bar` with `indexAxis: 'y'`
 
 ```ts
 interface IErrorBarItem {
@@ -251,10 +251,10 @@ Variant A:
 
 ```js
 import Chart from 'chart.js';
-import { BarWithErrorBarsController } from 'chartjs-chart-error-bars';
+import { BarWithErrorBarsController, RectangleWithErrorBar } from 'chartjs-chart-error-bars';
 
 // register controller in chart.js and ensure the defaults are set
-Chart.register(BarWithErrorBarsController);
+Chart.register(BarWithErrorBarsController, RectangleWithErrorBar);
 
 const chart = new Chart(document.getElementById('canvas').getContext('2d'), {
   type: BarWithErrorBarsController.id,
@@ -298,7 +298,7 @@ const chart = new BarWithErrorBarsChart(document.getElementById('canvas').getCon
 npm i -g yarn
 yarn set version 2
 yarn
-yarn pnpify --sdk
+yarn pnpify --sdk vscode
 ```
 
 ### Building
