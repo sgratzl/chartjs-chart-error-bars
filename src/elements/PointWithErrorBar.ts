@@ -1,4 +1,4 @@
-﻿import { Point } from '@sgratzl/chartjs-esm-facade';
+﻿import { Point } from 'chart.js';
 import { renderErrorBar, errorBarDefaults } from './render';
 
 export class PointWithErrorBar extends Point {

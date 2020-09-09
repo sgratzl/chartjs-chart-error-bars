@@ -1,13 +1,13 @@
-export * from '.';
-
 import {
   BarWithErrorBarsController,
   LineWithErrorBarsController,
   PolarAreaWithErrorBarsController,
   ScatterWithErrorBarsController,
 } from './controllers';
-import { registry } from '@sgratzl/chartjs-esm-facade';
+import { registry } from 'chart.js';
 import { RectangleWithErrorBar, ArcWithErrorBar, PointWithErrorBar } from './elements';
+
+export * from '.';
 
 registry.addControllers(
   BarWithErrorBarsController,

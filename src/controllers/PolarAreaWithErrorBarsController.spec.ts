@@ -1,5 +1,5 @@
 import matchChart from '../__tests__/matchChart';
-import { registry, RadialLinearScale } from '@sgratzl/chartjs-esm-facade';
+import { registry, RadialLinearScale } from 'chart.js';
 import { PolarAreaWithErrorBarsController } from './PolarAreaWithErrorBarsController';
 import { ArcWithErrorBar } from '../elements';
 

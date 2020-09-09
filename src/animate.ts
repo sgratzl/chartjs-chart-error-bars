@@ -1,19 +1,19 @@
-import { color } from '@sgratzl/chartjs-esm-facade';
+import { color } from 'chart.js';
 import { styleKeys } from './elements/render';
 import { allModelKeys } from './controllers/utils';
 
 const interpolators = {
-  color(from, to, factor) {
-    const f = from || transparent;
-    const t = to || transparent;
+  color(from: string, to: string, factor: number) {
+    const f = from || 'transparent';
+    const t = to || 'transparent';
     if (f === t) {
       return to;
     }
-    var c0 = color(f);
-    var c1 = c0.valid && color(t);
+    const c0 = color(f);
+    const c1 = c0.valid && color(t);
     return c1 && c1.valid ? c1.mix(c0, factor).hexString() : to;
   },
-  number(from, to, factor) {
+  number(from: number, to: number, factor: number) {
     if (from === to) {
       return to;
     }
@@ -21,7 +21,13 @@ const interpolators = {
   },
 };
 
-function interpolateArrayOption(from, to, factor, type, interpolator) {
+function interpolateArrayOption<T>(
+  from: T[],
+  to: T[],
+  factor: number,
+  type: 'string' | 'number',
+  interpolator: (from: T, to: T, factor: number) => T
+) {
   if (typeof from === type && typeof to === type) {
     return interpolator(from, to, factor);
   }

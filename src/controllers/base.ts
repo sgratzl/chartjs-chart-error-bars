@@ -1,4 +1,10 @@
-export function getMinMax(scale, canStack, superMethod) {
+import { IScaleOptions, Scale } from 'chart.js';
+
+export function getMinMax(
+  scale: Scale<IScaleOptions>,
+  canStack: boolean,
+  superMethod: (scale: Scale<IScaleOptions>, canStack: boolean) => { min: number; max: number }
+) {
   const axis = scale.axis;
   scale.axis = `${axis}MinMin`;
   const min = superMethod(scale, canStack).min;

@@ -1,5 +1,5 @@
 import { modelKeys } from './utils';
-import { Tooltip, PolarAreaController } from '@sgratzl/chartjs-esm-facade';
+import { Tooltip, PolarAreaController } from 'chart.js';
 
 function reverseOrder(v) {
   return Array.isArray(v) ? v.slice().reverse() : v;

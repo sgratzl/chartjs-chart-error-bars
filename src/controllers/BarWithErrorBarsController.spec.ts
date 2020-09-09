@@ -1,5 +1,5 @@
 import matchChart from '../__tests__/matchChart';
-import { registry, LinearScale, CategoryScale } from '@sgratzl/chartjs-esm-facade';
+import { registry, LinearScale, CategoryScale } from 'chart.js';
 import { BarWithErrorBarsController } from './BarWithErrorBarsController';
 import { RectangleWithErrorBar } from '../elements';
 

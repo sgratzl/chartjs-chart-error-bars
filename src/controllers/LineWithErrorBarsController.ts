@@ -1,4 +1,4 @@
-﻿import { Chart, LineController, merge, LinearScale } from '@sgratzl/chartjs-esm-facade';
+﻿import { Chart, LineController, merge, LinearScale } from 'chart.js';
 import { calculateScale } from './utils';
 import { styleObjectKeys } from '../elements/render';
 import { PointWithErrorBar } from '../elements';

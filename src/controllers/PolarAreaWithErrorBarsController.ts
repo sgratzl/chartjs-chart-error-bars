@@ -1,4 +1,4 @@
-﻿import { Chart, PolarAreaController, merge, resolve, RadialLinearScale } from '@sgratzl/chartjs-esm-facade';
+﻿import { Chart, PolarAreaController, merge, resolve, RadialLinearScale } from 'chart.js';
 import { calculatePolarScale } from './utils';
 import { getMinMax, parseErrorNumberData } from './base';
 import { generateTooltipPolar } from './tooltip';

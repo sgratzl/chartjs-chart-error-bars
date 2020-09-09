@@ -1,4 +1,4 @@
-﻿import { Chart, ScatterController, LineController, merge, LinearScale } from '@sgratzl/chartjs-esm-facade';
+﻿import { Chart, ScatterController, LineController, merge, LinearScale } from 'chart.js';
 import { calculateScale } from './utils';
 import { getMinMax, parseErrorNumberData } from './base';
 import { generateTooltipScatter } from './tooltip';

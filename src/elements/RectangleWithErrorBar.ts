@@ -1,4 +1,4 @@
-﻿import { Rectangle } from '@sgratzl/chartjs-esm-facade';
+﻿import { Rectangle } from 'chart.js';
 import { renderErrorBar, errorBarDefaults } from './render';
 
 export class RectangleWithErrorBar extends Rectangle {

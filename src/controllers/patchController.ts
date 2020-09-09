@@ -1,4 +1,4 @@
-import { IChartComponentLike, registry, IDatasetControllerChartComponent } from '@sgratzl/chartjs-esm-facade';
+import { IChartComponentLike, registry, IDatasetControllerChartComponent } from 'chart.js';
 
 export default function patchController<T, TYPE>(
   type: TYPE,

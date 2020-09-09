@@ -1,4 +1,4 @@
-import { allModelKeys } from '../controllers/utils';
+import { Element } from 'chart.js';
 
 export const errorBarDefaults = {
   errorBarLineWidth: { v: [1, 3] },
@@ -14,7 +14,7 @@ export const styleKeys = Object.keys(errorBarDefaults);
 export const styleObjectKeys = {};
 styleKeys.forEach((key) => (styleObjectKeys[key] = key));
 
-function resolveMulti(vMin, vMax) {
+function resolveMulti(vMin: number | number[], vMax: number | number[]) {
   const vMinArr = Array.isArray(vMin) ? vMin : [vMin];
   const vMaxArr = Array.isArray(vMax) ? vMax : [vMax];
 
@@ -26,7 +26,9 @@ function resolveMulti(vMin, vMax) {
   return Array(max).map((_, i) => [vMinArr[i % vMinArr.length], vMaxArr[i % vMaxArr.length]]);
 }
 
-function resolveOption(val, index) {
+function resolveOption<T>(val: T, index: number): T;
+function resolveOption<T>(val: readonly T[], index: number): T;
+function resolveOption<T>(val: T | readonly T[], index: number) {
   if (typeof val === 'string' || typeof val === 'number') {
     return val;
   }
@@ -34,7 +36,7 @@ function resolveOption(val, index) {
   return v[index % v.length];
 }
 
-function calculateHalfSize(total, options, i) {
+function calculateHalfSize(total, options, i: number) {
   const ratio = resolveOption(options.errorBarWhiskerRatio, i);
   if (total != null && ratio > 0) {
     return total * ratio * 0.5;
@@ -43,10 +45,7 @@ function calculateHalfSize(total, options, i) {
   return size * 0.5;
 }
 
-/**
- * @param {CanvasRenderingContext2D} ctx
- */
-function drawErrorBarVertical(props, vMin, vMax, options, ctx) {
+function drawErrorBarVertical(props, vMin, vMax, options, ctx: CanvasRenderingContext2D) {
   ctx.save();
   ctx.translate(props.x, 0);
 
@@ -84,10 +83,7 @@ function drawErrorBarVertical(props, vMin, vMax, options, ctx) {
   ctx.restore();
 }
 
-/**
- * @param {CanvasRenderingContext2D} ctx
- */
-function drawErrorBarHorizontal(props, vMin, vMax, options, ctx) {
+function drawErrorBarHorizontal(props, vMin, vMax, options, ctx: CanvasRenderingContext2D) {
   ctx.save();
   ctx.translate(0, props.y);
 
@@ -125,8 +121,19 @@ function drawErrorBarHorizontal(props, vMin, vMax, options, ctx) {
   ctx.restore();
 }
 
-export function renderErrorBar(elem, ctx) {
-  const props = elem.getProps(['x', 'y', 'width', 'height'].concat(allModelKeys));
+export interface IErrorBarProps {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  xMin?: number;
+  yMin?: number;
+  xMax?: number;
+  yMax?: number;
+}
+
+export function renderErrorBar<P extends IErrorBarProps, O>(elem: Element<P, O>, ctx: CanvasRenderingContext2D) {
+  const props = elem.getProps(['x', 'y', 'width', 'height', 'xMin', 'xMax', 'yMin', 'yMax']);
   if (props.xMin != null || props.xMax != null) {
     drawErrorBarHorizontal(props, props.xMin, props.xMax, elem.options, ctx);
   }

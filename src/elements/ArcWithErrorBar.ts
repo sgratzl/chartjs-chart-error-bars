@@ -1,4 +1,4 @@
-﻿import { Arc } from '@sgratzl/chartjs-esm-facade';
+﻿import { Arc } from 'chart.js';
 import { renderErrorBarArc, errorBarDefaults } from './render';
 
 export class ArcWithErrorBar extends Arc {

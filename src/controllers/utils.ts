@@ -1,10 +1,12 @@
+import { IScaleOptions, LinearScale, Scale } from 'chart.js';
+
 export const allModelKeys = ['xMin', 'xMax', 'yMin', 'yMax'];
 
-export function modelKeys(horizontal) {
+export function modelKeys(horizontal: boolean) {
   return horizontal ? allModelKeys.slice(0, 2) : allModelKeys.slice(2);
 }
 
-export function calculateScale(properties, data, scale, reset) {
+export function calculateScale(properties, data, scale: LinearScale, reset?: boolean) {
   const keys = [`${scale.axis}Min`, `${scale.axis}Max`];
   const base = scale.getBasePixel();
 
