@@ -8,20 +8,19 @@
   IChartMeta,
   Rectangle,
   UpdateMode,
-  IControllerDatasetOptions,
   ScriptableAndArrayOptions,
-  ICommonHoverOptions,
   IChartConfiguration,
   IChartDataset,
   ChartItem,
+  IBarControllerDatasetOptions,
 } from 'chart.js';
 import { merge } from '../../chartjs-helpers/core';
 import { calculateScale } from './utils';
-import { styleKeys } from '../elements/render';
+import { styleKeys, IErrorBarOptions } from '../elements/render';
 import { RectangleWithErrorBar } from '../elements';
 import { generateBarTooltip } from './tooltip';
 import { animationHints } from '../animate';
-import { getMinMax, parseErrorNumberData, parseErrorLabelData } from './base';
+import { getMinMax, parseErrorNumberData, parseErrorLabelData, IErrorBarXDataPoint } from './base';
 import patchController from './patchController';
 
 export class BarWithErrorBarsController extends BarController {
@@ -31,14 +30,22 @@ export class BarWithErrorBarsController extends BarController {
 
   parseObjectData(meta: IChartMeta, data: any[], start: number, count: number) {
     const parsed = super.parseObjectData(meta, data, start, count);
-    parseErrorNumberData(parsed, meta.vScale, data, start, count);
-    parseErrorLabelData(parsed, meta.iScale, start, count);
+    parseErrorNumberData(parsed, meta.vScale!, data, start, count);
+    parseErrorLabelData(parsed, meta.iScale!, start, count);
     return parsed;
   }
 
   updateElement(element: Rectangle, index: number | undefined, properties: any, mode: UpdateMode) {
     // inject the other error bar related properties
-    calculateScale(properties, this.getParsed(index), this._cachedMeta.vScale as LinearScale, mode === 'reset');
+    if (typeof index === 'number') {
+      calculateScale(
+        properties,
+        this.getParsed(index),
+        index,
+        this._cachedMeta.vScale as LinearScale,
+        mode === 'reset'
+      );
+    }
     super.updateElement(element, index, properties, mode);
   }
 
@@ -59,37 +66,22 @@ export class BarWithErrorBarsController extends BarController {
 }
 
 export interface IBarWithErrorBarsControllerDatasetOptions
-  extends IControllerDatasetOptions,
-    IBarWithErrorBarsOptions,
-    ScriptableAndArrayOptions<IBoxAndWhiskersOptions>,
-    ScriptableAndArrayOptions<ICommonHoverOptions> {}
+  extends IBarControllerDatasetOptions,
+    ScriptableAndArrayOptions<IErrorBarOptions> {}
 
-export interface IBarWithErrorBarsDataPoint {
-  x?: number;
-  xMin?: number | number[];
-  xMax?: number | number[];
-
-  y?: number;
-  yMin?: number | number[];
-  yMax?: number | number[];
-}
-
-export type IBarWithErrorBarsControllerDataset<T = IBarWithErrorBarsDataPoint> = IChartDataset<
+export type IBarWithErrorBarsControllerDataset<T = IErrorBarXDataPoint> = IChartDataset<
   T,
   IBarWithErrorBarsControllerDatasetOptions
 >;
 
-export interface IBarWithErrorBarsChartOptions {}
-
-export type IBarWithErrorBarsControllerConfiguration<T = IBarWithErrorBarsDataPoint, L = string> = IChartConfiguration<
+export type IBarWithErrorBarsControllerConfiguration<T = IErrorBarXDataPoint, L = string> = IChartConfiguration<
   'barWithErrorBars',
   T,
   L,
-  IBarWithErrorBarsControllerDataset<T>,
-  IBarWithErrorBarsChartOptions
+  IBarWithErrorBarsControllerDataset<T>
 >;
 
-export class BarWithErrorBarsChart<T = IBarWithErrorBarsDataPoint, L = string> extends Chart<
+export class BarWithErrorBarsChart<T = IErrorBarXDataPoint, L = string> extends Chart<
   T,
   L,
   IBarWithErrorBarsControllerConfiguration<T, L>
@@ -97,6 +89,12 @@ export class BarWithErrorBarsChart<T = IBarWithErrorBarsDataPoint, L = string> e
   static id = BarWithErrorBarsController.id;
 
   constructor(item: ChartItem, config: Omit<IBarWithErrorBarsControllerConfiguration<T, L>, 'type'>) {
-    super(item, patchController('barWithErrorBars', config, BarWithErrorBarsController, BoxAndWiskers, []));
+    super(
+      item,
+      patchController('barWithErrorBars', config, BarWithErrorBarsController, RectangleWithErrorBar, [
+        LinearScale,
+        CategoryScale,
+      ])
+    );
   }
 }

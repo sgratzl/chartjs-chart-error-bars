@@ -1039,22 +1039,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/d3-geo@npm:^1.11.1":
-  version: 1.11.1
-  resolution: "@types/d3-geo@npm:1.11.1"
-  dependencies:
-    "@types/geojson": "*"
-  checksum: cb188287db11e87de40d3efc824473797e56c4cdde6549db722893edf92a8fd488ffca1e77b36ff20c69353e1d7d2b0be15835f0623334dddbdefbb54ea45995
-  languageName: node
-  linkType: hard
-
-"@types/d3-scale-chromatic@npm:^1.5.0":
-  version: 1.5.0
-  resolution: "@types/d3-scale-chromatic@npm:1.5.0"
-  checksum: e27abf9146e8227f2243ea24e8dda68b7fbbd8a54a75510d02a1f67391c6650ce7542059dfa2cf74ffc38a9de59b7aef077fededa1af7a864abf48c2584a9f48
-  languageName: node
-  linkType: hard
-
 "@types/emscripten@npm:^1.38.0":
   version: 1.39.3
   resolution: "@types/emscripten@npm:1.39.3"
@@ -1073,13 +1057,6 @@ __metadata:
   version: 0.0.39
   resolution: "@types/estree@npm:0.0.39"
   checksum: 43e5361de39969def145f32f4599391ab13055ec94841f1633a7cfe10f0e8a940ebf0e9a4b2770454a6bddd034b57e7e0d51a4d565cb2714ee2accf10a7718be
-  languageName: node
-  linkType: hard
-
-"@types/geojson@npm:*":
-  version: 7946.0.7
-  resolution: "@types/geojson@npm:7946.0.7"
-  checksum: b0a614f58a169069d9978af24c4b816bc7140a722829d8786ad1ff22d8362b429c56170326c836ce661a0307f8e35820a055966c2eedc21b62671a56c472263e
   languageName: node
   linkType: hard
 
@@ -1229,36 +1206,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/seedrandom@npm:^2.4.28":
-  version: 2.4.28
-  resolution: "@types/seedrandom@npm:2.4.28"
-  checksum: 4e56ed5ff9b6e2a73fc9804b7b388648347f73a7ea15512c4e3b59860831a4e791da0f35422b1b3326e5c1ffcafc48902fa9f3bf3fa4f0c242d7e5f1a0ec426e
-  languageName: node
-  linkType: hard
-
 "@types/stack-utils@npm:^1.0.1":
   version: 1.0.1
   resolution: "@types/stack-utils@npm:1.0.1"
   checksum: 59738e4b71b233b438a6ecb9faaf577d6f02afec4ea093d5ad3c10e78cb7096ab32648a2c2017c6c2e6c6853498aa783643a2c6b859c4a75f6750e7b37ae8bae
-  languageName: node
-  linkType: hard
-
-"@types/topojson-client@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "@types/topojson-client@npm:3.0.0"
-  dependencies:
-    "@types/geojson": "*"
-    "@types/topojson-specification": "*"
-  checksum: 63b4a74cc04aef448e1e18abd8abbfebe1d5e75651ae652019b99d6e6c8c51c5349bb72d2afadff2804a306d86dcefb66423cfe8606f0c59960c0547981d387c
-  languageName: node
-  linkType: hard
-
-"@types/topojson-specification@npm:*":
-  version: 1.0.1
-  resolution: "@types/topojson-specification@npm:1.0.1"
-  dependencies:
-    "@types/geojson": "*"
-  checksum: eb62972ac57839585134546584bbdae196dc9b656f371252d42495961a19509700f25874a2f8e75b9ec66107b9b5dc0f15f7980444373792d6c4395069482539
   languageName: node
   linkType: hard
 
@@ -2339,28 +2290,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"chartjs-chart-geo@workspace:.":
+"chartjs-chart-error-bars@workspace:.":
   version: 0.0.0-use.local
-  resolution: "chartjs-chart-geo@workspace:."
+  resolution: "chartjs-chart-error-bars@workspace:."
   dependencies:
     "@rollup/plugin-commonjs": ^15.0.0
     "@rollup/plugin-node-resolve": ^9.0.0
     "@rollup/plugin-replace": ^2.3.3
     "@rollup/plugin-typescript": ^5.0.2
-    "@types/d3-geo": ^1.11.1
-    "@types/d3-scale-chromatic": ^1.5.0
     "@types/jest": ^26.0.12
     "@types/jest-image-snapshot": ^3.1.0
     "@types/node": ^14.6.2
-    "@types/seedrandom": ^2.4.28
-    "@types/topojson-client": ^3.0.0
     "@typescript-eslint/eslint-plugin": ^4.0.1
     "@typescript-eslint/parser": ^4.0.1
     "@yarnpkg/pnpify": ^2.2.1
     canvas: ^2.6.1
     chart.js: ^3.0.0-beta
-    d3-geo: ^2.0.1
-    d3-scale-chromatic: ^2.0.0
     eslint: ^7.8.1
     eslint-config-prettier: ^6.11.0
     eslint-config-react-app: ^5.2.1
@@ -2379,14 +2324,10 @@ __metadata:
     rollup-plugin-cleanup: ^3.1.1
     rollup-plugin-dts: ^1.4.12
     rollup-plugin-terser: ^7.0.1
-    seedrandom: ^3.0.5
-    topojson-client: ^3.1.0
     ts-jest: ^26.3.0
     tslib: ^2.0.1
     typedoc: ^0.19.0
     typescript: ^4.0.2
-    us-atlas: ^3.0.0
-    world-atlas: ^2.0.2
   peerDependencies:
     chart.js: ^3.0.0-beta
   languageName: unknown
@@ -2554,7 +2495,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"commander@npm:2, commander@npm:^2.20.0":
+"commander@npm:^2.20.0":
   version: 2.20.3
   resolution: "commander@npm:2.20.3"
   checksum: b73428e97de7624323f81ba13f8ed9271de487017432d18b4da3f07cfc528ad754bbd199004bd5d14e0ccd67d1fdfe0ec8dbbd4c438b401df3c4cc387bfd1daa
@@ -2734,48 +2675,6 @@ __metadata:
   dependencies:
     cssom: ~0.3.6
   checksum: a778180d2f5eef44742b7083997a0ad6e59eee016724ceac4d6229e48842d3c5ebbb55dc02c555f793bdc486254f6eef8d2049c1815e8fc74514e3eb827d49ec
-  languageName: node
-  linkType: hard
-
-"d3-array@npm:>=2.5":
-  version: 2.7.1
-  resolution: "d3-array@npm:2.7.1"
-  checksum: 1bc3325583069f7b889c3fc72dea53c0c9057f1bb45a70bb4c932672616751f0fd6cf09187276b84b305f02a828f23f272226b6888df410ed4b275a5b1dce9cc
-  languageName: node
-  linkType: hard
-
-"d3-color@npm:1 - 2":
-  version: 2.0.0
-  resolution: "d3-color@npm:2.0.0"
-  checksum: 637e1115981b7598d3f86418478e7bfc4939d23b48eecbf5ea2297048724e13e42dda60963cbf2ebe3866705fe2eb87fa27e529da55ad57cda16aa799747554d
-  languageName: node
-  linkType: hard
-
-"d3-geo@npm:^2.0.1":
-  version: 2.0.1
-  resolution: "d3-geo@npm:2.0.1"
-  dependencies:
-    d3-array: ">=2.5"
-  checksum: 62c9953e654d84316b57e3b6079604be40a6ee5a107bbf37c2e3802791bea91eff46bc886ef89b9e34a38f17146f9a061000c6d438fee2e36e96d800d5f4a611
-  languageName: node
-  linkType: hard
-
-"d3-interpolate@npm:1 - 2":
-  version: 2.0.1
-  resolution: "d3-interpolate@npm:2.0.1"
-  dependencies:
-    d3-color: 1 - 2
-  checksum: a996521ffaabceebaa241a3afc2787c9a0976c02491b806463778b962cabb72cfeb43d230b0cf7d3a9a25def85c6eefcad55ecb1b700cfbfa6344ce178bed478
-  languageName: node
-  linkType: hard
-
-"d3-scale-chromatic@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "d3-scale-chromatic@npm:2.0.0"
-  dependencies:
-    d3-color: 1 - 2
-    d3-interpolate: 1 - 2
-  checksum: 83a6edc33e784f1996d948901bb0776e71a7cf27d242c6bf080e6f0e0725c8236ef0d70756552f33ec0c8cb36f3ede98d0f0f69f6f3e434ab8d1cf1e1eec4d5f
   languageName: node
   linkType: hard
 
@@ -7807,13 +7706,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"seedrandom@npm:^3.0.5":
-  version: 3.0.5
-  resolution: "seedrandom@npm:3.0.5"
-  checksum: 8ca859bd79cc6a4367783f19d802ef4651f957da388f162f45c4e32c4d4df8cb55649b25b9d66cf73f905d920640b8da9ae04418feb40b41c9c7c767a1c49691
-  languageName: node
-  linkType: hard
-
 "semver-diff@npm:^3.1.1":
   version: 3.1.1
   resolution: "semver-diff@npm:3.1.1"
@@ -8614,19 +8506,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"topojson-client@npm:^3.1.0":
-  version: 3.1.0
-  resolution: "topojson-client@npm:3.1.0"
-  dependencies:
-    commander: 2
-  bin:
-    topo2geo: bin/topo2geo
-    topomerge: bin/topomerge
-    topoquantize: bin/topoquantize
-  checksum: 189471a7436a511aae95ad21a078e2b46dbe50f9efd80321935455983bb9859155011b865d61ca4f0f57d34e97db7811a3be943c96c39ab58cd82c76a849f618
-  languageName: node
-  linkType: hard
-
 "tough-cookie@npm:^2.3.3, tough-cookie@npm:~2.5.0":
   version: 2.5.0
   resolution: "tough-cookie@npm:2.5.0"
@@ -8970,13 +8849,6 @@ typescript@^4.0.2:
   languageName: node
   linkType: hard
 
-"us-atlas@npm:^3.0.0":
-  version: 3.0.0
-  resolution: "us-atlas@npm:3.0.0"
-  checksum: babbbfce63cafc65a46ce42802b6f673c5417a768005f74c9cb055d36f2f28ad4d5b25814edff87d4c9174f64e154c36a03e500c8604e39ea3dc3737c75781d2
-  languageName: node
-  linkType: hard
-
 "use@npm:^3.1.0":
   version: 3.1.1
   resolution: "use@npm:3.1.1"
@@ -9204,13 +9076,6 @@ typescript@^4.0.2:
   version: 1.0.0
   resolution: "wordwrap@npm:1.0.0"
   checksum: b4f3f8104a727d1b08e77f43f3692977146f13074392747a3d9cfd631d0fc3ff1c0c034d44fcd7a22183c6505d2fc305421e3512671f8a56f903055671ace4ce
-  languageName: node
-  linkType: hard
-
-"world-atlas@npm:^2.0.2":
-  version: 2.0.2
-  resolution: "world-atlas@npm:2.0.2"
-  checksum: ff71c6ede2c4d2dcfb9334785fddea5351b34abfe53e67f894154f1f7c1676057b7de1d03223bdc11660b35df98e290ccf43ac928712aabd72f1a48cc049196d
   languageName: node
   linkType: hard
 

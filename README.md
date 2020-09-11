@@ -43,138 +43,17 @@ and [![Open in CodePen][codepen]](https://codepen.io/sgratzl/pen/ZEbqmqx)
 
 Several new styling keys are added to the individual chart types
 
-```ts
-interface IErrorBarStyling {
-  /**
-   * line width of the center line
-   * @default 1
-   * @scriptable
-   */
-  errorBarLineWidth: number;
-  /**
-   * color of the center line
-   * @default '#2c2c2c'
-   * @scriptable
-   */
-  errorBarColor: string;
-  /**
-   * line width of the whisker lines
-   * @default 1
-   * @scriptable
-   */
-  errorBarWhiskerLineWidth: number;
-  /**
-   * width of the whiskers in relation to the bar width, use `0` to force a fixed with, see below
-   * @default 0.2
-   * @scriptable
-   */
-  errorBarWhiskerRatio: number;
-  /**
-   * pixel width of the whiskers for non bar chart cases
-   * @default 20
-   * @scriptable
-   */
-  errorBarWhiskerSize: number;
-  /**
-   * color of the whisker lines
-   * @default '#2c2c2c'
-   * @scriptable
-   */
-  errorBarWhiskerColor: string;
-}
-```
-
 ## Data structure
 
 The data structure depends on the chart type. It uses the fact that chart.js is supporting scatterplot. Thus, it is already prepared for object values.
 
 ### Chart types: `bar` and `line`
 
-```ts
-interface IErrorBarItem {
-  /**
-   * the actual value
-   */
-  y: number;
-  /**
-   * the minimal absolute error bar value
-   */
-  yMin: number;
-  /**
-   * the maximal absolute error bar value
-   */
-  yMax: number;
-}
-```
-
 ### Chart type: `bar` with `indexAxis: 'y'`
-
-```ts
-interface IErrorBarItem {
-  /**
-   * the actual value
-   */
-  x: number;
-  /**
-   * the minimal absolute error bar value
-   */
-  xMin: number;
-  /**
-   * the maximal absolute error bar value
-   */
-  xMax: number;
-}
-```
 
 ### Chart type: `scatter`
 
-```ts
-interface IErrorBarItem {
-  /**
-   * the actual x value
-   */
-  x: number;
-  /**
-   * the minimal absolute error bar x value
-   */
-  xMin: number;
-  /**
-   * the maximal absolute error bar x value
-   */
-  xMax: number;
-  /**
-   * the actual y value
-   */
-  y: number;
-  /**
-   * the minimal absolute error bar y value
-   */
-  yMin: number;
-  /**
-   * the maximal absolute error bar y value
-   */
-  yMax: number;
-}
-```
-
 ### Chart type: `polarArea`
-
-```ts
-interface IErrorBarItem {
-  /**
-   * the actual value
-   */
-  r: number;
-  /**
-   * the minimal absolute error bar value
-   */
-  rMin: number;
-  /**
-   * the maximal absolute error bar value
-   */
-  rMax: number;
-}
-```
 
 ## Multiple Error Bars
 
@@ -187,47 +66,6 @@ Multiple error bars are supported.
 The styling options support different array version.
 
 **Note**: as with other chart.js style options, using an array will be one value per dataset. Thus, to specify the values for different error bars, one needs to wrap it in an object with a `v` key having the value itself. The outer for the dataset, the inner for the error bars.
-
-```ts
-interface IErrorBarStyling {
-  /**
-   * line width of the center line
-   * @default {v: [1, 3]}
-   * @scriptable
-   */
-  errorBarLineWidth: number | { v: number[] };
-  /**
-   * color of the center line
-   * @default {v: ['#2c2c2c', '#1f1f1f']}
-   * @scriptable
-   */
-  errorBarColor: string | { v: string[] };
-  /**
-   * line width of the whisker lines
-   * @default {v: [1, 3]}
-   * @scriptable
-   */
-  errorBarWhiskerLineWidth: number | { v: number[] };
-  /**
-   * width of the whiskers in relation to the bar width, use `0` to force a fixed with, see below
-   * @default {v: [0.2, 0.25]}
-   * @scriptable
-   */
-  errorBarWhiskerRatio: number | { v: number[] };
-  /**
-   * pixel width of the whiskers for non bar chart cases
-   * @default {v: [20, 24]}
-   * @scriptable
-   */
-  errorBarWhiskerSize: number | { v: number[] };
-  /**
-   * color of the whisker lines
-   * @default {v: ['#2c2c2c', '#1f1f1f']}
-   * @scriptable
-   */
-  errorBarWhiskerColor: string | { v: string[] };
-}
-```
 
 ### Data structure
 

@@ -1,5 +1,52 @@
 import { IScaleOptions, Scale } from 'chart.js';
 
+export interface IErrorBarXDataPoint {
+  /**
+   * the actual value
+   */
+  x: number;
+  /**
+   * the minimal absolute error bar value
+   */
+  xMin: number | number[];
+  /**
+   * the maximal absolute error bar value
+   */
+  xMax: number | number[];
+}
+
+export interface IErrorBarYDataPoint {
+  /**
+   * the actual value
+   */
+  y: number;
+  /**
+   * the minimal absolute error bar value
+   */
+  yMin: number | number[];
+  /**
+   * the maximal absolute error bar value
+   */
+  yMax: number | number[];
+}
+
+export interface IErrorBarRDataPoint {
+  /**
+   * the actual value
+   */
+  r: number;
+  /**
+   * the minimal absolute error bar value
+   */
+  rMin: number | number[];
+  /**
+   * the maximal absolute error bar value
+   */
+  rMax: number | number[];
+}
+
+export interface IErrorBarXYDataPoint extends IErrorBarXDataPoint, IErrorBarYDataPoint {}
+
 export function getMinMax(
   scale: Scale<IScaleOptions>,
   canStack: boolean,
@@ -14,7 +61,7 @@ export function getMinMax(
   return { min, max };
 }
 
-function computeExtrema(v, vm, op) {
+function computeExtrema(v: number, vm: number | number[], op: (...args: number[]) => number) {
   if (Array.isArray(vm)) {
     return op(...vm);
   }
@@ -24,7 +71,13 @@ function computeExtrema(v, vm, op) {
   return v;
 }
 
-export function parseErrorNumberData(parsed, scale, data, start, count) {
+export function parseErrorNumberData(
+  parsed: any[],
+  scale: Scale<IScaleOptions>,
+  data: any[],
+  start: number,
+  count: number
+) {
   const axis = typeof scale === 'string' ? scale : scale.axis;
   const vMin = `${axis}Min`;
   const vMax = `${axis}Max`;
@@ -39,7 +92,7 @@ export function parseErrorNumberData(parsed, scale, data, start, count) {
     p[vMaxMax] = computeExtrema(p[axis], p[vMax], Math.max);
   }
 }
-export function parseErrorLabelData(parsed, scale, start, count) {
+export function parseErrorLabelData(parsed: any[], scale: Scale<IScaleOptions>, start: number, count: number) {
   const axis = scale.axis;
   const labels = scale.getLabels();
   for (let i = 0; i < count; i++) {

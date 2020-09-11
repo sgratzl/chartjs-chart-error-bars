@@ -1,4 +1,5 @@
 import { Element } from 'chart.js';
+import { ArcWithErrorBar } from './ArcWithErrorBar';
 
 export const errorBarDefaults = {
   errorBarLineWidth: { v: [1, 3] },
@@ -9,9 +10,48 @@ export const errorBarDefaults = {
   errorBarWhiskerColor: { v: ['#2c2c2c', '#1f1f1f'] },
 };
 
+export interface IErrorBarOptions {
+  /**
+   * line width of the center line
+   * @default {v: [1, 3]}
+   * @scriptable
+   */
+  errorBarLineWidth: number | { v: number[] };
+  /**
+   * color of the center line
+   * @default {v: ['#2c2c2c', '#1f1f1f']}
+   * @scriptable
+   */
+  errorBarColor: string | { v: string[] };
+  /**
+   * line width of the whisker lines
+   * @default {v: [1, 3]}
+   * @scriptable
+   */
+  errorBarWhiskerLineWidth: number | { v: number[] };
+  /**
+   * width of the whiskers in relation to the bar width, use `0` to force a fixed with, see below
+   * @default {v: [0.2, 0.25]}
+   * @scriptable
+   */
+  errorBarWhiskerRatio: number | { v: number[] };
+  /**
+   * pixel width of the whiskers for non bar chart cases
+   * @default {v: [20, 24]}
+   * @scriptable
+   */
+  errorBarWhiskerSize: number | { v: number[] };
+  /**
+   * color of the whisker lines
+   * @default {v: ['#2c2c2c', '#1f1f1f']}
+   * @scriptable
+   */
+  errorBarWhiskerColor: string | { v: string[] };
+}
+
 export const styleKeys = Object.keys(errorBarDefaults);
 
-export const styleObjectKeys = {};
+export const styleObjectKeys: Record<string, string> = {};
 styleKeys.forEach((key) => (styleObjectKeys[key] = key));
 
 function resolveMulti(vMin: number | number[], vMax: number | number[]) {
@@ -36,7 +76,7 @@ function resolveOption<T>(val: T | readonly T[], index: number) {
   return v[index % v.length];
 }
 
-function calculateHalfSize(total, options, i: number) {
+function calculateHalfSize(total: number | null, options, i: number) {
   const ratio = resolveOption(options.errorBarWhiskerRatio, i);
   if (total != null && ratio > 0) {
     return total * ratio * 0.5;
@@ -147,7 +187,7 @@ export function renderErrorBar<P extends IErrorBarProps, O>(elem: Element<P, O>,
  * @param {number} vMax
  * @param {CanvasRenderingContext2D} ctx
  */
-function drawErrorBarArc(props, vMin, vMax, options, ctx) {
+function drawErrorBarArc(props, vMin, vMax, options, ctx: CanvasRenderingContext2D) {
   ctx.save();
   ctx.translate(props.x, props.y); // move to center
 
@@ -206,7 +246,7 @@ function drawErrorBarArc(props, vMin, vMax, options, ctx) {
   ctx.restore();
 }
 
-export function renderErrorBarArc(elem, ctx) {
+export function renderErrorBarArc(elem: ArcWithErrorBar, ctx: CanvasRenderingContext2D) {
   const props = elem.getProps(['x', 'y', 'startAngle', 'endAngle', 'rMin', 'rMax', 'outerRadius']);
   if (props.rMin != null || props.rMax != null) {
     drawErrorBarArc(props, props.rMin, props.rMax, elem.options, ctx);

@@ -2,7 +2,7 @@
 import { renderErrorBarArc, errorBarDefaults } from './render';
 
 export class ArcWithErrorBar extends Arc {
-  draw(ctx) {
+  draw(ctx: CanvasRenderingContext2D) {
     super.draw(ctx);
 
     renderErrorBarArc(this, ctx);

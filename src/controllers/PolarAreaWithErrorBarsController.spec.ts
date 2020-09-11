@@ -1,7 +1,11 @@
-import matchChart from '../__tests__/matchChart';
+import createChart from '../__tests__/createChart';
 import { registry, RadialLinearScale } from 'chart.js';
-import { PolarAreaWithErrorBarsController } from './PolarAreaWithErrorBarsController';
+import {
+  IPolarAreaWithErrorBarsControllerConfiguration,
+  PolarAreaWithErrorBarsController,
+} from './PolarAreaWithErrorBarsController';
 import { ArcWithErrorBar } from '../elements';
+import { IErrorBarRDataPoint } from './base';
 
 describe('bar', () => {
   beforeAll(() => {
@@ -10,7 +14,11 @@ describe('bar', () => {
     registry.addScales(RadialLinearScale);
   });
   test('default', () => {
-    return matchChart({
+    return createChart<
+      IErrorBarRDataPoint,
+      string,
+      IPolarAreaWithErrorBarsControllerConfiguration<IErrorBarRDataPoint, string>
+    >({
       type: PolarAreaWithErrorBarsController.id,
       data: {
         labels: ['A', 'B'],
@@ -32,13 +40,12 @@ describe('bar', () => {
         ],
       },
       options: {
-        legend: false,
         scales: {
           r: {
             display: false,
           },
         },
       },
-    });
+    }).toMatchImageSnapshot();
   });
 });

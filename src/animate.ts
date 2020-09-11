@@ -1,4 +1,4 @@
-import { color } from 'chart.js';
+import { color } from '../chartjs-helpers/color';
 import { styleKeys } from './elements/render';
 import { allModelKeys } from './controllers/utils';
 
@@ -22,29 +22,31 @@ const interpolators = {
 };
 
 function interpolateArrayOption<T>(
-  from: T[],
-  to: T[],
+  from: T | T[] | { v: T[] },
+  to: T | T[] | { v: T[] },
   factor: number,
   type: 'string' | 'number',
   interpolator: (from: T, to: T, factor: number) => T
 ) {
   if (typeof from === type && typeof to === type) {
-    return interpolator(from, to, factor);
+    return interpolator(from as T, to as T, factor);
   }
   if (Array.isArray(from) && Array.isArray(to)) {
     return from.map((f, i) => interpolator(f, to[i], factor));
   }
-  if (from && Array.isArray(from.v) && to && Array.isArray(to.v)) {
+  const isV = (t: T | T[] | { v: T[] }): t is { v: T[] } => t && Array.isArray((t as { v: T[] }).v);
+
+  if (isV(from) && Array.isArray(from.v) && isV(to)) {
     return from.v.map((f, i) => interpolator(f, to.v[i], factor));
   }
   return to;
 }
 
-function interpolateNumberOptionArray(from, to, factor) {
+function interpolateNumberOptionArray(from: number[], to: number[], factor: number) {
   return interpolateArrayOption(from, to, factor, 'number', interpolators.number);
 }
 
-function interpolateColorOptionArray(from, to, factor) {
+function interpolateColorOptionArray(from: string[], to: string[], factor: number) {
   return interpolateArrayOption(from, to, factor, 'string', interpolators.color);
 }
 

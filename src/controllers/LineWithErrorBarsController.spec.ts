@@ -1,7 +1,8 @@
-import matchChart from '../__tests__/matchChart';
+import createChart from '../__tests__/createChart';
 import { registry, LinearScale } from 'chart.js';
-import { LineWithErrorBarsController } from './LineWithErrorBarsController';
+import { ILineWithErrorBarsControllerConfiguration, LineWithErrorBarsController } from './LineWithErrorBarsController';
 import { PointWithErrorBar } from '../elements';
+import { IErrorBarYDataPoint } from './base';
 
 describe('bar', () => {
   beforeAll(() => {
@@ -10,7 +11,11 @@ describe('bar', () => {
     registry.addScales(LinearScale);
   });
   test('default', () => {
-    return matchChart({
+    return createChart<
+      IErrorBarYDataPoint,
+      string,
+      ILineWithErrorBarsControllerConfiguration<IErrorBarYDataPoint, string>
+    >({
       type: LineWithErrorBarsController.id,
       data: {
         labels: ['A', 'B'],
@@ -32,7 +37,6 @@ describe('bar', () => {
         ],
       },
       options: {
-        legend: false,
         scales: {
           x: {
             display: false,
@@ -42,6 +46,6 @@ describe('bar', () => {
           },
         },
       },
-    });
+    }).toMatchImageSnapshot();
   });
 });
