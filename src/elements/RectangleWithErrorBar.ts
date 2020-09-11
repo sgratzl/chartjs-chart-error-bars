@@ -2,12 +2,13 @@
 import { renderErrorBar, errorBarDefaults } from './render';
 
 export class RectangleWithErrorBar extends Rectangle {
-  draw(ctx) {
+  draw(ctx: CanvasRenderingContext2D) {
     super.draw(ctx);
 
     renderErrorBar(this, ctx);
   }
+
+  static readonly id = 'rectangleWithErrorBar';
+  static readonly defaults: any = /*#__PURE__*/ Object.assign({}, Rectangle.defaults, errorBarDefaults);
+  static readonly defaultRoutes = Rectangle.defaultRoutes;
 }
-RectangleWithErrorBar.id = 'rectangleWithErrorBar';
-RectangleWithErrorBar.defaults = /*#__PURE__*/ Object.assign({}, Rectangle.defaults, errorBarDefaults);
-RectangleWithErrorBar.defaultRoutes = Rectangle.defaultRoutes;

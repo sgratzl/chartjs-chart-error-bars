@@ -63,6 +63,7 @@ export class BarWithErrorBarsController extends BarController {
       dataElementType: RectangleWithErrorBar.id,
     },
   ]);
+  static readonly defaultRoutes = BarController.defaultRoutes;
 }
 
 export interface IBarWithErrorBarsControllerDatasetOptions

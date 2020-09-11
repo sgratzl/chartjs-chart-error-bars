@@ -2,12 +2,13 @@
 import { renderErrorBar, errorBarDefaults } from './render';
 
 export class PointWithErrorBar extends Point {
-  draw(ctx) {
+  draw(ctx: CanvasRenderingContext2D) {
     super.draw(ctx);
 
-    renderErrorBar(this, ctx);
+    renderErrorBar(this as any, ctx);
   }
+
+  static readonly id = 'pointWithErrorBar';
+  static readonly defaults: any = /*#__PURE__*/ Object.assign({}, Point.defaults, errorBarDefaults);
+  static readonly defaultRoutes = Point.defaultRoutes;
 }
-PointWithErrorBar.id = 'pointWithErrorBar';
-PointWithErrorBar.defaults = /*#__PURE__*/ Object.assign({}, Point.defaults, errorBarDefaults);
-PointWithErrorBar.defaultRoutes = Point.defaultRoutes;

@@ -3,8 +3,8 @@ import { IErrorBarRDataPoint, IErrorBarXYDataPoint } from './base';
 
 export const allModelKeys = ['xMin', 'xMax', 'yMin', 'yMax'];
 
-export function modelKeys(horizontal: boolean) {
-  return horizontal ? allModelKeys.slice(0, 2) : allModelKeys.slice(2);
+export function modelKeys(horizontal: boolean): (keyof IErrorBarXYDataPoint)[] {
+  return (horizontal ? allModelKeys.slice(0, 2) : allModelKeys.slice(2)) as any;
 }
 
 export function calculateScale(

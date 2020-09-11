@@ -7,7 +7,8 @@ export class ArcWithErrorBar extends Arc {
 
     renderErrorBarArc(this, ctx);
   }
+
+  static readonly id = 'arcWithErrorBar';
+  static readonly defaults: any = /*#__PURE__*/ Object.assign({}, Arc.defaults, errorBarDefaults);
+  static readonly defaultRoutes = Arc.defaultRoutes;
 }
-ArcWithErrorBar.id = 'arcWithErrorBar';
-ArcWithErrorBar.defaults = /*#__PURE__*/ Object.assign({}, Arc.defaults, errorBarDefaults);
-ArcWithErrorBar.defaultRoutes = Arc.defaultRoutes;

@@ -12,6 +12,7 @@
   Scale,
   ScriptableAndArrayOptions,
   UpdateMode,
+  LineController,
 } from 'chart.js';
 import { merge } from '../../chartjs-helpers/core';
 import { calculateScale } from './utils';
@@ -67,9 +68,10 @@ export class ScatterWithErrorBarsController extends ScatterController {
         },
       },
       dataElementType: PointWithErrorBar.id,
-      dataElementOptions: Object.assign({}, ScatterController.defaults.dataElementOptions, styleObjectKeys),
+      dataElementOptions: Object.assign({}, LineController.defaults.dataElementOptions, styleObjectKeys),
     },
   ]);
+  static readonly defaultRoutes = LineController.defaultRoutes;
 }
 
 export interface IScatterWithErrorBarsControllerDatasetOptions

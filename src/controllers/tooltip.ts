@@ -1,24 +1,25 @@
 import { modelKeys } from './utils';
-import { Tooltip, PolarAreaController } from 'chart.js';
+import { Tooltip, PolarAreaController, ITooltipItem, TooltipModel } from 'chart.js';
+import { IErrorBarRDataPoint, IErrorBarXYDataPoint } from './base';
 
-function reverseOrder(v) {
+function reverseOrder<T>(v: T | T[]) {
   return Array.isArray(v) ? v.slice().reverse() : v;
 }
 
-export function generateBarTooltip(item) {
-  const keys = modelKeys(item.element.horizontal);
-  const base = Tooltip.defaults.callbacks.label.call(this, item);
-  const v = item.chart.data.datasets[item.datasetIndex].data[item.dataIndex];
+export function generateBarTooltip(this: TooltipModel, item: ITooltipItem) {
+  const keys = modelKeys((item.element as any).horizontal);
+  const base = (Tooltip as any).defaults.callbacks.label.call(this, item);
+  const v = (item.chart.data.datasets[item.datasetIndex].data[item.dataIndex] as unknown) as IErrorBarXYDataPoint;
   if (v == null || keys.every((k) => v[k] == null)) {
     return base;
   }
   return `${base} (${reverseOrder(v[keys[0]])} .. ${v[keys[1]]})`;
 }
 
-export function generateTooltipScatter(item) {
-  const v = item.chart.data.datasets[item.datasetIndex].data[item.dataIndex];
+export function generateTooltipScatter(item: ITooltipItem) {
+  const v = (item.chart.data.datasets[item.datasetIndex].data[item.dataIndex] as unknown) as IErrorBarXYDataPoint;
 
-  const subLabel = (base, horizontal) => {
+  const subLabel = (base: string, horizontal: boolean) => {
     const keys = modelKeys(horizontal);
     if (v == null || keys.every((k) => v[k] == null)) {
       return base;
@@ -26,14 +27,14 @@ export function generateTooltipScatter(item) {
     return `${base} [${reverseOrder(v[keys[0]])} .. ${v[keys[1]]}]`;
   };
 
-  return `(${subLabel(item.label, true)}, ${subLabel(item.value, false)})`;
+  return `(${subLabel(item.label, true)}, ${subLabel(item.dataPoint.y, false)})`;
 }
 
-export function generateTooltipPolar(item) {
+export function generateTooltipPolar(this: TooltipModel, item: ITooltipItem) {
   const base = PolarAreaController.defaults.tooltips.callbacks.label.call(this, item);
-  const v = item.chart.data.datasets[item.datasetIndex].data[item.dataIndex];
+  const v = (item.chart.data.datasets[item.datasetIndex].data[item.dataIndex] as unknown) as IErrorBarRDataPoint;
 
-  const keys = ['rMin', 'rMax'];
+  const keys = ['rMin', 'rMax'] as const;
   if (v == null || keys.every((k) => v[k] == null)) {
     return base;
   }

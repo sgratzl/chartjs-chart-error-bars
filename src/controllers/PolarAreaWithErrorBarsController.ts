@@ -105,6 +105,7 @@ export class PolarAreaWithErrorBarsController extends PolarAreaController {
       dataElementOptions: PolarAreaController.defaults.dataElementOptions.concat(styleKeys),
     },
   ]);
+  static readonly defaultRoutes = PolarAreaController.defaultRoutes;
 }
 
 export interface IPolarAreaWithErrorBarsControllerDatasetOptions

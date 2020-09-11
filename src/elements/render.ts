@@ -1,5 +1,4 @@
-import { Element } from 'chart.js';
-import { ArcWithErrorBar } from './ArcWithErrorBar';
+import { Element, IArcProps } from 'chart.js';
 
 export const errorBarDefaults = {
   errorBarLineWidth: { v: [1, 3] },
@@ -66,17 +65,17 @@ function resolveMulti(vMin: number | number[], vMax: number | number[]) {
   return Array(max).map((_, i) => [vMinArr[i % vMinArr.length], vMaxArr[i % vMaxArr.length]]);
 }
 
-function resolveOption<T>(val: T, index: number): T;
-function resolveOption<T>(val: readonly T[], index: number): T;
-function resolveOption<T>(val: T | readonly T[], index: number) {
+function resolveOption<T extends string | number>(val: T | { v: T[] }, index: number): T;
+function resolveOption<T extends string | number>(val: readonly T[], index: number): T;
+function resolveOption<T extends string | number>(val: T | { v: T[] } | readonly T[], index: number) {
   if (typeof val === 'string' || typeof val === 'number') {
     return val;
   }
-  const v = Array.isArray(val) ? val : val.v;
+  const v = Array.isArray(val) ? val : ((val as unknown) as { v: T[] }).v;
   return v[index % v.length];
 }
 
-function calculateHalfSize(total: number | null, options, i: number) {
+function calculateHalfSize(total: number | null, options: IErrorBarOptions, i: number) {
   const ratio = resolveOption(options.errorBarWhiskerRatio, i);
   if (total != null && ratio > 0) {
     return total * ratio * 0.5;
@@ -85,18 +84,17 @@ function calculateHalfSize(total: number | null, options, i: number) {
   return size * 0.5;
 }
 
-function drawErrorBarVertical(props, vMin, vMax, options, ctx: CanvasRenderingContext2D) {
+function drawErrorBarVertical(
+  props: IErrorBarProps,
+  vMin: null | number | number[],
+  vMax: null | number | number[],
+  options: IErrorBarOptions,
+  ctx: CanvasRenderingContext2D
+) {
   ctx.save();
   ctx.translate(props.x, 0);
 
-  if (vMin == null) {
-    vMin = props.y;
-  }
-  if (vMax == null) {
-    vMax = props.y;
-  }
-
-  const bars = resolveMulti(vMin, vMax);
+  const bars = resolveMulti(vMin == null ? props.y : vMin, vMax == null ? props.y : vMax);
 
   bars.reverse().forEach(([mi, ma], j) => {
     const i = bars.length - j - 1;
@@ -123,7 +121,13 @@ function drawErrorBarVertical(props, vMin, vMax, options, ctx: CanvasRenderingCo
   ctx.restore();
 }
 
-function drawErrorBarHorizontal(props, vMin, vMax, options, ctx: CanvasRenderingContext2D) {
+function drawErrorBarHorizontal(
+  props: IErrorBarProps,
+  vMin: null | number | number[],
+  vMax: null | number | number[],
+  options: IErrorBarOptions,
+  ctx: CanvasRenderingContext2D
+) {
   ctx.save();
   ctx.translate(0, props.y);
 
@@ -166,19 +170,19 @@ export interface IErrorBarProps {
   y: number;
   width: number;
   height: number;
-  xMin?: number;
-  yMin?: number;
-  xMax?: number;
-  yMax?: number;
+  xMin?: number | number[];
+  yMin?: number | number[];
+  xMax?: number | number[];
+  yMax?: number | number[];
 }
 
 export function renderErrorBar<P extends IErrorBarProps, O>(elem: Element<P, O>, ctx: CanvasRenderingContext2D) {
   const props = elem.getProps(['x', 'y', 'width', 'height', 'xMin', 'xMax', 'yMin', 'yMax']);
   if (props.xMin != null || props.xMax != null) {
-    drawErrorBarHorizontal(props, props.xMin, props.xMax, elem.options, ctx);
+    drawErrorBarHorizontal(props, props.xMin!, props.xMax!, elem.options as any, ctx);
   }
   if (props.yMin != null || props.yMax != null) {
-    drawErrorBarVertical(props, props.yMin, props.yMax, elem.options, ctx);
+    drawErrorBarVertical(props, props.yMin!, props.yMax!, elem.options as any, ctx);
   }
 }
 
@@ -187,7 +191,13 @@ export function renderErrorBar<P extends IErrorBarProps, O>(elem: Element<P, O>,
  * @param {number} vMax
  * @param {CanvasRenderingContext2D} ctx
  */
-function drawErrorBarArc(props, vMin, vMax, options, ctx: CanvasRenderingContext2D) {
+function drawErrorBarArc(
+  props: IArcProps,
+  vMin: null | number | number[],
+  vMax: null | number | number[],
+  options: IErrorBarOptions,
+  ctx: CanvasRenderingContext2D
+) {
   ctx.save();
   ctx.translate(props.x, props.y); // move to center
 
@@ -246,9 +256,9 @@ function drawErrorBarArc(props, vMin, vMax, options, ctx: CanvasRenderingContext
   ctx.restore();
 }
 
-export function renderErrorBarArc(elem: ArcWithErrorBar, ctx: CanvasRenderingContext2D) {
+export function renderErrorBarArc(elem: any, ctx: CanvasRenderingContext2D) {
   const props = elem.getProps(['x', 'y', 'startAngle', 'endAngle', 'rMin', 'rMax', 'outerRadius']);
   if (props.rMin != null || props.rMax != null) {
-    drawErrorBarArc(props, props.rMin, props.rMax, elem.options, ctx);
+    drawErrorBarArc(props, props.rMin, props.rMax, elem.options as any, ctx);
   }
 }

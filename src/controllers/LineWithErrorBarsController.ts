@@ -64,6 +64,7 @@ export class LineWithErrorBarsController extends LineController {
       dataElementOptions: Object.assign({}, LineController.defaults.dataElementOptions, styleObjectKeys),
     },
   ]);
+  static readonly defaultRoutes = LineController.defaultRoutes;
 }
 
 export interface ILineWithErrorBarsControllerDatasetOptions
