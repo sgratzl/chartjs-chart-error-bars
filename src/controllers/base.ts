@@ -1,4 +1,4 @@
-import { IScaleOptions, Scale } from 'chart.js';
+import { Scale } from 'chart.js';
 
 export interface IErrorBarXDataPoint {
   /**
@@ -48,9 +48,9 @@ export interface IErrorBarRDataPoint {
 export interface IErrorBarXYDataPoint extends IErrorBarXDataPoint, IErrorBarYDataPoint {}
 
 export function getMinMax(
-  scale: Scale<IScaleOptions>,
+  scale: Scale,
   canStack: boolean,
-  superMethod: (scale: Scale<IScaleOptions>, canStack: boolean) => { min: number; max: number }
+  superMethod: (scale: Scale, canStack: boolean) => { min: number; max: number }
 ) {
   const axis = scale.axis;
   scale.axis = `${axis}MinMin`;
@@ -71,13 +71,7 @@ function computeExtrema(v: number, vm: number | number[], op: (...args: number[]
   return v;
 }
 
-export function parseErrorNumberData(
-  parsed: any[],
-  scale: Scale<IScaleOptions>,
-  data: any[],
-  start: number,
-  count: number
-) {
+export function parseErrorNumberData(parsed: any[], scale: Scale, data: any[], start: number, count: number) {
   const axis = typeof scale === 'string' ? scale : scale.axis;
   const vMin = `${axis}Min`;
   const vMax = `${axis}Max`;
@@ -92,7 +86,7 @@ export function parseErrorNumberData(
     p[vMaxMax] = computeExtrema(p[axis], p[vMax], Math.max);
   }
 }
-export function parseErrorLabelData(parsed: any[], scale: Scale<IScaleOptions>, start: number, count: number) {
+export function parseErrorLabelData(parsed: any[], scale: Scale, start: number, count: number) {
   const axis = scale.axis;
   const labels = scale.getLabels();
   for (let i = 0; i < count; i++) {

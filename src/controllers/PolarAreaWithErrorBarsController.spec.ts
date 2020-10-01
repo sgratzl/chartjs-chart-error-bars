@@ -1,11 +1,7 @@
 import createChart from '../__tests__/createChart';
 import { registry, RadialLinearScale } from 'chart.js';
-import {
-  IPolarAreaWithErrorBarsControllerConfiguration,
-  PolarAreaWithErrorBarsController,
-} from './PolarAreaWithErrorBarsController';
+import { PolarAreaWithErrorBarsController } from './PolarAreaWithErrorBarsController';
 import { ArcWithErrorBar } from '../elements';
-import { IErrorBarRDataPoint } from './base';
 
 describe('bar', () => {
   beforeAll(() => {
@@ -14,11 +10,7 @@ describe('bar', () => {
     registry.addScales(RadialLinearScale);
   });
   test('default', () => {
-    return createChart<
-      IErrorBarRDataPoint,
-      string,
-      IPolarAreaWithErrorBarsControllerConfiguration<IErrorBarRDataPoint, string>
-    >({
+    return createChart({
       type: PolarAreaWithErrorBarsController.id,
       data: {
         labels: ['A', 'B'],

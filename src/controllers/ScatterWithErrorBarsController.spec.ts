@@ -1,11 +1,7 @@
 import createChart from '../__tests__/createChart';
 import { registry, LinearScale } from 'chart.js';
-import {
-  IScatterWithErrorBarsControllerConfiguration,
-  ScatterWithErrorBarsController,
-} from './ScatterWithErrorBarsController';
+import { ScatterWithErrorBarsController } from './ScatterWithErrorBarsController';
 import { PointWithErrorBar } from '../elements';
-import { IErrorBarXYDataPoint } from './base';
 
 describe('bar', () => {
   beforeAll(() => {
@@ -14,11 +10,7 @@ describe('bar', () => {
     registry.addScales(LinearScale);
   });
   test('default', () => {
-    return createChart<
-      IErrorBarXYDataPoint,
-      string,
-      IScatterWithErrorBarsControllerConfiguration<IErrorBarXYDataPoint, string>
-    >({
+    return createChart({
       type: ScatterWithErrorBarsController.id,
       data: {
         labels: ['A', 'B'],

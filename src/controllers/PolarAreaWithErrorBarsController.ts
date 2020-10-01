@@ -3,18 +3,18 @@
   PolarAreaController,
   RadialLinearScale,
   Scale,
-  IScaleOptions,
   UpdateMode,
   Element,
   IChartMeta,
   ChartItem,
   IChartConfiguration,
-  IChartDataset,
   IPolarAreaControllerDatasetOptions,
   ScriptableAndArrayOptions,
+  IPolarAreaControllerChartOptions,
+  ICartesianScaleTypeRegistry,
 } from 'chart.js';
-import { merge } from '../../chartjs-helpers/core';
-import { resolve } from '../../chartjs-helpers/options';
+import { merge } from 'chart.js/helpers';
+import { resolve } from 'chart.js/helpers';
 import { calculatePolarScale } from './utils';
 import { getMinMax, IErrorBarRDataPoint, parseErrorNumberData } from './base';
 import { generateTooltipPolar } from './tooltip';
@@ -24,7 +24,7 @@ import { IErrorBarOptions, styleKeys } from '../elements/render';
 import patchController from './patchController';
 
 export class PolarAreaWithErrorBarsController extends PolarAreaController {
-  getMinMax(scale: Scale<IScaleOptions>, canStack: boolean) {
+  getMinMax(scale: Scale, canStack: boolean) {
     return getMinMax(scale, canStack, (scale, canStack) => super.getMinMax(scale, canStack));
   }
 
@@ -78,7 +78,7 @@ export class PolarAreaWithErrorBarsController extends PolarAreaController {
     super.updateElement(element, index, properties, mode);
   }
 
-  updateElements(arcs: Element[], start: number, mode: UpdateMode) {
+  updateElements(arcs: Element[], start: number, count: number, mode: UpdateMode) {
     const scale = this.chart.scales.r as RadialLinearScale;
     const bak = scale.getDistanceFromCenterForValue;
     scale.getDistanceFromCenterForValue = function (v) {
@@ -87,7 +87,7 @@ export class PolarAreaWithErrorBarsController extends PolarAreaController {
       }
       return bak.call(this, (v as any).r);
     };
-    super.updateElements(arcs, start, mode);
+    super.updateElements(arcs, start, count, mode);
     scale.getDistanceFromCenterForValue = bak;
   }
 
@@ -112,26 +112,29 @@ export interface IPolarAreaWithErrorBarsControllerDatasetOptions
   extends IPolarAreaControllerDatasetOptions,
     ScriptableAndArrayOptions<IErrorBarOptions> {}
 
-export type IPolarAreaWithErrorBarsControllerDataset<T = IErrorBarRDataPoint> = IChartDataset<
-  T,
-  IPolarAreaWithErrorBarsControllerDatasetOptions
->;
+declare module 'chart.js' {
+  export enum ChartTypeEnum {
+    polarAreaWithErrorBars = 'polarAreaWithErrorBars',
+  }
 
-export type IPolarAreaWithErrorBarsControllerConfiguration<T = IErrorBarRDataPoint, L = string> = IChartConfiguration<
+  export interface IChartTypeRegistry {
+    polarAreaWithErrorBars: {
+      chartOptions: IPolarAreaControllerChartOptions;
+      datasetOptions: IPolarAreaWithErrorBarsControllerDatasetOptions;
+      defaultDataPoint: IErrorBarRDataPoint[];
+      scales: keyof ICartesianScaleTypeRegistry;
+    };
+  }
+}
+
+export class PolarAreaWithErrorBarsChart<DATA extends unknown[] = IErrorBarRDataPoint[], LABEL = string> extends Chart<
   'polarAreaWithErrorBars',
-  T,
-  L,
-  IPolarAreaWithErrorBarsControllerDataset<T>
->;
-
-export class PolarAreaWithErrorBarsChart<T = IErrorBarRDataPoint, L = string> extends Chart<
-  T,
-  L,
-  IPolarAreaWithErrorBarsControllerConfiguration<T, L>
+  DATA,
+  LABEL
 > {
   static id = PolarAreaWithErrorBarsController.id;
 
-  constructor(item: ChartItem, config: Omit<IPolarAreaWithErrorBarsControllerConfiguration<T, L>, 'type'>) {
+  constructor(item: ChartItem, config: Omit<IChartConfiguration<'polarAreaWithErrorBars', DATA, LABEL>, 'type'>) {
     super(
       item,
       patchController('polarAreaWithErrorBars', config, PolarAreaWithErrorBarsController, ArcWithErrorBar, [

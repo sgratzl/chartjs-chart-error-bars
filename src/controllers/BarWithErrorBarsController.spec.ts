@@ -1,8 +1,7 @@
 import createChart from '../__tests__/createChart';
 import { registry, LinearScale, CategoryScale } from 'chart.js';
-import { BarWithErrorBarsController, IBarWithErrorBarsControllerConfiguration } from './BarWithErrorBarsController';
+import { BarWithErrorBarsController } from './BarWithErrorBarsController';
 import { RectangleWithErrorBar } from '../elements';
-import { IErrorBarYDataPoint } from './base';
 
 describe('bar', () => {
   beforeAll(() => {
@@ -11,11 +10,7 @@ describe('bar', () => {
     registry.addScales(LinearScale, CategoryScale);
   });
   test('default', () => {
-    return createChart<
-      IErrorBarYDataPoint,
-      string,
-      IBarWithErrorBarsControllerConfiguration<IErrorBarYDataPoint, string>
-    >({
+    return createChart({
       type: BarWithErrorBarsController.id,
       data: {
         labels: ['A', 'B'],

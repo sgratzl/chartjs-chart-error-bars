@@ -7,14 +7,14 @@
   Point,
   Scale,
   IChartConfiguration,
-  IChartDataset,
   IChartMeta,
   ILineControllerDatasetOptions,
-  IScaleOptions,
   ScriptableAndArrayOptions,
   UpdateMode,
+  ICartesianScaleTypeRegistry,
+  ILineControllerChartOptions,
 } from 'chart.js';
-import { merge } from '../../chartjs-helpers/core';
+import { merge } from 'chart.js/helpers';
 import { calculateScale } from './utils';
 import { IErrorBarOptions, styleObjectKeys } from '../elements/render';
 import { PointWithErrorBar } from '../elements';
@@ -24,7 +24,7 @@ import { getMinMax, parseErrorNumberData, parseErrorLabelData, IErrorBarXDataPoi
 import patchController from './patchController';
 
 export class LineWithErrorBarsController extends LineController {
-  getMinMax(scale: Scale<IScaleOptions>, canStack: boolean) {
+  getMinMax(scale: Scale, canStack: boolean) {
     return getMinMax(scale, canStack, (scale, canStack) => super.getMinMax(scale, canStack));
   }
 
@@ -71,26 +71,29 @@ export interface ILineWithErrorBarsControllerDatasetOptions
   extends ILineControllerDatasetOptions,
     ScriptableAndArrayOptions<IErrorBarOptions> {}
 
-export type ILineWithErrorBarsControllerDataset<T = IErrorBarXDataPoint> = IChartDataset<
-  T,
-  ILineWithErrorBarsControllerDatasetOptions
->;
+declare module 'chart.js' {
+  export enum ChartTypeEnum {
+    lineWithErrorBars = 'lineWithErrorBars',
+  }
 
-export type ILineWithErrorBarsControllerConfiguration<T = IErrorBarXDataPoint, L = string> = IChartConfiguration<
+  export interface IChartTypeRegistry {
+    lineWithErrorBars: {
+      chartOptions: ILineControllerChartOptions;
+      datasetOptions: ILineWithErrorBarsControllerDatasetOptions;
+      defaultDataPoint: IErrorBarXDataPoint[];
+      scales: keyof ICartesianScaleTypeRegistry;
+    };
+  }
+}
+
+export class LineWithErrorBarsChart<DATA extends unknown[] = IErrorBarXDataPoint[], LABEL = string> extends Chart<
   'lineWithErrorBars',
-  T,
-  L,
-  ILineWithErrorBarsControllerDataset<T>
->;
-
-export class LineWithErrorBarsChart<T = IErrorBarXDataPoint, L = string> extends Chart<
-  T,
-  L,
-  ILineWithErrorBarsControllerConfiguration<T, L>
+  DATA,
+  LABEL
 > {
   static id = LineWithErrorBarsController.id;
 
-  constructor(item: ChartItem, config: Omit<ILineWithErrorBarsControllerConfiguration<T, L>, 'type'>) {
+  constructor(item: ChartItem, config: Omit<IChartConfiguration<'lineWithErrorBars', DATA, LABEL>, 'type'>) {
     super(
       item,
       patchController('lineWithErrorBars', config, LineWithErrorBarsController, PointWithErrorBar, [

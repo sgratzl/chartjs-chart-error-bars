@@ -4,17 +4,17 @@
   LinearScale,
   ChartItem,
   IChartConfiguration,
-  IChartDataset,
   IChartMeta,
-  IScaleOptions,
   IScatterControllerDatasetOptions,
   Point,
   Scale,
   ScriptableAndArrayOptions,
   UpdateMode,
   LineController,
+  IScatterControllerChartOptions,
+  ICartesianScaleTypeRegistry,
 } from 'chart.js';
-import { merge } from '../../chartjs-helpers/core';
+import { merge } from 'chart.js/helpers';
 import { calculateScale } from './utils';
 import { getMinMax, IErrorBarXYDataPoint, parseErrorNumberData } from './base';
 import { generateTooltipScatter } from './tooltip';
@@ -24,7 +24,7 @@ import { IErrorBarOptions, styleObjectKeys } from '../elements/render';
 import patchController from './patchController';
 
 export class ScatterWithErrorBarsController extends ScatterController {
-  getMinMax(scale: Scale<IScaleOptions>, canStack: boolean) {
+  getMinMax(scale: Scale, canStack: boolean) {
     return getMinMax(scale, canStack, (scale, canStack) => super.getMinMax(scale, canStack));
   }
 
@@ -78,26 +78,29 @@ export interface IScatterWithErrorBarsControllerDatasetOptions
   extends IScatterControllerDatasetOptions,
     ScriptableAndArrayOptions<IErrorBarOptions> {}
 
-export type IScatterWithErrorBarsControllerDataset<T = IErrorBarXYDataPoint> = IChartDataset<
-  T,
-  IScatterWithErrorBarsControllerDatasetOptions
->;
+declare module 'chart.js' {
+  export enum ChartTypeEnum {
+    scatterWithErrorBars = 'scatterWithErrorBars',
+  }
 
-export type IScatterWithErrorBarsControllerConfiguration<T = IErrorBarXYDataPoint, L = string> = IChartConfiguration<
+  export interface IChartTypeRegistry {
+    scatterWithErrorBars: {
+      chartOptions: IScatterControllerChartOptions;
+      datasetOptions: IScatterWithErrorBarsControllerDatasetOptions;
+      defaultDataPoint: IErrorBarXYDataPoint[];
+      scales: keyof ICartesianScaleTypeRegistry;
+    };
+  }
+}
+
+export class ScatterWithErrorBarsChart<DATA extends unknown[] = IErrorBarXYDataPoint[], LABEL = string> extends Chart<
   'scatterWithErrorBars',
-  T,
-  L,
-  IScatterWithErrorBarsControllerDataset<T>
->;
-
-export class ScatterWithErrorBarsChart<T = IErrorBarXYDataPoint, L = string> extends Chart<
-  T,
-  L,
-  IScatterWithErrorBarsControllerConfiguration<T, L>
+  DATA,
+  LABEL
 > {
   static id = ScatterWithErrorBarsController.id;
 
-  constructor(item: ChartItem, config: Omit<IScatterWithErrorBarsControllerConfiguration<T, L>, 'type'>) {
+  constructor(item: ChartItem, config: Omit<IChartConfiguration<'scatterWithErrorBars', DATA, LABEL>, 'type'>) {
     super(
       item,
       patchController('scatterWithErrorBars', config, ScatterWithErrorBarsController, PointWithErrorBar, [LinearScale])
