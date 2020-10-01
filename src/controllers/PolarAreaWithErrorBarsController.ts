@@ -13,8 +13,7 @@
   IPolarAreaControllerChartOptions,
   ICartesianScaleTypeRegistry,
 } from 'chart.js';
-import { merge } from 'chart.js/helpers';
-import { resolve } from 'chart.js/helpers';
+import { merge, resolve } from 'chart.js/helpers';
 import { calculatePolarScale } from './utils';
 import { getMinMax, IErrorBarRDataPoint, parseErrorNumberData } from './base';
 import { generateTooltipPolar } from './tooltip';
