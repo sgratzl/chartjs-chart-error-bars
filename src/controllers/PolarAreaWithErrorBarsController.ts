@@ -45,7 +45,7 @@ export class PolarAreaWithErrorBarsController extends PolarAreaController {
     if (Number.isNaN(meta._parsed[index].r) || !this.chart.getDataVisibility(index)) {
       return 0;
     }
-    const context = (this as any)._getContext(index, true);
+    const context = (this as any).getContext(index, true);
     return resolve([(this.chart.options as any).elements.arc.angle, (2 * Math.PI) / count], context, index);
   }
 
