@@ -4,15 +4,15 @@
   LinearScale,
   CategoryScale,
   ChartItem,
-  Point,
+  PointElement,
   Scale,
-  IChartConfiguration,
-  IChartMeta,
-  ILineControllerDatasetOptions,
+  ChartConfiguration,
+  ChartMeta,
+  LineControllerDatasetOptions,
   ScriptableAndArrayOptions,
   UpdateMode,
-  ICartesianScaleTypeRegistry,
-  ILineControllerChartOptions,
+  CartesianScaleTypeRegistry,
+  LineControllerChartOptions,
 } from 'chart.js';
 import { merge } from 'chart.js/helpers';
 import { calculateScale } from './utils';
@@ -28,14 +28,14 @@ export class LineWithErrorBarsController extends LineController {
     return getMinMax(scale, canStack, (scale, canStack) => super.getMinMax(scale, canStack));
   }
 
-  parseObjectData(meta: IChartMeta, data: any[], start: number, count: number) {
+  parseObjectData(meta: ChartMeta, data: any[], start: number, count: number) {
     const parsed = super.parseObjectData(meta, data, start, count);
     parseErrorNumberData(parsed, meta.vScale!, data, start, count);
     parseErrorLabelData(parsed, meta.iScale!, start, count);
     return parsed;
   }
 
-  updateElement(element: Point, index: number | undefined, properties: any, mode: UpdateMode) {
+  updateElement(element: PointElement, index: number | undefined, properties: any, mode: UpdateMode) {
     // inject the other error bar related properties
     if (element instanceof PointWithErrorBar && typeof index === 'number') {
       // inject the other error bar related properties
@@ -67,21 +67,17 @@ export class LineWithErrorBarsController extends LineController {
   static readonly defaultRoutes = LineController.defaultRoutes;
 }
 
-export interface ILineWithErrorBarsControllerDatasetOptions
-  extends ILineControllerDatasetOptions,
+export interface LineWithErrorBarsControllerDatasetOptions
+  extends LineControllerDatasetOptions,
     ScriptableAndArrayOptions<IErrorBarOptions> {}
 
 declare module 'chart.js' {
-  export enum ChartTypeEnum {
-    lineWithErrorBars = 'lineWithErrorBars',
-  }
-
-  export interface IChartTypeRegistry {
+  export interface ChartTypeRegistry {
     lineWithErrorBars: {
-      chartOptions: ILineControllerChartOptions;
-      datasetOptions: ILineWithErrorBarsControllerDatasetOptions;
+      chartOptions: LineControllerChartOptions;
+      datasetOptions: LineWithErrorBarsControllerDatasetOptions;
       defaultDataPoint: IErrorBarXDataPoint[];
-      scales: keyof ICartesianScaleTypeRegistry;
+      scales: keyof CartesianScaleTypeRegistry;
     };
   }
 }
@@ -93,7 +89,7 @@ export class LineWithErrorBarsChart<DATA extends unknown[] = IErrorBarXDataPoint
 > {
   static id = LineWithErrorBarsController.id;
 
-  constructor(item: ChartItem, config: Omit<IChartConfiguration<'lineWithErrorBars', DATA, LABEL>, 'type'>) {
+  constructor(item: ChartItem, config: Omit<ChartConfiguration<'lineWithErrorBars', DATA, LABEL>, 'type'>) {
     super(
       item,
       patchController('lineWithErrorBars', config, LineWithErrorBarsController, PointWithErrorBar, [

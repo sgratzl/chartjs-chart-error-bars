@@ -1,4 +1,4 @@
-import { Element, IArcProps } from 'chart.js';
+import { Element, ArcProps } from 'chart.js';
 
 export const errorBarDefaults = {
   errorBarLineWidth: { v: [1, 3] },
@@ -192,7 +192,7 @@ export function renderErrorBar<P extends IErrorBarProps, O>(elem: Element<P, O>,
  * @param {CanvasRenderingContext2D} ctx
  */
 function drawErrorBarArc(
-  props: IArcProps,
+  props: ArcProps,
   vMin: null | number | number[],
   vMax: null | number | number[],
   options: IErrorBarOptions,

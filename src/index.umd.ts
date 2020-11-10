@@ -5,7 +5,7 @@ import {
   ScatterWithErrorBarsController,
 } from './controllers';
 import { registry } from 'chart.js';
-import { RectangleWithErrorBar, ArcWithErrorBar, PointWithErrorBar } from './elements';
+import { BarWithErrorBar, ArcWithErrorBar, PointWithErrorBar } from './elements';
 
 export * from '.';
 
@@ -15,4 +15,4 @@ registry.addControllers(
   PolarAreaWithErrorBarsController,
   ScatterWithErrorBarsController
 );
-registry.addElements(RectangleWithErrorBar, ArcWithErrorBar, LineWithErrorBarsController, PointWithErrorBar);
+registry.addElements(BarWithErrorBar, ArcWithErrorBar, LineWithErrorBarsController, PointWithErrorBar);

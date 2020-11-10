@@ -4,20 +4,20 @@
   LinearScale,
   CategoryScale,
   Scale,
-  IChartMeta,
-  Rectangle,
+  ChartMeta,
+  BarElement,
   UpdateMode,
   ScriptableAndArrayOptions,
-  IChartConfiguration,
+  ChartConfiguration,
   ChartItem,
-  IBarControllerDatasetOptions,
-  ICartesianScaleTypeRegistry,
-  IBarControllerChartOptions,
+  BarControllerDatasetOptions,
+  CartesianScaleTypeRegistry,
+  BarControllerChartOptions,
 } from 'chart.js';
 import { merge } from 'chart.js/helpers';
 import { calculateScale } from './utils';
 import { styleKeys, IErrorBarOptions } from '../elements/render';
-import { RectangleWithErrorBar } from '../elements';
+import { BarWithErrorBar } from '../elements';
 import { generateBarTooltip } from './tooltip';
 import { animationHints } from '../animate';
 import { getMinMax, parseErrorNumberData, parseErrorLabelData, IErrorBarXDataPoint } from './base';
@@ -28,14 +28,14 @@ export class BarWithErrorBarsController extends BarController {
     return getMinMax(scale, canStack, (scale, canStack) => super.getMinMax(scale, canStack));
   }
 
-  parseObjectData(meta: IChartMeta, data: any[], start: number, count: number) {
+  parseObjectData(meta: ChartMeta, data: any[], start: number, count: number) {
     const parsed = super.parseObjectData(meta, data, start, count);
     parseErrorNumberData(parsed, meta.vScale!, data, start, count);
     parseErrorLabelData(parsed, meta.iScale!, start, count);
     return parsed;
   }
 
-  updateElement(element: Rectangle, index: number | undefined, properties: any, mode: UpdateMode) {
+  updateElement(element: BarElement, index: number | undefined, properties: any, mode: UpdateMode) {
     // inject the other error bar related properties
     if (typeof index === 'number') {
       calculateScale(
@@ -60,27 +60,23 @@ export class BarWithErrorBarsController extends BarController {
         },
       },
       dataElementOptions: BarController.defaults.dataElementOptions.concat(styleKeys),
-      dataElementType: RectangleWithErrorBar.id,
+      dataElementType: BarWithErrorBar.id,
     },
   ]);
   static readonly defaultRoutes = BarController.defaultRoutes;
 }
 
-export interface IBarWithErrorBarsControllerDatasetOptions
-  extends IBarControllerDatasetOptions,
+export interface BarWithErrorBarsControllerDatasetOptions
+  extends BarControllerDatasetOptions,
     ScriptableAndArrayOptions<IErrorBarOptions> {}
 
 declare module 'chart.js' {
-  export enum ChartTypeEnum {
-    barWithErrorBars = 'barWithErrorBars',
-  }
-
-  export interface IChartTypeRegistry {
+  export interface ChartTypeRegistry {
     barWithErrorBars: {
-      chartOptions: IBarControllerChartOptions;
-      datasetOptions: IBarWithErrorBarsControllerDatasetOptions;
+      chartOptions: BarControllerChartOptions;
+      datasetOptions: BarWithErrorBarsControllerDatasetOptions;
       defaultDataPoint: IErrorBarXDataPoint[];
-      scales: keyof ICartesianScaleTypeRegistry;
+      scales: keyof CartesianScaleTypeRegistry;
     };
   }
 }
@@ -92,10 +88,10 @@ export class BarWithErrorBarsChart<DATA extends unknown[] = IErrorBarXDataPoint[
 > {
   static id = BarWithErrorBarsController.id;
 
-  constructor(item: ChartItem, config: Omit<IChartConfiguration<'barWithErrorBars', DATA, LABEL>, 'type'>) {
+  constructor(item: ChartItem, config: Omit<ChartConfiguration<'barWithErrorBars', DATA, LABEL>, 'type'>) {
     super(
       item,
-      patchController('barWithErrorBars', config, BarWithErrorBarsController, RectangleWithErrorBar, [
+      patchController('barWithErrorBars', config, BarWithErrorBarsController, BarWithErrorBar, [
         LinearScale,
         CategoryScale,
       ])

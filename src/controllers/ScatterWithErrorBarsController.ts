@@ -3,16 +3,16 @@
   ScatterController,
   LinearScale,
   ChartItem,
-  IChartConfiguration,
-  IChartMeta,
-  IScatterControllerDatasetOptions,
-  Point,
+  ChartConfiguration,
+  ChartMeta,
+  ScatterControllerDatasetOptions,
+  PointElement,
   Scale,
   ScriptableAndArrayOptions,
   UpdateMode,
   LineController,
-  IScatterControllerChartOptions,
-  ICartesianScaleTypeRegistry,
+  ScatterControllerChartOptions,
+  CartesianScaleTypeRegistry,
 } from 'chart.js';
 import { merge } from 'chart.js/helpers';
 import { calculateScale } from './utils';
@@ -28,14 +28,14 @@ export class ScatterWithErrorBarsController extends ScatterController {
     return getMinMax(scale, canStack, (scale, canStack) => super.getMinMax(scale, canStack));
   }
 
-  parseObjectData(meta: IChartMeta, data: any[], start: number, count: number) {
+  parseObjectData(meta: ChartMeta, data: any[], start: number, count: number) {
     const parsed = super.parseObjectData(meta, data, start, count);
     parseErrorNumberData(parsed, meta.xScale!, data, start, count);
     parseErrorNumberData(parsed, meta.yScale!, data, start, count);
     return parsed;
   }
 
-  updateElement(element: Point, index: number | undefined, properties: any, mode: UpdateMode) {
+  updateElement(element: PointElement, index: number | undefined, properties: any, mode: UpdateMode) {
     // inject the other error bar related properties
     if (element instanceof PointWithErrorBar && typeof index === 'number') {
       // inject the other error bar related properties
@@ -74,21 +74,17 @@ export class ScatterWithErrorBarsController extends ScatterController {
   static readonly defaultRoutes = LineController.defaultRoutes;
 }
 
-export interface IScatterWithErrorBarsControllerDatasetOptions
-  extends IScatterControllerDatasetOptions,
+export interface ScatterWithErrorBarsControllerDatasetOptions
+  extends ScatterControllerDatasetOptions,
     ScriptableAndArrayOptions<IErrorBarOptions> {}
 
 declare module 'chart.js' {
-  export enum ChartTypeEnum {
-    scatterWithErrorBars = 'scatterWithErrorBars',
-  }
-
-  export interface IChartTypeRegistry {
+  export interface ChartTypeRegistry {
     scatterWithErrorBars: {
-      chartOptions: IScatterControllerChartOptions;
-      datasetOptions: IScatterWithErrorBarsControllerDatasetOptions;
+      chartOptions: ScatterControllerChartOptions;
+      datasetOptions: ScatterWithErrorBarsControllerDatasetOptions;
       defaultDataPoint: IErrorBarXYDataPoint[];
-      scales: keyof ICartesianScaleTypeRegistry;
+      scales: keyof CartesianScaleTypeRegistry;
     };
   }
 }
@@ -100,7 +96,7 @@ export class ScatterWithErrorBarsChart<DATA extends unknown[] = IErrorBarXYDataP
 > {
   static id = ScatterWithErrorBarsController.id;
 
-  constructor(item: ChartItem, config: Omit<IChartConfiguration<'scatterWithErrorBars', DATA, LABEL>, 'type'>) {
+  constructor(item: ChartItem, config: Omit<ChartConfiguration<'scatterWithErrorBars', DATA, LABEL>, 'type'>) {
     super(
       item,
       patchController('scatterWithErrorBars', config, ScatterWithErrorBarsController, PointWithErrorBar, [LinearScale])

@@ -5,13 +5,13 @@
   Scale,
   UpdateMode,
   Element,
-  IChartMeta,
+  ChartMeta,
   ChartItem,
-  IChartConfiguration,
-  IPolarAreaControllerDatasetOptions,
+  ChartConfiguration,
+  PolarAreaControllerDatasetOptions,
   ScriptableAndArrayOptions,
-  IPolarAreaControllerChartOptions,
-  ICartesianScaleTypeRegistry,
+  PolarAreaControllerChartOptions,
+  CartesianScaleTypeRegistry,
 } from 'chart.js';
 import { merge, resolve } from 'chart.js/helpers';
 import { calculatePolarScale } from './utils';
@@ -49,7 +49,7 @@ export class PolarAreaWithErrorBarsController extends PolarAreaController {
     return resolve([(this.chart.options as any).elements.arc.angle, (2 * Math.PI) / count], context, index);
   }
 
-  parseObjectData(meta: IChartMeta, data: any[], start: number, count: number) {
+  parseObjectData(meta: ChartMeta, data: any[], start: number, count: number) {
     const parsed = new Array(count);
     const scale = meta.rScale!;
     for (let i = 0; i < count; ++i) {
@@ -107,21 +107,17 @@ export class PolarAreaWithErrorBarsController extends PolarAreaController {
   static readonly defaultRoutes = PolarAreaController.defaultRoutes;
 }
 
-export interface IPolarAreaWithErrorBarsControllerDatasetOptions
-  extends IPolarAreaControllerDatasetOptions,
+export interface PolarAreaWithErrorBarsControllerDatasetOptions
+  extends PolarAreaControllerDatasetOptions,
     ScriptableAndArrayOptions<IErrorBarOptions> {}
 
 declare module 'chart.js' {
-  export enum ChartTypeEnum {
-    polarAreaWithErrorBars = 'polarAreaWithErrorBars',
-  }
-
-  export interface IChartTypeRegistry {
+  export interface ChartTypeRegistry {
     polarAreaWithErrorBars: {
-      chartOptions: IPolarAreaControllerChartOptions;
-      datasetOptions: IPolarAreaWithErrorBarsControllerDatasetOptions;
+      chartOptions: PolarAreaControllerChartOptions;
+      datasetOptions: PolarAreaWithErrorBarsControllerDatasetOptions;
       defaultDataPoint: IErrorBarRDataPoint[];
-      scales: keyof ICartesianScaleTypeRegistry;
+      scales: keyof CartesianScaleTypeRegistry;
     };
   }
 }
@@ -133,7 +129,7 @@ export class PolarAreaWithErrorBarsChart<DATA extends unknown[] = IErrorBarRData
 > {
   static id = PolarAreaWithErrorBarsController.id;
 
-  constructor(item: ChartItem, config: Omit<IChartConfiguration<'polarAreaWithErrorBars', DATA, LABEL>, 'type'>) {
+  constructor(item: ChartItem, config: Omit<ChartConfiguration<'polarAreaWithErrorBars', DATA, LABEL>, 'type'>) {
     super(
       item,
       patchController('polarAreaWithErrorBars', config, PolarAreaWithErrorBarsController, ArcWithErrorBar, [

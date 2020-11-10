@@ -1,12 +1,12 @@
 import createChart from '../__tests__/createChart';
 import { registry, LinearScale, CategoryScale } from 'chart.js';
 import { BarWithErrorBarsController } from './BarWithErrorBarsController';
-import { RectangleWithErrorBar } from '../elements';
+import { BarWithErrorBar } from '../elements';
 
 describe('bar', () => {
   beforeAll(() => {
     registry.addControllers(BarWithErrorBarsController);
-    registry.addElements(RectangleWithErrorBar);
+    registry.addElements(BarWithErrorBar);
     registry.addScales(LinearScale, CategoryScale);
   });
   test('default', () => {

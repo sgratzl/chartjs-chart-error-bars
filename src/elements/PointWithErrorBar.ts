@@ -1,7 +1,7 @@
-﻿import { Point } from 'chart.js';
+﻿import { PointElement } from 'chart.js';
 import { renderErrorBar, errorBarDefaults } from './render';
 
-export class PointWithErrorBar extends Point {
+export class PointWithErrorBar extends PointElement {
   draw(ctx: CanvasRenderingContext2D) {
     super.draw(ctx);
 
@@ -9,6 +9,6 @@ export class PointWithErrorBar extends Point {
   }
 
   static readonly id = 'pointWithErrorBar';
-  static readonly defaults: any = /*#__PURE__*/ Object.assign({}, Point.defaults, errorBarDefaults);
-  static readonly defaultRoutes = Point.defaultRoutes;
+  static readonly defaults: any = /*#__PURE__*/ Object.assign({}, PointElement.defaults, errorBarDefaults);
+  static readonly defaultRoutes = PointElement.defaultRoutes;
 }
