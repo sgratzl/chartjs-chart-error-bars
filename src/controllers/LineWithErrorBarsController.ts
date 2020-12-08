@@ -55,9 +55,11 @@ export class LineWithErrorBarsController extends LineController {
     LineController.defaults,
     animationHints,
     {
-      tooltips: {
-        callbacks: {
-          label: generateBarTooltip,
+      plugins: {
+        tooltip: {
+          callbacks: {
+            label: generateBarTooltip,
+          },
         },
       },
       dataElementType: PointWithErrorBar.id,

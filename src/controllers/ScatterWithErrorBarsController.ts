@@ -62,9 +62,11 @@ export class ScatterWithErrorBarsController extends ScatterController {
     ScatterController.defaults,
     animationHints,
     {
-      tooltips: {
-        callbacks: {
-          label: generateTooltipScatter,
+      plugins: {
+        tooltip: {
+          callbacks: {
+            label: generateTooltipScatter,
+          },
         },
       },
       dataElementType: PointWithErrorBar.id,

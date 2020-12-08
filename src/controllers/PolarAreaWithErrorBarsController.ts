@@ -95,9 +95,11 @@ export class PolarAreaWithErrorBarsController extends PolarAreaController {
     PolarAreaController.defaults,
     animationHints,
     {
-      tooltips: {
-        callbacks: {
-          label: generateTooltipPolar,
+      plugins: {
+        tooltip: {
+          callbacks: {
+            label: generateTooltipPolar,
+          },
         },
       },
       dataElementType: ArcWithErrorBar.id,

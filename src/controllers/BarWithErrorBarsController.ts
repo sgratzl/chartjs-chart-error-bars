@@ -54,9 +54,11 @@ export class BarWithErrorBarsController extends BarController {
     BarController.defaults,
     animationHints,
     {
-      tooltips: {
-        callbacks: {
-          label: generateBarTooltip,
+      plugins: {
+        tooltip: {
+          callbacks: {
+            label: generateBarTooltip,
+          },
         },
       },
       dataElementOptions: BarController.defaults.dataElementOptions.concat(styleKeys),

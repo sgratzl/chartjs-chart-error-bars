@@ -31,7 +31,7 @@ export function generateTooltipScatter(item: TooltipItem) {
 }
 
 export function generateTooltipPolar(this: TooltipModel, item: TooltipItem) {
-  const base = PolarAreaController.defaults.tooltips.callbacks.label.call(this, item);
+  const base = PolarAreaController.defaults.plugins.tooltip.callbacks.label.call(this, item);
   const v = (item.chart.data.datasets[item.datasetIndex].data[item.dataIndex] as unknown) as IErrorBarRDataPoint;
 
   const keys = ['rMin', 'rMax'] as const;
