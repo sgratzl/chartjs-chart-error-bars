@@ -3,6 +3,7 @@
 
 import { Chart, ChartConfiguration, defaults, ChartType, DefaultDataPoint } from 'chart.js';
 import { toMatchImageSnapshot, MatchImageSnapshotOptions } from 'jest-image-snapshot';
+import 'canvas-5-polyfill';
 
 expect.extend({ toMatchImageSnapshot });
 
@@ -30,11 +31,13 @@ export default function createChart<
   canvas.width = width;
   canvas.height = height;
   defaults.font.family = 'Courier New';
-  defaults.font.color = 'transparent';
+  // defaults.color = 'transparent';
   config.options = Object.assign(
     {
       responsive: false,
-      animation: false,
+      animation: {
+        duration: 1,
+      },
       plugins: {
         legend: {
           display: false,

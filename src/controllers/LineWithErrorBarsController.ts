@@ -13,6 +13,7 @@
   UpdateMode,
   CartesianScaleTypeRegistry,
   LineControllerChartOptions,
+  ScriptableContext,
 } from 'chart.js';
 import { merge } from 'chart.js/helpers';
 import { calculateScale } from './utils';
@@ -71,7 +72,7 @@ export class LineWithErrorBarsController extends LineController {
 
 export interface LineWithErrorBarsControllerDatasetOptions
   extends LineControllerDatasetOptions,
-    ScriptableAndArrayOptions<IErrorBarOptions> {}
+    ScriptableAndArrayOptions<IErrorBarOptions, ScriptableContext> {}
 
 declare module 'chart.js' {
   export interface ChartTypeRegistry {

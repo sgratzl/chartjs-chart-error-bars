@@ -8,6 +8,7 @@
   BarElement,
   UpdateMode,
   ScriptableAndArrayOptions,
+  ScriptableContext,
   ChartConfiguration,
   ChartItem,
   BarControllerDatasetOptions,
@@ -70,7 +71,7 @@ export class BarWithErrorBarsController extends BarController {
 
 export interface BarWithErrorBarsControllerDatasetOptions
   extends BarControllerDatasetOptions,
-    ScriptableAndArrayOptions<IErrorBarOptions> {}
+    ScriptableAndArrayOptions<IErrorBarOptions, ScriptableContext> {}
 
 declare module 'chart.js' {
   export interface ChartTypeRegistry {

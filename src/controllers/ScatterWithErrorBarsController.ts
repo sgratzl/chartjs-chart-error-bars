@@ -13,6 +13,7 @@
   LineController,
   ScatterControllerChartOptions,
   CartesianScaleTypeRegistry,
+  ScriptableContext,
 } from 'chart.js';
 import { merge } from 'chart.js/helpers';
 import { calculateScale } from './utils';
@@ -78,7 +79,7 @@ export class ScatterWithErrorBarsController extends ScatterController {
 
 export interface ScatterWithErrorBarsControllerDatasetOptions
   extends ScatterControllerDatasetOptions,
-    ScriptableAndArrayOptions<IErrorBarOptions> {}
+    ScriptableAndArrayOptions<IErrorBarOptions, ScriptableContext> {}
 
 declare module 'chart.js' {
   export interface ChartTypeRegistry {

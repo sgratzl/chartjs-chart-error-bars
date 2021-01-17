@@ -12,6 +12,7 @@
   ScriptableAndArrayOptions,
   PolarAreaControllerChartOptions,
   CartesianScaleTypeRegistry,
+  ScriptableContext,
 } from 'chart.js';
 import { merge, resolve } from 'chart.js/helpers';
 import { calculatePolarScale } from './utils';
@@ -111,7 +112,7 @@ export class PolarAreaWithErrorBarsController extends PolarAreaController {
 
 export interface PolarAreaWithErrorBarsControllerDatasetOptions
   extends PolarAreaControllerDatasetOptions,
-    ScriptableAndArrayOptions<IErrorBarOptions> {}
+    ScriptableAndArrayOptions<IErrorBarOptions, ScriptableContext> {}
 
 declare module 'chart.js' {
   export interface ChartTypeRegistry {
