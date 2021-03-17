@@ -21,7 +21,13 @@ import { IErrorBarOptions, styleObjectKeys } from '../elements/render';
 import { PointWithErrorBar } from '../elements';
 import { generateBarTooltip } from './tooltip';
 import { animationHints } from '../animate';
-import { getMinMax, parseErrorNumberData, parseErrorLabelData, IErrorBarXDataPoint } from './base';
+import {
+  getMinMax,
+  parseErrorNumberData,
+  parseErrorLabelData,
+  IErrorBarXDataPoint,
+  IErrorBarXYDataPoint,
+} from './base';
 import patchController from './patchController';
 
 export class LineWithErrorBarsController extends LineController {
@@ -42,7 +48,7 @@ export class LineWithErrorBarsController extends LineController {
       // inject the other error bar related properties
       calculateScale(
         properties,
-        this.getParsed(index),
+        this.getParsed(index) as Partial<IErrorBarXYDataPoint>,
         index,
         this._cachedMeta.vScale as LinearScale,
         mode === 'reset'
@@ -64,7 +70,7 @@ export class LineWithErrorBarsController extends LineController {
         },
       },
       dataElementType: PointWithErrorBar.id,
-      dataElementOptions: Object.assign({}, LineController.defaults.dataElementOptions, styleObjectKeys),
+      dataElementOptions: Object.assign({}, LineController.defaults!.dataElementOptions, styleObjectKeys),
     },
   ]);
   static readonly defaultRoutes = LineController.defaultRoutes;
@@ -72,7 +78,7 @@ export class LineWithErrorBarsController extends LineController {
 
 export interface LineWithErrorBarsControllerDatasetOptions
   extends LineControllerDatasetOptions,
-    ScriptableAndArrayOptions<IErrorBarOptions, ScriptableContext> {}
+    ScriptableAndArrayOptions<IErrorBarOptions, ScriptableContext<'lineWithErrorBars'>> {}
 
 declare module 'chart.js' {
   export interface ChartTypeRegistry {

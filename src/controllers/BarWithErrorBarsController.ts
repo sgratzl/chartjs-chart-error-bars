@@ -21,7 +21,13 @@ import { styleKeys, IErrorBarOptions } from '../elements/render';
 import { BarWithErrorBar } from '../elements';
 import { generateBarTooltip } from './tooltip';
 import { animationHints } from '../animate';
-import { getMinMax, parseErrorNumberData, parseErrorLabelData, IErrorBarXDataPoint } from './base';
+import {
+  getMinMax,
+  parseErrorNumberData,
+  parseErrorLabelData,
+  IErrorBarXDataPoint,
+  IErrorBarXYDataPoint,
+} from './base';
 import patchController from './patchController';
 
 export class BarWithErrorBarsController extends BarController {
@@ -41,7 +47,7 @@ export class BarWithErrorBarsController extends BarController {
     if (typeof index === 'number') {
       calculateScale(
         properties,
-        this.getParsed(index),
+        this.getParsed(index) as Partial<IErrorBarXYDataPoint>,
         index,
         this._cachedMeta.vScale as LinearScale,
         mode === 'reset'
@@ -62,7 +68,7 @@ export class BarWithErrorBarsController extends BarController {
           },
         },
       },
-      dataElementOptions: BarController.defaults.dataElementOptions.concat(styleKeys),
+      dataElementOptions: (BarController.defaults as any).dataElementOptions.concat(styleKeys),
       dataElementType: BarWithErrorBar.id,
     },
   ]);
@@ -71,7 +77,7 @@ export class BarWithErrorBarsController extends BarController {
 
 export interface BarWithErrorBarsControllerDatasetOptions
   extends BarControllerDatasetOptions,
-    ScriptableAndArrayOptions<IErrorBarOptions, ScriptableContext> {}
+    ScriptableAndArrayOptions<IErrorBarOptions, ScriptableContext<'barWithErrorBars'>> {}
 
 declare module 'chart.js' {
   export interface ChartTypeRegistry {

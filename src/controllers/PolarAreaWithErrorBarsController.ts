@@ -32,7 +32,7 @@ export class PolarAreaWithErrorBarsController extends PolarAreaController {
     const meta = this._cachedMeta;
     return meta.data.reduce((acc, _, index) => {
       // use different data lookup
-      if (!Number.isNaN(meta._parsed[index].r) && this.chart.getDataVisibility(index)) {
+      if (!Number.isNaN((meta._parsed[index] as { r: number }).r) && this.chart.getDataVisibility(index)) {
         return acc + 1;
       }
       return acc;
@@ -43,7 +43,7 @@ export class PolarAreaWithErrorBarsController extends PolarAreaController {
     const meta = this._cachedMeta;
     const count = (meta as any).count as number;
     // use different data lookup
-    if (Number.isNaN(meta._parsed[index].r) || !this.chart.getDataVisibility(index)) {
+    if (Number.isNaN((meta._parsed[index] as { r: number }).r) || !this.chart.getDataVisibility(index)) {
       return 0;
     }
     const context = (this as any).getContext(index, true);
@@ -69,7 +69,7 @@ export class PolarAreaWithErrorBarsController extends PolarAreaController {
     if (typeof index === 'number') {
       calculatePolarScale(
         properties,
-        this.getParsed(index),
+        this.getParsed(index) as IErrorBarRDataPoint,
         this._cachedMeta.rScale as RadialLinearScale,
         mode === 'reset',
         this.chart.options
@@ -104,7 +104,7 @@ export class PolarAreaWithErrorBarsController extends PolarAreaController {
         },
       },
       dataElementType: ArcWithErrorBar.id,
-      dataElementOptions: PolarAreaController.defaults.dataElementOptions.concat(styleKeys),
+      dataElementOptions: (PolarAreaController.defaults as any).dataElementOptions.concat(styleKeys),
     },
   ]);
   static readonly defaultRoutes = PolarAreaController.defaultRoutes;
@@ -112,7 +112,7 @@ export class PolarAreaWithErrorBarsController extends PolarAreaController {
 
 export interface PolarAreaWithErrorBarsControllerDatasetOptions
   extends PolarAreaControllerDatasetOptions,
-    ScriptableAndArrayOptions<IErrorBarOptions, ScriptableContext> {}
+    ScriptableAndArrayOptions<IErrorBarOptions, ScriptableContext<'polarAreaWithErrorBars'>> {}
 
 declare module 'chart.js' {
   export interface ChartTypeRegistry {

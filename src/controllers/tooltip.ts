@@ -6,7 +6,7 @@ function reverseOrder<T>(v: T | T[]) {
   return Array.isArray(v) ? v.slice().reverse() : v;
 }
 
-export function generateBarTooltip(this: TooltipModel, item: TooltipItem) {
+export function generateBarTooltip(this: TooltipModel<'bar'>, item: TooltipItem<'bar'>) {
   const keys = modelKeys((item.element as any).horizontal);
   const base = (Tooltip as any).defaults.callbacks.label.call(this, item);
   const v = (item.chart.data.datasets[item.datasetIndex].data[item.dataIndex] as unknown) as IErrorBarXYDataPoint;
@@ -16,10 +16,10 @@ export function generateBarTooltip(this: TooltipModel, item: TooltipItem) {
   return `${base} (${reverseOrder(v[keys[0]])} .. ${v[keys[1]]})`;
 }
 
-export function generateTooltipScatter(item: TooltipItem) {
+export function generateTooltipScatter(item: TooltipItem<'scatter'>) {
   const v = (item.chart.data.datasets[item.datasetIndex].data[item.dataIndex] as unknown) as IErrorBarXYDataPoint;
 
-  const subLabel = (base: string, horizontal: boolean) => {
+  const subLabel = (base: string | number | boolean, horizontal: boolean) => {
     const keys = modelKeys(horizontal);
     if (v == null || keys.every((k) => v[k] == null)) {
       return base;
@@ -27,11 +27,11 @@ export function generateTooltipScatter(item: TooltipItem) {
     return `${base} [${reverseOrder(v[keys[0]])} .. ${v[keys[1]]}]`;
   };
 
-  return `(${subLabel(item.label, true)}, ${subLabel(item.dataPoint.y, false)})`;
+  return `(${subLabel(item.label, true)}, ${subLabel(item.parsed.y, false)})`;
 }
 
-export function generateTooltipPolar(this: TooltipModel, item: TooltipItem) {
-  const base = PolarAreaController.defaults.plugins.tooltip.callbacks.label.call(this, item);
+export function generateTooltipPolar(this: TooltipModel<'polarArea'>, item: TooltipItem<'polarArea'>) {
+  const base = (PolarAreaController.defaults as any).plugins.tooltip.callbacks.label.call(this, item);
   const v = (item.chart.data.datasets[item.datasetIndex].data[item.dataIndex] as unknown) as IErrorBarRDataPoint;
 
   const keys = ['rMin', 'rMax'] as const;

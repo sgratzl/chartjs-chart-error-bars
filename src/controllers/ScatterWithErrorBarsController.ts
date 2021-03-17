@@ -42,14 +42,14 @@ export class ScatterWithErrorBarsController extends ScatterController {
       // inject the other error bar related properties
       calculateScale(
         properties,
-        this.getParsed(index),
+        this.getParsed(index) as Partial<IErrorBarXYDataPoint>,
         index,
         this._cachedMeta.xScale as LinearScale,
         mode === 'reset'
       );
       calculateScale(
         properties,
-        this.getParsed(index),
+        this.getParsed(index) as Partial<IErrorBarXYDataPoint>,
         index,
         this._cachedMeta.yScale as LinearScale,
         mode === 'reset'
@@ -71,7 +71,7 @@ export class ScatterWithErrorBarsController extends ScatterController {
         },
       },
       dataElementType: PointWithErrorBar.id,
-      dataElementOptions: Object.assign({}, LineController.defaults.dataElementOptions, styleObjectKeys),
+      dataElementOptions: Object.assign({}, LineController.defaults!.dataElementOptions, styleObjectKeys),
     },
   ]);
   static readonly defaultRoutes = LineController.defaultRoutes;
@@ -79,7 +79,7 @@ export class ScatterWithErrorBarsController extends ScatterController {
 
 export interface ScatterWithErrorBarsControllerDatasetOptions
   extends ScatterControllerDatasetOptions,
-    ScriptableAndArrayOptions<IErrorBarOptions, ScriptableContext> {}
+    ScriptableAndArrayOptions<IErrorBarOptions, ScriptableContext<'scatterWithErrorBars'>> {}
 
 declare module 'chart.js' {
   export interface ChartTypeRegistry {
