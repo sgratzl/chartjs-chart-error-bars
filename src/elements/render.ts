@@ -50,9 +50,6 @@ export interface IErrorBarOptions {
 
 export const styleKeys = Object.keys(errorBarDefaults);
 
-export const styleObjectKeys: Record<string, string> = {};
-styleKeys.forEach((key) => (styleObjectKeys[key] = key));
-
 function resolveMulti(vMin: number | number[], vMax: number | number[]) {
   const vMinArr = Array.isArray(vMin) ? vMin : [vMin];
   const vMaxArr = Array.isArray(vMax) ? vMax : [vMax];
@@ -64,6 +61,7 @@ function resolveMulti(vMin: number | number[], vMax: number | number[]) {
 
   return Array(max).map((_, i) => [vMinArr[i % vMinArr.length], vMaxArr[i % vMaxArr.length]]);
 }
+
 
 function resolveOption<T extends string | number>(val: T | { v: T[] }, index: number): T;
 function resolveOption<T extends string | number>(val: readonly T[], index: number): T;
@@ -131,14 +129,7 @@ function drawErrorBarHorizontal(
   ctx.save();
   ctx.translate(0, props.y);
 
-  if (vMin == null) {
-    vMin = props.x;
-  }
-  if (vMax == null) {
-    vMax = props.x;
-  }
-
-  const bars = resolveMulti(vMin, vMax);
+  const bars = resolveMulti(vMin == null ? props.x : vMin, vMax == null ? props.x : vMax);
 
   bars.reverse().forEach(([mi, ma], j) => {
     const i = bars.length - j - 1;

@@ -51,19 +51,17 @@ function interpolateColorOptionArray(from: string[], to: string[], factor: numbe
 }
 
 export const animationHints = {
-  datasets: {
-    animation: {
-      numberArray: {
-        fn: interpolateNumberOptionArray,
-        properties: allModelKeys.concat(
-          styleKeys.filter((d) => !d.endsWith('Color')),
-          ['rMin', 'rMax']
-        ),
-      },
-      colorArray: {
-        fn: interpolateColorOptionArray,
-        properties: allModelKeys.concat(styleKeys.filter((d) => d.endsWith('Color'))),
-      },
+  animations: {
+    numberArray: {
+      fn: interpolateNumberOptionArray,
+      properties: allModelKeys.concat(
+        styleKeys.filter((d) => !d.endsWith('Color')),
+        ['rMin', 'rMax']
+      ),
+    },
+    colorArray: {
+      fn: interpolateColorOptionArray,
+      properties: allModelKeys.concat(styleKeys.filter((d) => d.endsWith('Color'))),
     },
   },
 };

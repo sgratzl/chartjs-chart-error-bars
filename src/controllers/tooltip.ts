@@ -1,5 +1,5 @@
-import { modelKeys } from './utils';
 import { Tooltip, PolarAreaController, TooltipItem, TooltipModel } from 'chart.js';
+import { modelKeys } from './utils';
 import { IErrorBarRDataPoint, IErrorBarXYDataPoint } from './base';
 
 function reverseOrder<T>(v: T | T[]) {

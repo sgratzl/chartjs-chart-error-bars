@@ -9,6 +9,8 @@ export class PointWithErrorBar extends PointElement {
   }
 
   static readonly id = 'pointWithErrorBar';
-  static readonly defaults: any = /*#__PURE__*/ Object.assign({}, PointElement.defaults, errorBarDefaults);
+
+  static readonly defaults: any = /* #__PURE__ */ { ...PointElement.defaults, ...errorBarDefaults };
+
   static readonly defaultRoutes = PointElement.defaultRoutes;
 }

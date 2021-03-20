@@ -9,6 +9,8 @@ export class ArcWithErrorBar extends ArcElement {
   }
 
   static readonly id = 'arcWithErrorBar';
-  static readonly defaults: any = /*#__PURE__*/ Object.assign({}, ArcElement.defaults, errorBarDefaults);
+
+  static readonly defaults: any = /* #__PURE__ */ { ...ArcElement.defaults, ...errorBarDefaults };
+
   static readonly defaultRoutes = ArcElement.defaultRoutes;
 }

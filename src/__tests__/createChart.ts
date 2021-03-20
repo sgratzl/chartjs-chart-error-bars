@@ -32,23 +32,21 @@ export default function createChart<
   canvas.height = height;
   defaults.font.family = 'Courier New';
   // defaults.color = 'transparent';
-  config.options = Object.assign(
-    {
-      responsive: false,
-      animation: {
-        duration: 1,
+  config.options = {
+    responsive: false,
+    animation: {
+      duration: 1,
+    },
+    plugins: {
+      legend: {
+        display: false,
       },
-      plugins: {
-        legend: {
-          display: false,
-        },
-        title: {
-          display: false,
-        },
+      title: {
+        display: false,
       },
     },
-    config.options || {}
-  ) as any;
+    ...(config.options || {}),
+  } as any;
   const ctx = canvas.getContext('2d')!;
 
   const t = new Chart<TYPE, DATA, LABEL>(ctx, config);

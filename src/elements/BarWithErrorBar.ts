@@ -9,6 +9,8 @@ export class BarWithErrorBar extends BarElement {
   }
 
   static readonly id = 'rectangleWithErrorBar';
-  static readonly defaults: any = /*#__PURE__*/ Object.assign({}, BarElement.defaults, errorBarDefaults);
+
+  static readonly defaults: any = /* #__PURE__ */ { ...BarElement.defaults, ...errorBarDefaults };
+
   static readonly defaultRoutes = BarElement.defaultRoutes;
 }

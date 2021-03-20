@@ -20,7 +20,7 @@ import { getMinMax, IErrorBarRDataPoint, parseErrorNumberData } from './base';
 import { generateTooltipPolar } from './tooltip';
 import { animationHints } from '../animate';
 import { ArcWithErrorBar } from '../elements';
-import { IErrorBarOptions, styleKeys } from '../elements/render';
+import { IErrorBarOptions } from '../elements/render';
 import patchController from './patchController';
 
 export class PolarAreaWithErrorBarsController extends PolarAreaController {
@@ -92,9 +92,17 @@ export class PolarAreaWithErrorBarsController extends PolarAreaController {
   }
 
   static readonly id = 'polarAreaWithErrorBars';
-  static readonly defaults: any = /*#__PURE__*/ merge({}, [
+
+  static readonly defaults: any = /* #__PURE__ */ merge({}, [
     PolarAreaController.defaults,
     animationHints,
+    {
+      dataElementType: ArcWithErrorBar.id,
+    },
+  ]);
+
+  static readonly overrides: any = /* #__PURE__ */ merge({}, [
+    (PolarAreaController as any).overrides,
     {
       plugins: {
         tooltip: {
@@ -103,10 +111,9 @@ export class PolarAreaWithErrorBarsController extends PolarAreaController {
           },
         },
       },
-      dataElementType: ArcWithErrorBar.id,
-      dataElementOptions: (PolarAreaController.defaults as any).dataElementOptions.concat(styleKeys),
     },
   ]);
+
   static readonly defaultRoutes = PolarAreaController.defaultRoutes;
 }
 

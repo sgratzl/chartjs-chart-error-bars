@@ -1,5 +1,5 @@
-import createChart from '../__tests__/createChart';
 import { registry, LinearScale, CategoryScale } from 'chart.js';
+import createChart from '../__tests__/createChart';
 import { BarWithErrorBarsController } from './BarWithErrorBarsController';
 import { BarWithErrorBar } from '../elements';
 

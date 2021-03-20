@@ -52,11 +52,11 @@ export function getMinMax(
   canStack: boolean,
   superMethod: (scale: Scale, canStack: boolean) => { min: number; max: number }
 ) {
-  const axis = scale.axis;
+  const { axis } = scale;
   scale.axis = `${axis}MinMin`;
-  const min = superMethod(scale, canStack).min;
+  const { min } = superMethod(scale, canStack);
   scale.axis = `${axis}MaxMax`;
-  const max = superMethod(scale, canStack).max;
+  const { max } = superMethod(scale, canStack);
   scale.axis = axis;
   return { min, max };
 }
@@ -87,7 +87,7 @@ export function parseErrorNumberData(parsed: any[], scale: Scale, data: any[], s
   }
 }
 export function parseErrorLabelData(parsed: any[], scale: Scale, start: number, count: number) {
-  const axis = scale.axis;
+  const { axis } = scale;
   const labels = scale.getLabels();
   for (let i = 0; i < count; i++) {
     const index = i + start;

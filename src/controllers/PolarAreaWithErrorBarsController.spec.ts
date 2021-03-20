@@ -1,5 +1,5 @@
-import createChart from '../__tests__/createChart';
 import { registry, RadialLinearScale } from 'chart.js';
+import createChart from '../__tests__/createChart';
 import { PolarAreaWithErrorBarsController } from './PolarAreaWithErrorBarsController';
 import { ArcWithErrorBar } from '../elements';
 

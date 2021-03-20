@@ -21,7 +21,7 @@ import { getMinMax, IErrorBarXYDataPoint, parseErrorNumberData } from './base';
 import { generateTooltipScatter } from './tooltip';
 import { animationHints } from '../animate';
 import { PointWithErrorBar } from '../elements';
-import { IErrorBarOptions, styleObjectKeys } from '../elements/render';
+import { IErrorBarOptions } from '../elements/render';
 import patchController from './patchController';
 
 export class ScatterWithErrorBarsController extends ScatterController {
@@ -59,9 +59,17 @@ export class ScatterWithErrorBarsController extends ScatterController {
   }
 
   static readonly id = 'scatterWithErrorBars';
-  static readonly defaults: any = /*#__PURE__*/ merge({}, [
+
+  static readonly defaults: any = /* #__PURE__ */ merge({}, [
     ScatterController.defaults,
     animationHints,
+    {
+      dataElementType: PointWithErrorBar.id,
+    },
+  ]);
+
+  static readonly overrides: any = /* #__PURE__ */ merge({}, [
+    (ScatterController as any).overrides,
     {
       plugins: {
         tooltip: {
@@ -70,10 +78,9 @@ export class ScatterWithErrorBarsController extends ScatterController {
           },
         },
       },
-      dataElementType: PointWithErrorBar.id,
-      dataElementOptions: Object.assign({}, LineController.defaults!.dataElementOptions, styleObjectKeys),
     },
   ]);
+
   static readonly defaultRoutes = LineController.defaultRoutes;
 }
 

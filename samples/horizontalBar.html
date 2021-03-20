@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://unpkg.com/chart.js@3.0.0-beta.14"></script>
+    <script src="https://unpkg.com/chart.js@3.0.0-rc"></script>
     <script src="../build/index.umd.js"></script>
   </head>
 
@@ -10,7 +10,7 @@
       <canvas id="canvas"></canvas>
     </div>
     <script>
-      window.onload = function () {
+      window.onload = () => {
         new Chart(document.getElementById('canvas').getContext('2d'), {
           type: 'barWithErrorBars',
           data: {

@@ -17,7 +17,7 @@
 } from 'chart.js';
 import { merge } from 'chart.js/helpers';
 import { calculateScale } from './utils';
-import { IErrorBarOptions, styleObjectKeys } from '../elements/render';
+import { IErrorBarOptions } from '../elements/render';
 import { PointWithErrorBar } from '../elements';
 import { generateBarTooltip } from './tooltip';
 import { animationHints } from '../animate';
@@ -58,9 +58,17 @@ export class LineWithErrorBarsController extends LineController {
   }
 
   static readonly id = 'lineWithErrorBars';
-  static readonly defaults: any = /*#__PURE__*/ merge({}, [
+
+  static readonly defaults: any = /* #__PURE__ */ merge({}, [
     LineController.defaults,
     animationHints,
+    {
+      dataElementType: PointWithErrorBar.id,
+    },
+  ]);
+
+  static readonly overrides: any = /* #__PURE__ */ merge({}, [
+    (LineController as any).overrides,
     {
       plugins: {
         tooltip: {
@@ -69,10 +77,9 @@ export class LineWithErrorBarsController extends LineController {
           },
         },
       },
-      dataElementType: PointWithErrorBar.id,
-      dataElementOptions: Object.assign({}, LineController.defaults!.dataElementOptions, styleObjectKeys),
     },
   ]);
+
   static readonly defaultRoutes = LineController.defaultRoutes;
 }
 
