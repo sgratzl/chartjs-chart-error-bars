@@ -62,7 +62,6 @@ function resolveMulti(vMin: number | number[], vMax: number | number[]) {
   return Array(max).map((_, i) => [vMinArr[i % vMinArr.length], vMaxArr[i % vMaxArr.length]]);
 }
 
-
 function resolveOption<T extends string | number>(val: T | { v: T[] }, index: number): T;
 function resolveOption<T extends string | number>(val: readonly T[], index: number): T;
 function resolveOption<T extends string | number>(val: T | { v: T[] } | readonly T[], index: number) {
@@ -167,13 +166,13 @@ export interface IErrorBarProps {
   yMax?: number | number[];
 }
 
-export function renderErrorBar<P extends IErrorBarProps, O>(elem: Element<P, O>, ctx: CanvasRenderingContext2D) {
+export function renderErrorBar<P extends IErrorBarProps, O>(elem: Element<P, O>, ctx: CanvasRenderingContext2D): void {
   const props = elem.getProps(['x', 'y', 'width', 'height', 'xMin', 'xMax', 'yMin', 'yMax']);
   if (props.xMin != null || props.xMax != null) {
-    drawErrorBarHorizontal(props, props.xMin!, props.xMax!, elem.options as any, ctx);
+    drawErrorBarHorizontal(props, props.xMin ?? null, props.xMax ?? null, elem.options as any, ctx);
   }
   if (props.yMin != null || props.yMax != null) {
-    drawErrorBarVertical(props, props.yMin!, props.yMax!, elem.options as any, ctx);
+    drawErrorBarVertical(props, props.yMin ?? null, props.yMax ?? null, elem.options as any, ctx);
   }
 }
 
@@ -192,13 +191,6 @@ function drawErrorBarArc(
   ctx.save();
   ctx.translate(props.x, props.y); // move to center
 
-  if (vMin == null) {
-    vMin = props.outerRadius;
-  }
-  if (vMax == null) {
-    vMax = props.outerRadius;
-  }
-
   const angle = (props.startAngle + props.endAngle) / 2;
   const cosAngle = Math.cos(angle);
   const sinAngle = Math.sin(angle);
@@ -211,7 +203,7 @@ function drawErrorBarArc(
   v.x /= length;
   v.y /= length;
 
-  const bars = resolveMulti(vMin, vMax);
+  const bars = resolveMulti(vMin ?? props.outerRadius, vMax ?? props.outerRadius);
 
   bars.reverse().forEach(([mi, ma], j) => {
     const i = bars.length - j - 1;
@@ -247,7 +239,7 @@ function drawErrorBarArc(
   ctx.restore();
 }
 
-export function renderErrorBarArc(elem: any, ctx: CanvasRenderingContext2D) {
+export function renderErrorBarArc(elem: any, ctx: CanvasRenderingContext2D): void {
   const props = elem.getProps(['x', 'y', 'startAngle', 'endAngle', 'rMin', 'rMax', 'outerRadius']);
   if (props.rMin != null || props.rMax != null) {
     drawErrorBarArc(props, props.rMin, props.rMax, elem.options as any, ctx);

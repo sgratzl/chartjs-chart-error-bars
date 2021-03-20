@@ -27,7 +27,12 @@ function interpolateArrayOption<T>(
   factor: number,
   type: 'string' | 'number',
   interpolator: (from: T, to: T, factor: number) => T
-) {
+):
+  | T
+  | T[]
+  | {
+      v: T[];
+    } {
   if (typeof from === type && typeof to === type) {
     return interpolator(from as T, to as T, factor);
   }
@@ -42,11 +47,19 @@ function interpolateArrayOption<T>(
   return to;
 }
 
-function interpolateNumberOptionArray(from: number[], to: number[], factor: number) {
+function interpolateNumberOptionArray(
+  from: number[],
+  to: number[],
+  factor: number
+): number | number[] | { v: number[] } {
   return interpolateArrayOption(from, to, factor, 'number', interpolators.number);
 }
 
-function interpolateColorOptionArray(from: string[], to: string[], factor: number) {
+function interpolateColorOptionArray(
+  from: string[],
+  to: string[],
+  factor: number
+): string | string[] | { v: string[] } {
   return interpolateArrayOption(from, to, factor, 'string', interpolators.color);
 }
 
@@ -65,3 +78,5 @@ export const animationHints = {
     },
   },
 };
+
+export default animationHints;

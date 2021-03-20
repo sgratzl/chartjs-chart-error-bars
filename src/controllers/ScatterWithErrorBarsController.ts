@@ -25,18 +25,21 @@ import { IErrorBarOptions } from '../elements/render';
 import patchController from './patchController';
 
 export class ScatterWithErrorBarsController extends ScatterController {
-  getMinMax(scale: Scale, canStack: boolean) {
-    return getMinMax(scale, canStack, (scale, canStack) => super.getMinMax(scale, canStack));
+  getMinMax(scale: Scale, canStack: boolean): { min: number; max: number } {
+    return getMinMax(scale, (patchedScale) => super.getMinMax(patchedScale, canStack));
   }
 
-  parseObjectData(meta: ChartMeta, data: any[], start: number, count: number) {
+  parseObjectData(meta: ChartMeta, data: any[], start: number, count: number): Record<string, unknown>[] {
     const parsed = super.parseObjectData(meta, data, start, count);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     parseErrorNumberData(parsed, meta.xScale!, data, start, count);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     parseErrorNumberData(parsed, meta.yScale!, data, start, count);
     return parsed;
   }
 
-  updateElement(element: PointElement, index: number | undefined, properties: any, mode: UpdateMode) {
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  updateElement(element: PointElement, index: number | undefined, properties: any, mode: UpdateMode): void {
     // inject the other error bar related properties
     if (element instanceof PointWithErrorBar && typeof index === 'number') {
       // inject the other error bar related properties

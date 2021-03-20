@@ -49,14 +49,16 @@ export interface IErrorBarXYDataPoint extends IErrorBarXDataPoint, IErrorBarYDat
 
 export function getMinMax(
   scale: Scale,
-  canStack: boolean,
-  superMethod: (scale: Scale, canStack: boolean) => { min: number; max: number }
-) {
+  superMethod: (scale: Scale) => { min: number; max: number }
+): { min: number; max: number } {
   const { axis } = scale;
+  // eslint-disable-next-line no-param-reassign
   scale.axis = `${axis}MinMin`;
-  const { min } = superMethod(scale, canStack);
+  const { min } = superMethod(scale);
+  // eslint-disable-next-line no-param-reassign
   scale.axis = `${axis}MaxMax`;
-  const { max } = superMethod(scale, canStack);
+  const { max } = superMethod(scale);
+  // eslint-disable-next-line no-param-reassign
   scale.axis = axis;
   return { min, max };
 }
@@ -71,13 +73,13 @@ function computeExtrema(v: number, vm: number | number[], op: (...args: number[]
   return v;
 }
 
-export function parseErrorNumberData(parsed: any[], scale: Scale, data: any[], start: number, count: number) {
+export function parseErrorNumberData(parsed: any[], scale: Scale, data: any[], start: number, count: number): void {
   const axis = typeof scale === 'string' ? scale : scale.axis;
   const vMin = `${axis}Min`;
   const vMax = `${axis}Max`;
   const vMinMin = `${axis}MinMin`;
   const vMaxMax = `${axis}MaxMax`;
-  for (let i = 0; i < count; i++) {
+  for (let i = 0; i < count; i += 1) {
     const index = i + start;
     const p = parsed[i];
     p[vMin] = data[index][vMin];
@@ -86,10 +88,11 @@ export function parseErrorNumberData(parsed: any[], scale: Scale, data: any[], s
     p[vMaxMax] = computeExtrema(p[axis], p[vMax], Math.max);
   }
 }
-export function parseErrorLabelData(parsed: any[], scale: Scale, start: number, count: number) {
+
+export function parseErrorLabelData(parsed: any[], scale: Scale, start: number, count: number): void {
   const { axis } = scale;
   const labels = scale.getLabels();
-  for (let i = 0; i < count; i++) {
+  for (let i = 0; i < count; i += 1) {
     const index = i + start;
     const p = parsed[i];
     p[axis] = scale.parse(labels[index], index);

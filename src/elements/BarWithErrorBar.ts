@@ -1,8 +1,8 @@
 ﻿import { BarElement } from 'chart.js';
 import { renderErrorBar, errorBarDefaults } from './render';
 
-export class BarWithErrorBar extends BarElement {
-  draw(ctx: CanvasRenderingContext2D) {
+export default class BarWithErrorBar extends BarElement {
+  draw(ctx: CanvasRenderingContext2D): void {
     super.draw(ctx);
 
     renderErrorBar(this, ctx);

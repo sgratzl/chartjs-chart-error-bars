@@ -24,11 +24,11 @@ import { IErrorBarOptions } from '../elements/render';
 import patchController from './patchController';
 
 export class PolarAreaWithErrorBarsController extends PolarAreaController {
-  getMinMax(scale: Scale, canStack: boolean) {
-    return getMinMax(scale, canStack, (scale, canStack) => super.getMinMax(scale, canStack));
+  getMinMax(scale: Scale, canStack: boolean): { min: number; max: number } {
+    return getMinMax(scale, (patchedScale) => super.getMinMax(patchedScale, canStack));
   }
 
-  countVisibleElements() {
+  countVisibleElements(): number {
     const meta = this._cachedMeta;
     return meta.data.reduce((acc, _, index) => {
       // use different data lookup
@@ -39,7 +39,7 @@ export class PolarAreaWithErrorBarsController extends PolarAreaController {
     }, 0);
   }
 
-  _computeAngle(index: number) {
+  _computeAngle(index: number): number {
     const meta = this._cachedMeta;
     const count = (meta as any).count as number;
     // use different data lookup
@@ -50,10 +50,12 @@ export class PolarAreaWithErrorBarsController extends PolarAreaController {
     return resolve([(this.chart.options as any).elements.arc.angle, (2 * Math.PI) / count], context, index);
   }
 
-  parseObjectData(meta: ChartMeta, data: any[], start: number, count: number) {
+  // eslint-disable-next-line class-methods-use-this
+  parseObjectData(meta: ChartMeta, data: any[], start: number, count: number): Record<string, unknown>[] {
     const parsed = new Array(count);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const scale = meta.rScale!;
-    for (let i = 0; i < count; ++i) {
+    for (let i = 0; i < count; i += 1) {
       const index = i + start;
       const item = data[index];
       const v = scale.parse(item[scale.axis], index);
@@ -61,11 +63,12 @@ export class PolarAreaWithErrorBarsController extends PolarAreaController {
         [scale.axis]: v,
       };
     }
-    parseErrorNumberData(parsed, meta.rScale!, data, start, count);
+    parseErrorNumberData(parsed, scale, data, start, count);
     return parsed;
   }
 
-  updateElement(element: Element, index: number | undefined, properties: any, mode: UpdateMode) {
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  updateElement(element: Element, index: number | undefined, properties: any, mode: UpdateMode): void {
     if (typeof index === 'number') {
       calculatePolarScale(
         properties,
@@ -78,10 +81,10 @@ export class PolarAreaWithErrorBarsController extends PolarAreaController {
     super.updateElement(element, index, properties, mode);
   }
 
-  updateElements(arcs: Element[], start: number, count: number, mode: UpdateMode) {
+  updateElements(arcs: Element[], start: number, count: number, mode: UpdateMode): void {
     const scale = this.chart.scales.r as RadialLinearScale;
     const bak = scale.getDistanceFromCenterForValue;
-    scale.getDistanceFromCenterForValue = function (v) {
+    scale.getDistanceFromCenterForValue = function getDistanceFromCenterForValue(v) {
       if (typeof v === 'number') {
         return bak.call(this, v);
       }

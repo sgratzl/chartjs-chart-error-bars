@@ -35,7 +35,7 @@ export default (options) => {
     banner,
     globals: {
       'chart.js': 'Chart',
-      'chart.js/helpers': 'Chart.helpers'
+      'chart.js/helpers': 'Chart.helpers',
     },
   };
 

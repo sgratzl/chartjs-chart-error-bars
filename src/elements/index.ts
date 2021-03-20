@@ -1,3 +1,3 @@
-export * from './BarWithErrorBar';
-export * from './PointWithErrorBar';
-export * from './ArcWithErrorBar';
+export { default as BarWithErrorBar } from './BarWithErrorBar';
+export { default as PointWithErrorBar } from './PointWithErrorBar';
+export { default as ArcWithErrorBar } from './ArcWithErrorBar';

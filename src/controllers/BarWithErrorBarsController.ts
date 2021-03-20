@@ -31,18 +31,21 @@ import {
 import patchController from './patchController';
 
 export class BarWithErrorBarsController extends BarController {
-  getMinMax(scale: Scale, canStack: boolean) {
-    return getMinMax(scale, canStack, (scale, canStack) => super.getMinMax(scale, canStack));
+  getMinMax(scale: Scale, canStack: boolean): { min: number; max: number } {
+    return getMinMax(scale, (patchedScale) => super.getMinMax(patchedScale, canStack));
   }
 
-  parseObjectData(meta: ChartMeta, data: any[], start: number, count: number) {
+  parseObjectData(meta: ChartMeta, data: any[], start: number, count: number): Record<string, unknown>[] {
     const parsed = super.parseObjectData(meta, data, start, count);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     parseErrorNumberData(parsed, meta.vScale!, data, start, count);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     parseErrorLabelData(parsed, meta.iScale!, start, count);
     return parsed;
   }
 
-  updateElement(element: BarElement, index: number | undefined, properties: any, mode: UpdateMode) {
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  updateElement(element: BarElement, index: number | undefined, properties: any, mode: UpdateMode): void {
     // inject the other error bar related properties
     if (typeof index === 'number') {
       calculateScale(

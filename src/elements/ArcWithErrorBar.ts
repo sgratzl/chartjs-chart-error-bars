@@ -1,8 +1,8 @@
 ﻿import { ArcElement } from 'chart.js';
 import { renderErrorBarArc, errorBarDefaults } from './render';
 
-export class ArcWithErrorBar extends ArcElement {
-  draw(ctx: CanvasRenderingContext2D) {
+export default class ArcWithErrorBar extends ArcElement {
+  draw(ctx: CanvasRenderingContext2D): void {
     super.draw(ctx);
 
     renderErrorBarArc(this, ctx);
