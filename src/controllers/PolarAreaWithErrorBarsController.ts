@@ -14,7 +14,7 @@
   CartesianScaleTypeRegistry,
   ScriptableContext,
 } from 'chart.js';
-import { merge, resolve } from 'chart.js/helpers';
+import { merge } from 'chart.js/helpers';
 import { calculatePolarScale } from './utils';
 import { getMinMax, IErrorBarRDataPoint, parseErrorNumberData } from './base';
 import { generateTooltipPolar } from './tooltip';
@@ -39,16 +39,22 @@ export class PolarAreaWithErrorBarsController extends PolarAreaController {
     }, 0);
   }
 
-  _computeAngle(index: number): number {
-    const meta = this._cachedMeta;
-    const count = (meta as any).count as number;
-    // use different data lookup
-    if (Number.isNaN((meta._parsed[index] as { r: number }).r) || !this.chart.getDataVisibility(index)) {
-      return 0;
-    }
-    const context = (this as any).getContext(index, true);
-    return resolve([(this.chart.options as any).elements.arc.angle, (2 * Math.PI) / count], context, index);
-  }
+  // _computeAngle(index: number, mode, defaultAngle: number): number {
+  //   return this.chart.getDataVisibility(index)
+  //     ? toRadians(this.resolveDataElementOptions(index, mode).angle || defaultAngle)
+  //     : 0;
+  // }
+
+  // _computeAngle(index: number): number {
+  //   const meta = this._cachedMeta;
+  //   const count = (meta as any).count as number;
+  //   // use different data lookup
+  //   if (Number.isNaN((meta._parsed[index] as { r: number }).r) || !this.chart.getDataVisibility(index)) {
+  //     return 0;
+  //   }
+  //   const context = (this as any).getContext(index, true);
+  //   return resolve([(this.chart.options as any).elements.arc.angle, (2 * Math.PI) / count], context, index);
+  // }
 
   // eslint-disable-next-line class-methods-use-this
   parseObjectData(meta: ChartMeta, data: any[], start: number, count: number): Record<string, unknown>[] {
