@@ -239,6 +239,7 @@ function drawErrorBarArc(
   ctx.restore();
 }
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function renderErrorBarArc(elem: any, ctx: CanvasRenderingContext2D): void {
   const props = elem.getProps(['x', 'y', 'startAngle', 'endAngle', 'rMin', 'rMax', 'outerRadius']);
   if (props.rMin != null || props.rMax != null) {
