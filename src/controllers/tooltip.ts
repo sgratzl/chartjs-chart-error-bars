@@ -1,6 +1,6 @@
 import { Tooltip, PolarAreaController, TooltipItem, TooltipModel } from 'chart.js';
 import { modelKeys } from './utils';
-import { IErrorBarRDataPoint, IErrorBarXYDataPoint } from './base';
+import type { IErrorBarRDataPoint, IErrorBarXYDataPoint } from './base';
 
 function reverseOrder<T>(v: T | T[]) {
   return Array.isArray(v) ? v.slice().reverse() : v;

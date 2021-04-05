@@ -1,4 +1,4 @@
-import { Element, ArcProps } from 'chart.js';
+import type { Element, ArcProps } from 'chart.js';
 
 export const errorBarDefaults = {
   errorBarLineWidth: { v: [1, 3] },
@@ -7,6 +7,11 @@ export const errorBarDefaults = {
   errorBarWhiskerRatio: { v: [0.2, 0.25] },
   errorBarWhiskerSize: { v: [20, 24] },
   errorBarWhiskerColor: { v: ['#2c2c2c', '#1f1f1f'] },
+};
+
+export const errorBarDescriptors = /* #__PURE__ */ {
+  _scriptable: true,
+  _indexable: (name: string): boolean => name !== 'v',
 };
 
 export interface IErrorBarOptions {

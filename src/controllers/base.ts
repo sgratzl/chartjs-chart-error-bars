@@ -1,4 +1,4 @@
-import { Scale } from 'chart.js';
+import type { Scale } from 'chart.js';
 
 export interface IErrorBarXDataPoint {
   /**

@@ -11,13 +11,11 @@
   LineControllerDatasetOptions,
   ScriptableAndArrayOptions,
   UpdateMode,
-  CartesianScaleTypeRegistry,
-  LineControllerChartOptions,
   ScriptableContext,
 } from 'chart.js';
 import { merge } from 'chart.js/helpers';
 import { calculateScale } from './utils';
-import { IErrorBarOptions } from '../elements/render';
+import type { IErrorBarOptions } from '../elements/render';
 import { PointWithErrorBar } from '../elements';
 import { generateBarTooltip } from './tooltip';
 import { animationHints } from '../animate';
@@ -95,8 +93,9 @@ declare module 'chart.js' {
     lineWithErrorBars: {
       chartOptions: LineControllerChartOptions;
       datasetOptions: LineWithErrorBarsControllerDatasetOptions;
-      defaultDataPoint: IErrorBarXDataPoint[];
+      defaultDataPoint: IErrorBarXDataPoint;
       scales: keyof CartesianScaleTypeRegistry;
+      parsedDataType: IErrorBarXDataPoint & ChartTypeRegistry['line']['parsedDataType'];
     };
   }
 }

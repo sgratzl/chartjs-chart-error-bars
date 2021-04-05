@@ -12,12 +12,10 @@
   ChartConfiguration,
   ChartItem,
   BarControllerDatasetOptions,
-  CartesianScaleTypeRegistry,
-  BarControllerChartOptions,
 } from 'chart.js';
 import { merge } from 'chart.js/helpers';
 import { calculateScale } from './utils';
-import { IErrorBarOptions } from '../elements/render';
+import type { IErrorBarOptions } from '../elements/render';
 import { BarWithErrorBar } from '../elements';
 import { generateBarTooltip } from './tooltip';
 import { animationHints } from '../animate';
@@ -94,8 +92,9 @@ declare module 'chart.js' {
     barWithErrorBars: {
       chartOptions: BarControllerChartOptions;
       datasetOptions: BarWithErrorBarsControllerDatasetOptions;
-      defaultDataPoint: IErrorBarXDataPoint[];
+      defaultDataPoint: IErrorBarXDataPoint;
       scales: keyof CartesianScaleTypeRegistry;
+      parsedDataType: IErrorBarXDataPoint & ChartTypeRegistry['bar']['parsedDataType'];
     };
   }
 }

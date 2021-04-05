@@ -11,8 +11,6 @@
   ScriptableAndArrayOptions,
   UpdateMode,
   LineController,
-  ScatterControllerChartOptions,
-  CartesianScaleTypeRegistry,
   ScriptableContext,
 } from 'chart.js';
 import { merge } from 'chart.js/helpers';
@@ -21,7 +19,7 @@ import { getMinMax, IErrorBarXYDataPoint, parseErrorNumberData } from './base';
 import { generateTooltipScatter } from './tooltip';
 import { animationHints } from '../animate';
 import { PointWithErrorBar } from '../elements';
-import { IErrorBarOptions } from '../elements/render';
+import type { IErrorBarOptions } from '../elements/render';
 import patchController from './patchController';
 
 export class ScatterWithErrorBarsController extends ScatterController {
@@ -96,8 +94,9 @@ declare module 'chart.js' {
     scatterWithErrorBars: {
       chartOptions: ScatterControllerChartOptions;
       datasetOptions: ScatterWithErrorBarsControllerDatasetOptions;
-      defaultDataPoint: IErrorBarXYDataPoint[];
+      defaultDataPoint: IErrorBarXYDataPoint;
       scales: keyof CartesianScaleTypeRegistry;
+      parsedDataType: IErrorBarXYDataPoint & ChartTypeRegistry['scatter']['parsedDataType'];
     };
   }
 }

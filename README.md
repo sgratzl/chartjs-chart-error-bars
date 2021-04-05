@@ -30,7 +30,7 @@ Polar Area plot
 ## Install
 
 ```bash
-npm install --save chart.js@next chartjs-chart-error-bars@next
+npm install --save chart.js chartjs-chart-error-bars
 ```
 
 ## Usage

@@ -1,5 +1,5 @@
 ﻿import { BarElement } from 'chart.js';
-import { renderErrorBar, errorBarDefaults } from './render';
+import { renderErrorBar, errorBarDefaults, errorBarDescriptors } from './render';
 
 export default class BarWithErrorBar extends BarElement {
   draw(ctx: CanvasRenderingContext2D): void {
@@ -13,4 +13,6 @@ export default class BarWithErrorBar extends BarElement {
   static readonly defaults: any = /* #__PURE__ */ { ...BarElement.defaults, ...errorBarDefaults };
 
   static readonly defaultRoutes = BarElement.defaultRoutes;
+
+  static readonly descriptors = errorBarDescriptors;
 }

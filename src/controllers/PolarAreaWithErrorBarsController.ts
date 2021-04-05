@@ -10,8 +10,6 @@
   ChartConfiguration,
   PolarAreaControllerDatasetOptions,
   ScriptableAndArrayOptions,
-  PolarAreaControllerChartOptions,
-  CartesianScaleTypeRegistry,
   ScriptableContext,
 } from 'chart.js';
 import { merge } from 'chart.js/helpers';
@@ -20,7 +18,7 @@ import { getMinMax, IErrorBarRDataPoint, parseErrorNumberData } from './base';
 import { generateTooltipPolar } from './tooltip';
 import { animationHints } from '../animate';
 import { ArcWithErrorBar } from '../elements';
-import { IErrorBarOptions } from '../elements/render';
+import type { IErrorBarOptions } from '../elements/render';
 import patchController from './patchController';
 
 export class PolarAreaWithErrorBarsController extends PolarAreaController {
@@ -135,8 +133,9 @@ declare module 'chart.js' {
     polarAreaWithErrorBars: {
       chartOptions: PolarAreaControllerChartOptions;
       datasetOptions: PolarAreaWithErrorBarsControllerDatasetOptions;
-      defaultDataPoint: IErrorBarRDataPoint[];
+      defaultDataPoint: IErrorBarRDataPoint;
       scales: keyof CartesianScaleTypeRegistry;
+      parsedDataType: IErrorBarRDataPoint & ChartTypeRegistry['polarArea']['parsedDataType'];
     };
   }
 }

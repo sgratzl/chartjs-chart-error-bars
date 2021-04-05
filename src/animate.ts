@@ -41,8 +41,8 @@ function interpolateArrayOption<T>(
   }
   const isV = (t: T | T[] | { v: T[] }): t is { v: T[] } => t && Array.isArray((t as { v: T[] }).v);
 
-  if (isV(from) && Array.isArray(from.v) && isV(to)) {
-    return from.v.map((f, i) => interpolator(f, to.v[i], factor));
+  if (isV(from) && isV(to)) {
+    return { v: from.v.map((f, i) => interpolator(f, to.v[i], factor)) };
   }
   return to;
 }
@@ -74,7 +74,7 @@ export const animationHints = {
     },
     colorArray: {
       fn: interpolateColorOptionArray,
-      properties: allModelKeys.concat(styleKeys.filter((d) => d.endsWith('Color'))),
+      properties: styleKeys.filter((d) => d.endsWith('Color')),
     },
   },
 };

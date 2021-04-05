@@ -1,5 +1,5 @@
 ﻿import { ArcElement } from 'chart.js';
-import { renderErrorBarArc, errorBarDefaults } from './render';
+import { renderErrorBarArc, errorBarDefaults, errorBarDescriptors } from './render';
 
 export default class ArcWithErrorBar extends ArcElement {
   draw(ctx: CanvasRenderingContext2D): void {
@@ -13,4 +13,6 @@ export default class ArcWithErrorBar extends ArcElement {
   static readonly defaults: any = /* #__PURE__ */ { ...ArcElement.defaults, ...errorBarDefaults };
 
   static readonly defaultRoutes = ArcElement.defaultRoutes;
+
+  static readonly descriptors = errorBarDescriptors;
 }
