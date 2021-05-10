@@ -73,7 +73,7 @@ function resolveOption<T extends string | number>(val: T | { v: T[] } | readonly
   if (typeof val === 'string' || typeof val === 'number') {
     return val;
   }
-  const v = Array.isArray(val) ? val : ((val as unknown) as { v: T[] }).v;
+  const v = Array.isArray(val) ? val : (val as unknown as { v: T[] }).v;
   return v[index % v.length];
 }
 

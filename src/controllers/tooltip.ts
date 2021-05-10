@@ -9,7 +9,7 @@ function reverseOrder<T>(v: T | T[]) {
 export function generateBarTooltip(this: TooltipModel<'bar'>, item: TooltipItem<'bar'>): string {
   const keys = modelKeys((item.element as any).horizontal);
   const base = (Tooltip as any).defaults.callbacks.label.call(this, item);
-  const v = (item.chart.data.datasets[item.datasetIndex].data[item.dataIndex] as unknown) as IErrorBarXYDataPoint;
+  const v = item.chart.data.datasets[item.datasetIndex].data[item.dataIndex] as unknown as IErrorBarXYDataPoint;
   if (v == null || keys.every((k) => v[k] == null)) {
     return base;
   }
@@ -17,7 +17,7 @@ export function generateBarTooltip(this: TooltipModel<'bar'>, item: TooltipItem<
 }
 
 export function generateTooltipScatter(item: TooltipItem<'scatter'>): string {
-  const v = (item.chart.data.datasets[item.datasetIndex].data[item.dataIndex] as unknown) as IErrorBarXYDataPoint;
+  const v = item.chart.data.datasets[item.datasetIndex].data[item.dataIndex] as unknown as IErrorBarXYDataPoint;
 
   const subLabel = (base: string | number | boolean, horizontal: boolean) => {
     const keys = modelKeys(horizontal);
@@ -32,7 +32,7 @@ export function generateTooltipScatter(item: TooltipItem<'scatter'>): string {
 
 export function generateTooltipPolar(this: TooltipModel<'polarArea'>, item: TooltipItem<'polarArea'>): string {
   const base = (PolarAreaController as any).overrides.plugins.tooltip.callbacks.label.call(this, item);
-  const v = (item.chart.data.datasets[item.datasetIndex].data[item.dataIndex] as unknown) as IErrorBarRDataPoint;
+  const v = item.chart.data.datasets[item.datasetIndex].data[item.dataIndex] as unknown as IErrorBarRDataPoint;
 
   const keys = ['rMin', 'rMax'] as const;
   if (v == null || keys.every((k) => v[k] == null)) {
