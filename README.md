@@ -55,15 +55,31 @@ Several new styling keys are added to the individual chart types
 
 ## Data structure
 
-The data structure depends on the chart type. It uses the fact that chart.js is supporting scatterplot. Thus, it is already prepared for object values.
+The data structure depends on the chart type. It uses the fact that chart.js is supporting scatterplots. Thus, it is already prepared for object values.
 
 ### Chart types: `bar` and `line`
 
+see TypeScript Interface:
+
+[IErrorBarXDataPoint](./blob/main/src/controllers/base.ts#L3-L16)
+
 ### Chart type: `bar` with `indexAxis: 'y'`
+
+[IErrorBarYDataPoint](./blob/main/src/controllers/base.ts#L18-L31)
 
 ### Chart type: `scatter`
 
+a combination of the previous two ones
+
+[IErrorBarXDataPoint](./blob/main/src/controllers/base.ts#L3-L16)
+
+and
+
+[IErrorBarYDataPoint](./blob/main/src/controllers/base.ts#L18-L31)
+
 ### Chart type: `polarArea`
+
+[IErrorBarRDataPoint](./blob/main/src/controllers/base.ts#L33-L46)
 
 ## Multiple Error Bars
 
@@ -76,6 +92,10 @@ Multiple error bars are supported.
 The styling options support different array version.
 
 **Note**: as with other chart.js style options, using an array will be one value per dataset. Thus, to specify the values for different error bars, one needs to wrap it in an object with a `v` key having the value itself. The outer for the dataset, the inner for the error bars.
+
+see TypeScript interface:
+
+[IErrorBarOptions](./blob/main/src/elements/render.ts#L17-L54)
 
 ### Data structure
 
