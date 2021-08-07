@@ -6,12 +6,12 @@
   ChartConfiguration,
   ChartMeta,
   ScatterControllerDatasetOptions,
-  PointElement,
   Scale,
   ScriptableAndArrayOptions,
   UpdateMode,
   LineController,
   ScriptableContext,
+  Element,
 } from 'chart.js';
 import { merge } from 'chart.js/helpers';
 import { calculateScale } from './utils';
@@ -36,8 +36,12 @@ export class ScatterWithErrorBarsController extends ScatterController {
     return parsed;
   }
 
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  updateElement(element: PointElement, index: number | undefined, properties: any, mode: UpdateMode): void {
+  updateElement(
+    element: Element,
+    index: number | undefined,
+    properties: Record<string, unknown>,
+    mode: UpdateMode
+  ): void {
     // inject the other error bar related properties
     if (element instanceof PointWithErrorBar && typeof index === 'number') {
       // inject the other error bar related properties
@@ -96,6 +100,7 @@ declare module 'chart.js' {
       datasetOptions: ScatterWithErrorBarsControllerDatasetOptions;
       defaultDataPoint: IErrorBarXYDataPoint;
       scales: keyof CartesianScaleTypeRegistry;
+      metaExtensions: Record<string, never>;
       parsedDataType: IErrorBarXYDataPoint & ChartTypeRegistry['scatter']['parsedDataType'];
     };
   }

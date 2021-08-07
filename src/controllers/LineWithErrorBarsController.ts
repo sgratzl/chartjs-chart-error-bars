@@ -4,7 +4,6 @@
   LinearScale,
   CategoryScale,
   ChartItem,
-  PointElement,
   Scale,
   ChartConfiguration,
   ChartMeta,
@@ -12,6 +11,7 @@
   ScriptableAndArrayOptions,
   UpdateMode,
   ScriptableContext,
+  Element,
 } from 'chart.js';
 import { merge } from 'chart.js/helpers';
 import { calculateScale } from './utils';
@@ -42,8 +42,12 @@ export class LineWithErrorBarsController extends LineController {
     return parsed;
   }
 
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  updateElement(element: PointElement, index: number | undefined, properties: any, mode: UpdateMode): void {
+  updateElement(
+    element: Element,
+    index: number | undefined,
+    properties: Record<string, unknown>,
+    mode: UpdateMode
+  ): void {
     // inject the other error bar related properties
     if (element instanceof PointWithErrorBar && typeof index === 'number') {
       // inject the other error bar related properties
@@ -95,6 +99,7 @@ declare module 'chart.js' {
       datasetOptions: LineWithErrorBarsControllerDatasetOptions;
       defaultDataPoint: IErrorBarXDataPoint;
       scales: keyof CartesianScaleTypeRegistry;
+      metaExtensions: Record<string, never>;
       parsedDataType: IErrorBarXDataPoint & ChartTypeRegistry['line']['parsedDataType'];
     };
   }

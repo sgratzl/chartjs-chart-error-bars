@@ -71,8 +71,12 @@ export class PolarAreaWithErrorBarsController extends PolarAreaController {
     return parsed;
   }
 
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  updateElement(element: Element, index: number | undefined, properties: any, mode: UpdateMode): void {
+  updateElement(
+    element: Element,
+    index: number | undefined,
+    properties: Record<string, unknown>,
+    mode: UpdateMode
+  ): void {
     if (typeof index === 'number') {
       calculatePolarScale(
         properties,
@@ -135,6 +139,7 @@ declare module 'chart.js' {
       datasetOptions: PolarAreaWithErrorBarsControllerDatasetOptions;
       defaultDataPoint: IErrorBarRDataPoint;
       scales: keyof CartesianScaleTypeRegistry;
+      metaExtensions: Record<string, never>;
       parsedDataType: IErrorBarRDataPoint & ChartTypeRegistry['polarArea']['parsedDataType'];
     };
   }

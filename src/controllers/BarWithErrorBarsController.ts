@@ -5,13 +5,13 @@
   CategoryScale,
   Scale,
   ChartMeta,
-  BarElement,
   UpdateMode,
   ScriptableAndArrayOptions,
   ScriptableContext,
   ChartConfiguration,
   ChartItem,
   BarControllerDatasetOptions,
+  Element,
 } from 'chart.js';
 import { merge } from 'chart.js/helpers';
 import { calculateScale } from './utils';
@@ -42,8 +42,12 @@ export class BarWithErrorBarsController extends BarController {
     return parsed;
   }
 
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  updateElement(element: BarElement, index: number | undefined, properties: any, mode: UpdateMode): void {
+  updateElement(
+    element: Element,
+    index: number | undefined,
+    properties: Record<string, unknown>,
+    mode: UpdateMode
+  ): void {
     // inject the other error bar related properties
     if (typeof index === 'number') {
       calculateScale(
@@ -94,6 +98,7 @@ declare module 'chart.js' {
       datasetOptions: BarWithErrorBarsControllerDatasetOptions;
       defaultDataPoint: IErrorBarXDataPoint;
       scales: keyof CartesianScaleTypeRegistry;
+      metaExtensions: Record<string, never>;
       parsedDataType: IErrorBarXDataPoint & ChartTypeRegistry['bar']['parsedDataType'];
     };
   }

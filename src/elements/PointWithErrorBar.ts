@@ -2,8 +2,9 @@
 import { renderErrorBar, errorBarDefaults, errorBarDescriptors } from './render';
 
 export default class PointWithErrorBar extends PointElement {
-  draw(ctx: CanvasRenderingContext2D): void {
-    super.draw(ctx);
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  draw(ctx: CanvasRenderingContext2D, area?: any): void {
+    (super.draw.call as any)(this, ctx, area);
 
     renderErrorBar(this as any, ctx);
   }
