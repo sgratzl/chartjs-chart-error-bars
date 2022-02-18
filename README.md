@@ -119,10 +119,10 @@ Variant A:
 
 ```js
 import Chart, { LinearScale, CategoryScale } from 'chart.js';
-import { BarWithErrorBarsController, RectangleWithErrorBar } from 'chartjs-chart-error-bars';
+import { BarWithErrorBarsController, BarWithErrorBar } from 'chartjs-chart-error-bars';
 
 // register controller in chart.js and ensure the defaults are set
-Chart.register(BarWithErrorBarsController, RectangleWithErrorBar, LinearScale, CategoryScale);
+Chart.register(BarWithErrorBarsController, BarWithErrorBar, LinearScale, CategoryScale);
 
 const chart = new Chart(document.getElementById('canvas').getContext('2d'), {
   type: BarWithErrorBarsController.id,
