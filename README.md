@@ -118,11 +118,11 @@ The ESM build of the library supports tree shaking thus having no side effects. 
 Variant A:
 
 ```js
-import Chart from 'chart.js';
-import { BarWithErrorBarsController, RectangleWithErrorBar } from 'chartjs-chart-error-bars';
+import Chart, { LinearScale, CategoryScale } from 'chart.js';
+import { BarWithErrorBarsController, BarWithErrorBar } from 'chartjs-chart-error-bars';
 
 // register controller in chart.js and ensure the defaults are set
-Chart.register(BarWithErrorBarsController, RectangleWithErrorBar);
+Chart.register(BarWithErrorBarsController, BarWithErrorBar, LinearScale, CategoryScale);
 
 const chart = new Chart(document.getElementById('canvas').getContext('2d'), {
   type: BarWithErrorBarsController.id,

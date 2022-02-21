@@ -1,5 +1,5 @@
 ﻿import { PointElement } from 'chart.js';
-import { renderErrorBar, errorBarDefaults, errorBarDescriptors } from './render';
+import { renderErrorBar, errorBarDefaults, errorBarDescriptors, IErrorBarOptions } from './render';
 
 export default class PointWithErrorBar extends PointElement {
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -16,4 +16,13 @@ export default class PointWithErrorBar extends PointElement {
   static readonly defaultRoutes = PointElement.defaultRoutes;
 
   static readonly descriptors = errorBarDescriptors;
+}
+
+declare module 'chart.js' {
+  export interface ElementOptionsByType<TType extends ChartType> {
+    pointWithErrorBar: ScriptableAndArrayOptions<
+      IErrorBarOptions & PointOptions & PointHoverOptions,
+      ScriptableContext<TType>
+    >;
+  }
 }
