@@ -15,4 +15,4 @@ registry.addControllers(
   PolarAreaWithErrorBarsController,
   ScatterWithErrorBarsController
 );
-registry.addElements(BarWithErrorBar, ArcWithErrorBar, LineWithErrorBarsController, PointWithErrorBar);
+registry.addElements(BarWithErrorBar, ArcWithErrorBar, PointWithErrorBar);
