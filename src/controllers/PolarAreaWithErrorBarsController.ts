@@ -22,8 +22,30 @@ import type { IErrorBarOptions } from '../elements/render';
 import patchController from './patchController';
 
 export class PolarAreaWithErrorBarsController extends PolarAreaController {
-  getMinMax(scale: Scale, canStack: boolean): { min: number; max: number } {
-    return getMinMax(scale, (patchedScale) => super.getMinMax(patchedScale, canStack));
+  getMinMaxImpl(scale: Scale) {
+    // new version doesn't use scale.axis wrongly
+    const t = this._cachedMeta;
+    const e = {
+      min: Number.POSITIVE_INFINITY,
+      max: Number.NEGATIVE_INFINITY,
+    };
+    t.data.forEach((_, i) => {
+      const s = (this.getParsed(i) as any)[scale.axis] as number;
+      if (Number.isNaN(s) || !this.chart.getDataVisibility(i)) {
+        return;
+      }
+      if (s < e.min) {
+        e.min = s;
+      }
+      if (s > e.max) {
+        e.max = s;
+      }
+    });
+    return e;
+  }
+
+  getMinMax(scale: Scale): { min: number; max: number } {
+    return getMinMax(scale, (patchedScale) => this.getMinMaxImpl(patchedScale));
   }
 
   countVisibleElements(): number {
