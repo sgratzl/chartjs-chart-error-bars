@@ -50,16 +50,40 @@ export class LineWithErrorBarsController extends LineController {
   ): void {
     // inject the other error bar related properties
     if (element instanceof PointWithErrorBar && typeof index === 'number') {
-      // inject the other error bar related properties
-      calculateScale(
-        properties,
-        this.getParsed(index) as Partial<IErrorBarXYDataPoint>,
-        index,
-        this._cachedMeta.vScale as LinearScale,
-        mode === 'reset'
-      );
+      this.updateElementScale(index, properties, mode);
     }
     super.updateElement(element, index, properties, mode);
+  }
+
+  protected updateElementScale(index: number, properties: Record<string, unknown>, mode: UpdateMode): void {
+    // inject the other error bar related properties
+    calculateScale(
+      properties,
+      this.getParsed(index) as Partial<IErrorBarXYDataPoint>,
+      index,
+      this._cachedMeta.vScale as LinearScale,
+      mode === 'reset'
+    );
+  }
+
+  updateElements(points: Element[], start: number, count: number, mode: UpdateMode) {
+    const reset = mode === 'reset';
+    const c = this.chart as unknown as { _animationsDisabled: boolean };
+    const directUpdate = c._animationsDisabled || reset || mode === 'none';
+    // directUpdate not supported hack it
+    super.updateElements(points, start, count, mode);
+
+    if (!directUpdate) {
+      return;
+    }
+    // manually update since with optimizations updateElement is not called
+    for (let i = start; i < start + count; ++i) {
+      const point = points[i];
+      // inject the other error bar related properties
+      if (point instanceof PointWithErrorBar) {
+        this.updateElementScale(i, point as unknown as Record<string, unknown>, mode);
+      }
+    }
   }
 
   static readonly id = 'lineWithErrorBars';
