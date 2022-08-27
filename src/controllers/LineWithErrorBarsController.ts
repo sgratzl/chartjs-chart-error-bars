@@ -38,7 +38,13 @@ export class LineWithErrorBarsController extends LineController {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     parseErrorNumberData(parsed, meta.vScale!, data, start, count);
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    parseErrorLabelData(parsed, meta.iScale!, start, count);
+    const iScale = meta.iScale as Scale;
+    const hasNumberIScale = iScale.type === 'linear' || iScale.type === 'logarithmic';
+    if (hasNumberIScale) {
+      parseErrorNumberData(parsed, meta.iScale!, data, start, count);
+    } else {
+      parseErrorLabelData(parsed, meta.iScale!, start, count);
+    }
     return parsed;
   }
 
@@ -64,6 +70,18 @@ export class LineWithErrorBarsController extends LineController {
       this._cachedMeta.vScale as LinearScale,
       mode === 'reset'
     );
+
+    const iScale = this._cachedMeta.iScale as Scale;
+    const hasNumberIScale = iScale.type === 'linear' || iScale.type === 'logarithmic';
+    if (hasNumberIScale) {
+      calculateScale(
+        properties,
+        this.getParsed(index) as Partial<IErrorBarXYDataPoint>,
+        index,
+        this._cachedMeta.iScale as LinearScale,
+        mode === 'reset'
+      );
+    }
   }
 
   updateElements(points: Element[], start: number, count: number, mode: UpdateMode) {
