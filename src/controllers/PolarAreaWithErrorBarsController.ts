@@ -76,9 +76,25 @@ export class PolarAreaWithErrorBarsController extends PolarAreaController {
   //   return resolve([(this.chart.options as any).elements.arc.angle, (2 * Math.PI) / count], context, index);
   // }
 
-  // eslint-disable-next-line class-methods-use-this
-  parseObjectData(meta: ChartMeta, data: any[], start: number, count: number): Record<string, unknown>[] {
-    const parsed = new Array(count);
+  protected parsePrimitiveData(meta: ChartMeta, data: any[], start: number, count: number): Record<string, unknown>[] {
+    const parsed = super.parsePrimitiveData(meta, data, start, count);
+    this.parseErrorData(parsed, meta, data, start, count);
+    return parsed;
+  }
+
+  protected parseObjectData(meta: ChartMeta, data: any[], start: number, count: number): Record<string, unknown>[] {
+    const parsed = super.parseObjectData(meta, data, start, count);
+    this.parseErrorData(parsed, meta, data, start, count);
+    return parsed;
+  }
+
+  private parseErrorData(
+    parsed: Record<string, unknown>[],
+    meta: ChartMeta,
+    data: any[],
+    start: number,
+    count: number
+  ) {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const scale = meta.rScale!;
     for (let i = 0; i < count; i += 1) {
@@ -90,7 +106,6 @@ export class PolarAreaWithErrorBarsController extends PolarAreaController {
       };
     }
     parseErrorNumberData(parsed, scale, data, start, count);
-    return parsed;
   }
 
   updateElement(

@@ -65,10 +65,10 @@ export function getMinMax(
 
 function computeExtrema(v: number, vm: number | number[], op: (...args: number[]) => number) {
   if (Array.isArray(vm)) {
-    return op(...vm);
+    return op(v, ...vm);
   }
   if (typeof vm === 'number') {
-    return vm;
+    return op(v, vm);
   }
   return v;
 }
@@ -82,8 +82,8 @@ export function parseErrorNumberData(parsed: any[], scale: Scale, data: any[], s
   for (let i = 0; i < count; i += 1) {
     const index = i + start;
     const p = parsed[i];
-    p[vMin] = data[index][vMin];
-    p[vMax] = data[index][vMax];
+    p[vMin] = typeof data[index] === 'object' ? data[index][vMin] : null;
+    p[vMax] = typeof data[index] === 'object' ? data[index][vMax] : null;
     p[vMinMin] = computeExtrema(p[axis], p[vMin], Math.min);
     p[vMaxMax] = computeExtrema(p[axis], p[vMax], Math.max);
   }
