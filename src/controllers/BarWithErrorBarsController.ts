@@ -33,13 +33,29 @@ export class BarWithErrorBarsController extends BarController {
     return getMinMax(scale, (patchedScale) => super.getMinMax(patchedScale, canStack));
   }
 
-  parseObjectData(meta: ChartMeta, data: any[], start: number, count: number): Record<string, unknown>[] {
+  protected parsePrimitiveData(meta: ChartMeta, data: any[], start: number, count: number): Record<string, unknown>[] {
+    const parsed = super.parsePrimitiveData(meta, data, start, count);
+    this.parseErrorData(parsed, meta, data, start, count);
+    return parsed;
+  }
+
+  protected parseObjectData(meta: ChartMeta, data: any[], start: number, count: number): Record<string, unknown>[] {
     const parsed = super.parseObjectData(meta, data, start, count);
+    this.parseErrorData(parsed, meta, data, start, count);
+    return parsed;
+  }
+
+  private parseErrorData(
+    parsed: Record<string, unknown>[],
+    meta: ChartMeta,
+    data: any[],
+    start: number,
+    count: number
+  ) {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     parseErrorNumberData(parsed, meta.vScale!, data, start, count);
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     parseErrorLabelData(parsed, meta.iScale!, start, count);
-    return parsed;
   }
 
   updateElement(

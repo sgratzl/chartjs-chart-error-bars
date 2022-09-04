@@ -26,6 +26,8 @@ export function calculateScale(
     } else if (typeof v === 'number') {
       // eslint-disable-next-line no-param-reassign
       properties[key] = reset ? base : scale.getPixelForValue(v, index);
+    } else {
+      properties[key] = null; // reset
     }
   }
 }
@@ -56,6 +58,8 @@ export function calculatePolarScale(
     } else if (typeof v === 'number') {
       // eslint-disable-next-line no-param-reassign
       properties[key] = toAngle(v);
+    } else {
+      properties[key] = null; // reset
     }
   }
 }
