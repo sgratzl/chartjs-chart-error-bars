@@ -12,6 +12,8 @@
   UpdateMode,
   ScriptableContext,
   Element,
+  LineControllerChartOptions,
+  CartesianScaleTypeRegistry,
 } from 'chart.js';
 import { merge } from 'chart.js/helpers';
 import { calculateScale } from './utils';

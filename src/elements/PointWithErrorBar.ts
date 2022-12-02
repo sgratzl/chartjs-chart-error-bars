@@ -1,4 +1,11 @@
-﻿import { PointElement } from 'chart.js';
+﻿import {
+  PointElement,
+  PointOptions,
+  PointHoverOptions,
+  ChartType,
+  ScriptableAndArrayOptions,
+  ScriptableContext,
+} from 'chart.js';
 import { renderErrorBar, errorBarDefaults, errorBarDescriptors, IErrorBarOptions } from './render';
 
 export default class PointWithErrorBar extends PointElement {
