@@ -11,6 +11,8 @@
   PolarAreaControllerDatasetOptions,
   ScriptableAndArrayOptions,
   ScriptableContext,
+  PolarAreaControllerChartOptions,
+  CartesianScaleTypeRegistry,
 } from 'chart.js';
 import { merge } from 'chart.js/helpers';
 import { calculatePolarScale } from './utils';

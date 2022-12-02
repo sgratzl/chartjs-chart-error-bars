@@ -60,7 +60,13 @@ function interpolateColorOptionArray(
   to: string[],
   factor: number
 ): string | string[] | { v: string[] } {
-  return interpolateArrayOption(from, to, factor, 'string', interpolators.color);
+  return interpolateArrayOption(
+    from,
+    to,
+    factor,
+    'string',
+    interpolators.color as (from: string, to: string, factor: number) => string
+  );
 }
 
 export const animationHints = {

@@ -1,4 +1,11 @@
-﻿import { BarElement } from 'chart.js';
+﻿import {
+  BarElement,
+  BarHoverOptions,
+  BarOptions,
+  ChartType,
+  ScriptableAndArrayOptions,
+  ScriptableContext,
+} from 'chart.js';
 import { renderErrorBar, errorBarDefaults, errorBarDescriptors, IErrorBarOptions } from './render';
 
 export default class BarWithErrorBar extends BarElement {

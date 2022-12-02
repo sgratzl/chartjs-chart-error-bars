@@ -1,4 +1,11 @@
-﻿import { ArcElement } from 'chart.js';
+﻿import {
+  ArcElement,
+  ArcOptions,
+  ArcHoverOptions,
+  ChartType,
+  ScriptableAndArrayOptions,
+  ScriptableContext,
+} from 'chart.js';
 import { renderErrorBarArc, errorBarDefaults, errorBarDescriptors, IErrorBarOptions } from './render';
 
 export default class ArcWithErrorBar extends ArcElement {
