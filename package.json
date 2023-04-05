@@ -66,6 +66,8 @@
     "canvas": "^2.11.0",
     "canvas-5-polyfill": "^0.1.5",
     "chart.js": "^4.2.1",
+    "chartjs-adapter-date-fns": "^3.0.0",
+    "date-fns": "^2.29.3",
     "eslint": "^8.35.0",
     "eslint-config-airbnb-typescript": "^17.0.0",
     "eslint-config-prettier": "^8.6.0",

@@ -30,6 +30,8 @@ import {
 } from './base';
 import patchController from './patchController';
 
+const NUMERIC_SCALE_TYPES = ['linear', 'logarithmic', 'time', 'timeseries'];
+
 export class LineWithErrorBarsController extends LineController {
   getMinMax(scale: Scale, canStack: boolean): { min: number; max: number } {
     return getMinMax(scale, (patchedScale) => super.getMinMax(patchedScale, canStack));
@@ -58,7 +60,7 @@ export class LineWithErrorBarsController extends LineController {
     parseErrorNumberData(parsed, meta.vScale!, data, start, count);
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const iScale = meta.iScale as Scale;
-    const hasNumberIScale = iScale.type === 'linear' || iScale.type === 'logarithmic';
+    const hasNumberIScale = NUMERIC_SCALE_TYPES.includes(iScale.type);
     if (hasNumberIScale) {
       parseErrorNumberData(parsed, meta.iScale!, data, start, count);
     } else {
@@ -90,7 +92,7 @@ export class LineWithErrorBarsController extends LineController {
     );
 
     const iScale = this._cachedMeta.iScale as Scale;
-    const hasNumberIScale = iScale.type === 'linear' || iScale.type === 'logarithmic';
+    const hasNumberIScale = NUMERIC_SCALE_TYPES.includes(iScale.type);
     if (hasNumberIScale) {
       calculateScale(
         properties,
