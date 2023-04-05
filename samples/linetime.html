@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src=" https://cdn.jsdelivr.net/npm/chart.js@~4.2.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@~4.2.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
     <script src="../build/index.umd.js"></script>
   </head>
 
@@ -12,18 +13,25 @@
     <script>
       window.onload = () => {
         new Chart(document.getElementById('canvas').getContext('2d'), {
-          type: 'barWithErrorBars',
+          type: 'lineWithErrorBars',
           data: {
-            labels: ['A', 'B'],
             datasets: [
               {
                 data: [
                   {
+                    x: '2016-12-25',
                     y: 4,
                     yMin: 1,
                     yMax: 6,
                   },
                   {
+                    x: '2017-12-25',
+                    y: 6,
+                    yMin: 2,
+                    yMax: 8,
+                  },
+                  {
+                    x: '2018-12-25',
                     y: 2,
                     yMin: 1,
                     yMax: 4,
@@ -31,6 +39,15 @@
                 ],
               },
             ],
+          },
+          options: {
+            scales: {
+              x: {
+                type: 'time',
+                // type: 'timeseries',
+              },
+            },
+            // animation: false
           },
         });
       };
