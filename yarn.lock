@@ -3325,6 +3325,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"chartjs-adapter-date-fns@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "chartjs-adapter-date-fns@npm:3.0.0"
+  peerDependencies:
+    chart.js: ">=2.8.0"
+    date-fns: ">=2.0.0"
+  checksum: c39bfdf490749faa589fba6e0dc0a2c5a467a5f06aaa52c5180e10fd9c83414807a064f6950538448bffee354c8064c0ce9d957bccbf2048e7ee2257aa95f138
+  languageName: node
+  linkType: hard
+
 "chartjs-chart-error-bars@workspace:.":
   version: 0.0.0-use.local
   resolution: "chartjs-chart-error-bars@workspace:."
@@ -3343,6 +3353,8 @@ __metadata:
     canvas: ^2.11.0
     canvas-5-polyfill: ^0.1.5
     chart.js: ^4.2.1
+    chartjs-adapter-date-fns: ^3.0.0
+    date-fns: ^2.29.3
     eslint: ^8.35.0
     eslint-config-airbnb-typescript: ^17.0.0
     eslint-config-prettier: ^8.6.0
@@ -3643,6 +3655,13 @@ __metadata:
     whatwg-mimetype: ^3.0.0
     whatwg-url: ^11.0.0
   checksum: 033fc3dd0fba6d24bc9a024ddcf9923691dd24f90a3d26f6545d6a2f71ec6956f93462f2cdf2183cc46f10dc01ed3bcb36731a8208456eb1a08147e571fe2a76
+  languageName: node
+  linkType: hard
+
+"date-fns@npm:^2.29.3":
+  version: 2.29.3
+  resolution: "date-fns@npm:2.29.3"
+  checksum: e01cf5b62af04e05dfff921bb9c9933310ed0e1ae9a81eb8653452e64dc841acf7f6e01e1a5ae5644d0337e9a7f936175fd2cb6819dc122fdd9c5e86c56be484
   languageName: node
   linkType: hard
 
