@@ -27,20 +27,30 @@ import {
   parseErrorLabelData,
   IErrorBarXDataPoint,
   IErrorBarXYDataPoint,
+  IErrorBarYDataPoint,
 } from './base';
 import patchController from './patchController';
 
 export class BarWithErrorBarsController extends BarController {
+  /**
+   * @internal
+   */
   getMinMax(scale: Scale, canStack: boolean): { min: number; max: number } {
     return getMinMax(scale, (patchedScale) => super.getMinMax(patchedScale, canStack));
   }
 
+  /**
+   * @internal
+   */
   protected parsePrimitiveData(meta: ChartMeta, data: any[], start: number, count: number): Record<string, unknown>[] {
     const parsed = super.parsePrimitiveData(meta, data, start, count);
     this.parseErrorData(parsed, meta, data, start, count);
     return parsed;
   }
 
+  /**
+   * @internal
+   */
   protected parseObjectData(meta: ChartMeta, data: any[], start: number, count: number): Record<string, unknown>[] {
     const parsed = super.parseObjectData(meta, data, start, count);
     this.parseErrorData(parsed, meta, data, start, count);
@@ -60,6 +70,9 @@ export class BarWithErrorBarsController extends BarController {
     parseErrorLabelData(parsed, meta.iScale!, start, count);
   }
 
+  /**
+   * @internal
+   */
   updateElement(
     element: Element,
     index: number | undefined,
@@ -79,8 +92,14 @@ export class BarWithErrorBarsController extends BarController {
     super.updateElement(element, index, properties, mode);
   }
 
+  /**
+   * @internal
+   */
   static readonly id = 'barWithErrorBars';
 
+  /**
+   * @internal
+   */
   static readonly defaults: any = /* #__PURE__ */ merge({}, [
     BarController.defaults,
     animationHints,
@@ -89,6 +108,9 @@ export class BarWithErrorBarsController extends BarController {
     },
   ]);
 
+  /**
+   * @internal
+   */
   static readonly overrides: any = /* #__PURE__ */ merge({}, [
     (BarController as any).overrides,
     {
@@ -102,6 +124,9 @@ export class BarWithErrorBarsController extends BarController {
     },
   ]);
 
+  /**
+   * @internal
+   */
   static readonly defaultRoutes = BarController.defaultRoutes;
 }
 
@@ -114,10 +139,10 @@ declare module 'chart.js' {
     barWithErrorBars: {
       chartOptions: BarControllerChartOptions;
       datasetOptions: BarWithErrorBarsControllerDatasetOptions;
-      defaultDataPoint: IErrorBarXDataPoint;
+      defaultDataPoint: IErrorBarXDataPoint | IErrorBarYDataPoint;
       scales: keyof CartesianScaleTypeRegistry;
       metaExtensions: Record<string, never>;
-      parsedDataType: IErrorBarXDataPoint & ChartTypeRegistry['bar']['parsedDataType'];
+      parsedDataType: (IErrorBarXDataPoint | IErrorBarYDataPoint) & ChartTypeRegistry['bar']['parsedDataType'];
     };
   }
 }
@@ -127,6 +152,9 @@ export class BarWithErrorBarsChart<DATA extends unknown[] = IErrorBarXDataPoint[
   DATA,
   LABEL
 > {
+  /**
+   * @internal
+   */
   static id = BarWithErrorBarsController.id;
 
   constructor(item: ChartItem, config: Omit<ChartConfiguration<'barWithErrorBars', DATA, LABEL>, 'type'>) {

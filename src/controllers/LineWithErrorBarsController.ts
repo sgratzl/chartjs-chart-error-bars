@@ -27,28 +27,41 @@ import {
   parseErrorLabelData,
   IErrorBarXDataPoint,
   IErrorBarXYDataPoint,
+  IErrorBarYDataPoint,
 } from './base';
 import patchController from './patchController';
 
 const NUMERIC_SCALE_TYPES = ['linear', 'logarithmic', 'time', 'timeseries'];
 
 export class LineWithErrorBarsController extends LineController {
+  /**
+   * @internal
+   */
   getMinMax(scale: Scale, canStack: boolean): { min: number; max: number } {
     return getMinMax(scale, (patchedScale) => super.getMinMax(patchedScale, canStack));
   }
 
+  /**
+   * @internal
+   */
   protected parsePrimitiveData(meta: ChartMeta, data: any[], start: number, count: number): Record<string, unknown>[] {
     const parsed = super.parsePrimitiveData(meta, data, start, count);
     this.parseErrorData(parsed, meta, data, start, count);
     return parsed;
   }
 
+  /**
+   * @internal
+   */
   protected parseObjectData(meta: ChartMeta, data: any[], start: number, count: number): Record<string, unknown>[] {
     const parsed = super.parseObjectData(meta, data, start, count);
     this.parseErrorData(parsed, meta, data, start, count);
     return parsed;
   }
 
+  /**
+   * @internal
+   */
   private parseErrorData(
     parsed: Record<string, unknown>[],
     meta: ChartMeta,
@@ -68,6 +81,9 @@ export class LineWithErrorBarsController extends LineController {
     }
   }
 
+  /**
+   * @internal
+   */
   updateElement(
     element: Element,
     index: number | undefined,
@@ -81,6 +97,9 @@ export class LineWithErrorBarsController extends LineController {
     super.updateElement(element, index, properties, mode);
   }
 
+  /**
+   * @internal
+   */
   protected updateElementScale(index: number, properties: Record<string, unknown>, mode: UpdateMode): void {
     // inject the other error bar related properties
     calculateScale(
@@ -104,6 +123,9 @@ export class LineWithErrorBarsController extends LineController {
     }
   }
 
+  /**
+   * @internal
+   */
   updateElements(points: Element[], start: number, count: number, mode: UpdateMode) {
     const reset = mode === 'reset';
     const c = this.chart as unknown as { _animationsDisabled: boolean };
@@ -124,8 +146,14 @@ export class LineWithErrorBarsController extends LineController {
     }
   }
 
+  /**
+   * @internal
+   */
   static readonly id = 'lineWithErrorBars';
 
+  /**
+   * @internal
+   */
   static readonly defaults: any = /* #__PURE__ */ merge({}, [
     LineController.defaults,
     animationHints,
@@ -134,6 +162,9 @@ export class LineWithErrorBarsController extends LineController {
     },
   ]);
 
+  /**
+   * @internal
+   */
   static readonly overrides: any = /* #__PURE__ */ merge({}, [
     (LineController as any).overrides,
     {
@@ -147,6 +178,9 @@ export class LineWithErrorBarsController extends LineController {
     },
   ]);
 
+  /**
+   * @internal
+   */
   static readonly defaultRoutes = LineController.defaultRoutes;
 }
 
@@ -159,10 +193,10 @@ declare module 'chart.js' {
     lineWithErrorBars: {
       chartOptions: LineControllerChartOptions;
       datasetOptions: LineWithErrorBarsControllerDatasetOptions;
-      defaultDataPoint: IErrorBarXDataPoint;
+      defaultDataPoint: IErrorBarXDataPoint | IErrorBarYDataPoint;
       scales: keyof CartesianScaleTypeRegistry;
       metaExtensions: Record<string, never>;
-      parsedDataType: IErrorBarXDataPoint & ChartTypeRegistry['line']['parsedDataType'];
+      parsedDataType: (IErrorBarXDataPoint | IErrorBarYDataPoint) & ChartTypeRegistry['line']['parsedDataType'];
     };
   }
 }
