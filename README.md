@@ -2,7 +2,7 @@
 
 [![License: MIT][mit-image]][mit-url] [![NPM Package][npm-image]][npm-url] [![Github Actions][github-actions-image]][github-actions-url]
 
-Chart.js module for charting error bars plots. This plugin extends the several char types (`bar`, `horizontalBar`, `line`, `scatter`, `polarArea`)
+Chart.js module for charting error bars plots. This plugin extends the several char types (`bar`, `line`, `scatter`, `polarArea`)
 with their error bar equivalent (`barWithErrorBars`, `lineWithErrorBars`, `scatterWithErrorBars`, `polarAreaWithErrorBars`).
 
 Bar Chart

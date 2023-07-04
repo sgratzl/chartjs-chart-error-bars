@@ -10,19 +10,19 @@ export const config: ChartConfiguration<'lineWithErrorBars'> = {
       {
         data: [
           {
-            x: '2016-12-25',
+            x: '2016-12-25' as unknown,
             y: 4,
             yMin: 1,
             yMax: 6,
           },
           {
-            x: '2017-12-25',
+            x: '2017-12-25' as unknown,
             y: 6,
             yMin: 2,
             yMax: 8,
           },
           {
-            x: '2018-12-25',
+            x: '2018-12-25' as unknown,
             y: 2,
             yMin: 1,
             yMax: 4,

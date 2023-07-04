@@ -8,7 +8,6 @@ title: Scatter With Error Bars
 import {config as scatter} from './scatter';
 </script>
 
-
 <ScatterWithErrorBarsChart
   :options="scatter.options"
   :data="scatter.data"
