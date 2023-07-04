@@ -24,6 +24,9 @@ import type { IErrorBarOptions } from '../elements/render';
 import patchController from './patchController';
 
 export class PolarAreaWithErrorBarsController extends PolarAreaController {
+  /**
+   * @internal
+   */
   getMinMaxImpl(scale: Scale) {
     // new version doesn't use scale.axis wrongly
     const t = this._cachedMeta;
@@ -46,10 +49,16 @@ export class PolarAreaWithErrorBarsController extends PolarAreaController {
     return e;
   }
 
+  /**
+   * @internal
+   */
   getMinMax(scale: Scale): { min: number; max: number } {
     return getMinMax(scale, (patchedScale) => this.getMinMaxImpl(patchedScale));
   }
 
+  /**
+   * @internal
+   */
   countVisibleElements(): number {
     const meta = this._cachedMeta;
     return meta.data.reduce((acc, _, index) => {
@@ -110,6 +119,9 @@ export class PolarAreaWithErrorBarsController extends PolarAreaController {
     parseErrorNumberData(parsed, scale, data, start, count);
   }
 
+  /**
+   * @internal
+   */
   updateElement(
     element: Element,
     index: number | undefined,
@@ -128,6 +140,9 @@ export class PolarAreaWithErrorBarsController extends PolarAreaController {
     super.updateElement(element, index, properties, mode);
   }
 
+  /**
+   * @internal
+   */
   updateElements(arcs: Element[], start: number, count: number, mode: UpdateMode): void {
     const scale = this.chart.scales.r as RadialLinearScale;
     const bak = scale.getDistanceFromCenterForValue;
@@ -141,8 +156,14 @@ export class PolarAreaWithErrorBarsController extends PolarAreaController {
     scale.getDistanceFromCenterForValue = bak;
   }
 
+  /**
+   * @internal
+   */
   static readonly id = 'polarAreaWithErrorBars';
 
+  /**
+   * @internal
+   */
   static readonly defaults: any = /* #__PURE__ */ merge({}, [
     PolarAreaController.defaults,
     animationHints,
@@ -151,6 +172,9 @@ export class PolarAreaWithErrorBarsController extends PolarAreaController {
     },
   ]);
 
+  /**
+   * @internal
+   */
   static readonly overrides: any = /* #__PURE__ */ merge({}, [
     (PolarAreaController as any).overrides,
     {
@@ -164,6 +188,9 @@ export class PolarAreaWithErrorBarsController extends PolarAreaController {
     },
   ]);
 
+  /**
+   * @internal
+   */
   static readonly defaultRoutes = PolarAreaController.defaultRoutes;
 }
 
