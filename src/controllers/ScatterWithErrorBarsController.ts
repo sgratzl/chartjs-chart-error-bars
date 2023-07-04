@@ -25,6 +25,9 @@ import type { IErrorBarOptions } from '../elements/render';
 import patchController from './patchController';
 
 export class ScatterWithErrorBarsController extends ScatterController {
+  /**
+   * @internal
+   */
   getMinMax(scale: Scale, canStack: boolean): { min: number; max: number } {
     return getMinMax(scale, (patchedScale) => super.getMinMax(patchedScale, canStack));
   }
@@ -54,6 +57,9 @@ export class ScatterWithErrorBarsController extends ScatterController {
     parseErrorNumberData(parsed, meta.yScale!, data, start, count);
   }
 
+  /**
+   * @internal
+   */
   updateElement(
     element: Element,
     index: number | undefined,
@@ -85,6 +91,9 @@ export class ScatterWithErrorBarsController extends ScatterController {
     );
   }
 
+  /**
+   * @internal
+   */
   updateElements(points: Element[], start: number, count: number, mode: UpdateMode) {
     const reset = mode === 'reset';
     const c = this.chart as unknown as { _animationsDisabled: boolean };
@@ -105,8 +114,14 @@ export class ScatterWithErrorBarsController extends ScatterController {
     }
   }
 
+  /**
+   * @internal
+   */
   static readonly id = 'scatterWithErrorBars';
 
+  /**
+   * @internal
+   */
   static readonly defaults: any = /* #__PURE__ */ merge({}, [
     ScatterController.defaults,
     animationHints,
@@ -115,6 +130,9 @@ export class ScatterWithErrorBarsController extends ScatterController {
     },
   ]);
 
+  /**
+   * @internal
+   */
   static readonly overrides: any = /* #__PURE__ */ merge({}, [
     (ScatterController as any).overrides,
     {
@@ -128,6 +146,9 @@ export class ScatterWithErrorBarsController extends ScatterController {
     },
   ]);
 
+  /**
+   * @internal
+   */
   static readonly defaultRoutes = LineController.defaultRoutes;
 }
 
