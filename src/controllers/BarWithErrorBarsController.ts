@@ -14,6 +14,7 @@
   Element,
   BarControllerChartOptions,
   CartesianScaleTypeRegistry,
+  TimeScale,
 } from 'chart.js';
 import { merge } from 'chart.js/helpers';
 import { calculateScale } from './utils';
@@ -30,6 +31,8 @@ import {
   IErrorBarYDataPoint,
 } from './base';
 import patchController from './patchController';
+
+const NUMERIC_SCALE_TYPES = ['linear', 'logarithmic', 'time', 'timeseries'];
 
 export class BarWithErrorBarsController extends BarController {
   /**
@@ -67,7 +70,13 @@ export class BarWithErrorBarsController extends BarController {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     parseErrorNumberData(parsed, meta.vScale!, data, start, count);
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    parseErrorLabelData(parsed, meta.iScale!, start, count);
+    const iScale = meta.iScale as Scale;
+    const hasNumberIScale = NUMERIC_SCALE_TYPES.includes(iScale.type);
+    if (hasNumberIScale) {
+      parseErrorNumberData(parsed, meta.iScale!, data, start, count);
+    } else {
+      parseErrorLabelData(parsed, meta.iScale!, start, count);
+    }
   }
 
   /**
@@ -157,6 +166,7 @@ export class BarWithErrorBarsChart<DATA extends unknown[] = IErrorBarXDataPoint[
       patchController('barWithErrorBars', config, BarWithErrorBarsController, BarWithErrorBar, [
         LinearScale,
         CategoryScale,
+        TimeScale,
       ])
     );
   }
