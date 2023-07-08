@@ -19,9 +19,6 @@ export default class PointWithErrorBar extends PointElement {
     renderErrorBar(this as any, ctx);
   }
 
-  /**
-   * @internal
-   */
   static readonly id = 'pointWithErrorBar';
 
   /**

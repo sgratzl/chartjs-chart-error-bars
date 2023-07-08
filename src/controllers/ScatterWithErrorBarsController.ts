@@ -114,9 +114,6 @@ export class ScatterWithErrorBarsController extends ScatterController {
     }
   }
 
-  /**
-   * @internal
-   */
   static readonly id = 'scatterWithErrorBars';
 
   /**
