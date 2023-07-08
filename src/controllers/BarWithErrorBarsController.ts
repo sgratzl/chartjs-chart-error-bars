@@ -148,10 +148,7 @@ export class BarWithErrorBarsChart<DATA extends unknown[] = IErrorBarXDataPoint[
   'barWithErrorBars',
   DATA,
   LABEL
-> {
-  /**
-   * @internal
-   */
+  > {
   static id = BarWithErrorBarsController.id;
 
   constructor(item: ChartItem, config: Omit<ChartConfiguration<'barWithErrorBars', DATA, LABEL>, 'type'>) {
