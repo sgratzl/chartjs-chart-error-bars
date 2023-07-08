@@ -18,9 +18,6 @@ export default class ArcWithErrorBar extends ArcElement {
     renderErrorBarArc(this, ctx);
   }
 
-  /**
-   * @internal
-   */
   static readonly id = 'arcWithErrorBar';
 
   /**

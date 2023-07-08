@@ -92,9 +92,6 @@ export class BarWithErrorBarsController extends BarController {
     super.updateElement(element, index, properties, mode);
   }
 
-  /**
-   * @internal
-   */
   static readonly id = 'barWithErrorBars';
 
   /**

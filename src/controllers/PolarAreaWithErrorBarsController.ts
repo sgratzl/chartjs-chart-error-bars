@@ -156,9 +156,6 @@ export class PolarAreaWithErrorBarsController extends PolarAreaController {
     scale.getDistanceFromCenterForValue = bak;
   }
 
-  /**
-   * @internal
-   */
   static readonly id = 'polarAreaWithErrorBars';
 
   /**

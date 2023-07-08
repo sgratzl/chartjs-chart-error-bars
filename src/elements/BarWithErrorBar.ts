@@ -18,9 +18,6 @@ export default class BarWithErrorBar extends BarElement {
     renderErrorBar(this, ctx);
   }
 
-  /**
-   * @internal
-   */
   static readonly id = 'barWithErrorBar';
 
   /**
