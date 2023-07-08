@@ -146,9 +146,6 @@ export class LineWithErrorBarsController extends LineController {
     }
   }
 
-  /**
-   * @internal
-   */
   static readonly id = 'lineWithErrorBars';
 
   /**
