@@ -14,7 +14,6 @@
   Element,
   BarControllerChartOptions,
   CartesianScaleTypeRegistry,
-  TimeScale,
 } from 'chart.js';
 import { merge } from 'chart.js/helpers';
 import { calculateScale, isNumericScale } from './utils';
@@ -164,7 +163,6 @@ export class BarWithErrorBarsChart<DATA extends unknown[] = IErrorBarXDataPoint[
       patchController('barWithErrorBars', config, BarWithErrorBarsController, BarWithErrorBar, [
         LinearScale,
         CategoryScale,
-        TimeScale,
       ])
     );
   }
