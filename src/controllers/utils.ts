@@ -1,4 +1,4 @@
-import type { LinearScale, RadialLinearScale } from 'chart.js';
+import type { LinearScale, RadialLinearScale, Scale } from 'chart.js';
 import type { IErrorBarRDataPoint, IErrorBarXYDataPoint } from './base';
 
 export const allModelKeys = ['xMin', 'xMax', 'yMin', 'yMax'];
@@ -62,4 +62,10 @@ export function calculatePolarScale(
       properties[key] = null; // reset
     }
   }
+}
+
+const NUMERIC_SCALE_TYPES = ['linear', 'logarithmic', 'time', 'timeseries'];
+
+export function isNumericScale(scale: Scale): boolean {
+  return NUMERIC_SCALE_TYPES.includes(scale.type);
 }
