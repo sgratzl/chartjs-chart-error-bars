@@ -25,7 +25,7 @@ import patchController from './patchController';
 
 export class PolarAreaWithErrorBarsController extends PolarAreaController {
   /**
-   * @internal
+   * @hidden
    */
   getMinMaxImpl(scale: Scale) {
     // new version doesn't use scale.axis wrongly
@@ -50,14 +50,14 @@ export class PolarAreaWithErrorBarsController extends PolarAreaController {
   }
 
   /**
-   * @internal
+   * @hidden
    */
   getMinMax(scale: Scale): { min: number; max: number } {
     return getMinMax(scale, (patchedScale) => this.getMinMaxImpl(patchedScale));
   }
 
   /**
-   * @internal
+   * @hidden
    */
   countVisibleElements(): number {
     const meta = this._cachedMeta;
@@ -120,7 +120,7 @@ export class PolarAreaWithErrorBarsController extends PolarAreaController {
   }
 
   /**
-   * @internal
+   * @hidden
    */
   updateElement(
     element: Element,
@@ -141,7 +141,7 @@ export class PolarAreaWithErrorBarsController extends PolarAreaController {
   }
 
   /**
-   * @internal
+   * @hidden
    */
   updateElements(arcs: Element[], start: number, count: number, mode: UpdateMode): void {
     const scale = this.chart.scales.r as RadialLinearScale;
@@ -159,7 +159,7 @@ export class PolarAreaWithErrorBarsController extends PolarAreaController {
   static readonly id = 'polarAreaWithErrorBars';
 
   /**
-   * @internal
+   * @hidden
    */
   static readonly defaults: any = /* #__PURE__ */ merge({}, [
     PolarAreaController.defaults,
@@ -170,7 +170,7 @@ export class PolarAreaWithErrorBarsController extends PolarAreaController {
   ]);
 
   /**
-   * @internal
+   * @hidden
    */
   static readonly overrides: any = /* #__PURE__ */ merge({}, [
     (PolarAreaController as any).overrides,
@@ -186,7 +186,7 @@ export class PolarAreaWithErrorBarsController extends PolarAreaController {
   ]);
 
   /**
-   * @internal
+   * @hidden
    */
   static readonly defaultRoutes = PolarAreaController.defaultRoutes;
 }

@@ -35,14 +35,14 @@ const NUMERIC_SCALE_TYPES = ['linear', 'logarithmic', 'time', 'timeseries'];
 
 export class LineWithErrorBarsController extends LineController {
   /**
-   * @internal
+   * @hidden
    */
   getMinMax(scale: Scale, canStack: boolean): { min: number; max: number } {
     return getMinMax(scale, (patchedScale) => super.getMinMax(patchedScale, canStack));
   }
 
   /**
-   * @internal
+   * @hidden
    */
   protected parsePrimitiveData(meta: ChartMeta, data: any[], start: number, count: number): Record<string, unknown>[] {
     const parsed = super.parsePrimitiveData(meta, data, start, count);
@@ -51,7 +51,7 @@ export class LineWithErrorBarsController extends LineController {
   }
 
   /**
-   * @internal
+   * @hidden
    */
   protected parseObjectData(meta: ChartMeta, data: any[], start: number, count: number): Record<string, unknown>[] {
     const parsed = super.parseObjectData(meta, data, start, count);
@@ -60,7 +60,7 @@ export class LineWithErrorBarsController extends LineController {
   }
 
   /**
-   * @internal
+   * @hidden
    */
   private parseErrorData(
     parsed: Record<string, unknown>[],
@@ -82,7 +82,7 @@ export class LineWithErrorBarsController extends LineController {
   }
 
   /**
-   * @internal
+   * @hidden
    */
   updateElement(
     element: Element,
@@ -98,7 +98,7 @@ export class LineWithErrorBarsController extends LineController {
   }
 
   /**
-   * @internal
+   * @hidden
    */
   protected updateElementScale(index: number, properties: Record<string, unknown>, mode: UpdateMode): void {
     // inject the other error bar related properties
@@ -124,7 +124,7 @@ export class LineWithErrorBarsController extends LineController {
   }
 
   /**
-   * @internal
+   * @hidden
    */
   updateElements(points: Element[], start: number, count: number, mode: UpdateMode) {
     const reset = mode === 'reset';
@@ -149,7 +149,7 @@ export class LineWithErrorBarsController extends LineController {
   static readonly id = 'lineWithErrorBars';
 
   /**
-   * @internal
+   * @hidden
    */
   static readonly defaults: any = /* #__PURE__ */ merge({}, [
     LineController.defaults,
@@ -160,7 +160,7 @@ export class LineWithErrorBarsController extends LineController {
   ]);
 
   /**
-   * @internal
+   * @hidden
    */
   static readonly overrides: any = /* #__PURE__ */ merge({}, [
     (LineController as any).overrides,
@@ -176,7 +176,7 @@ export class LineWithErrorBarsController extends LineController {
   ]);
 
   /**
-   * @internal
+   * @hidden
    */
   static readonly defaultRoutes = LineController.defaultRoutes;
 }
