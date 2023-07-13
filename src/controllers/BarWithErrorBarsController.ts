@@ -33,14 +33,14 @@ import patchController from './patchController';
 
 export class BarWithErrorBarsController extends BarController {
   /**
-   * @internal
+   * @hidden
    */
   getMinMax(scale: Scale, canStack: boolean): { min: number; max: number } {
     return getMinMax(scale, (patchedScale) => super.getMinMax(patchedScale, canStack));
   }
 
   /**
-   * @internal
+   * @hidden
    */
   protected parsePrimitiveData(meta: ChartMeta, data: any[], start: number, count: number): Record<string, unknown>[] {
     const parsed = super.parsePrimitiveData(meta, data, start, count);
@@ -49,7 +49,7 @@ export class BarWithErrorBarsController extends BarController {
   }
 
   /**
-   * @internal
+   * @hidden
    */
   protected parseObjectData(meta: ChartMeta, data: any[], start: number, count: number): Record<string, unknown>[] {
     const parsed = super.parseObjectData(meta, data, start, count);
@@ -71,7 +71,7 @@ export class BarWithErrorBarsController extends BarController {
   }
 
   /**
-   * @internal
+   * @hidden
    */
   updateElement(
     element: Element,
@@ -95,7 +95,7 @@ export class BarWithErrorBarsController extends BarController {
   static readonly id = 'barWithErrorBars';
 
   /**
-   * @internal
+   * @hidden
    */
   static readonly defaults: any = /* #__PURE__ */ merge({}, [
     BarController.defaults,
@@ -106,7 +106,7 @@ export class BarWithErrorBarsController extends BarController {
   ]);
 
   /**
-   * @internal
+   * @hidden
    */
   static readonly overrides: any = /* #__PURE__ */ merge({}, [
     (BarController as any).overrides,
@@ -122,7 +122,7 @@ export class BarWithErrorBarsController extends BarController {
   ]);
 
   /**
-   * @internal
+   * @hidden
    */
   static readonly defaultRoutes = BarController.defaultRoutes;
 }

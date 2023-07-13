@@ -26,7 +26,7 @@ import patchController from './patchController';
 
 export class ScatterWithErrorBarsController extends ScatterController {
   /**
-   * @internal
+   * @hidden
    */
   getMinMax(scale: Scale, canStack: boolean): { min: number; max: number } {
     return getMinMax(scale, (patchedScale) => super.getMinMax(patchedScale, canStack));
@@ -58,7 +58,7 @@ export class ScatterWithErrorBarsController extends ScatterController {
   }
 
   /**
-   * @internal
+   * @hidden
    */
   updateElement(
     element: Element,
@@ -92,7 +92,7 @@ export class ScatterWithErrorBarsController extends ScatterController {
   }
 
   /**
-   * @internal
+   * @hidden
    */
   updateElements(points: Element[], start: number, count: number, mode: UpdateMode) {
     const reset = mode === 'reset';
@@ -117,7 +117,7 @@ export class ScatterWithErrorBarsController extends ScatterController {
   static readonly id = 'scatterWithErrorBars';
 
   /**
-   * @internal
+   * @hidden
    */
   static readonly defaults: any = /* #__PURE__ */ merge({}, [
     ScatterController.defaults,
@@ -128,7 +128,7 @@ export class ScatterWithErrorBarsController extends ScatterController {
   ]);
 
   /**
-   * @internal
+   * @hidden
    */
   static readonly overrides: any = /* #__PURE__ */ merge({}, [
     (ScatterController as any).overrides,
@@ -144,7 +144,7 @@ export class ScatterWithErrorBarsController extends ScatterController {
   ]);
 
   /**
-   * @internal
+   * @hidden
    */
   static readonly defaultRoutes = LineController.defaultRoutes;
 }
