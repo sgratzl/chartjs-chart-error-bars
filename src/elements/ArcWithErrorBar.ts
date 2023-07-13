@@ -10,7 +10,7 @@ import { renderErrorBarArc, errorBarDefaults, errorBarDescriptors, IErrorBarOpti
 
 export default class ArcWithErrorBar extends ArcElement {
   /**
-   * @internal
+   * @hidden
    */
   draw(ctx: CanvasRenderingContext2D): void {
     super.draw(ctx);
@@ -21,17 +21,17 @@ export default class ArcWithErrorBar extends ArcElement {
   static readonly id = 'arcWithErrorBar';
 
   /**
-   * @internal
+   * @hidden
    */
   static readonly defaults: any = /* #__PURE__ */ { ...ArcElement.defaults, ...errorBarDefaults };
 
   /**
-   * @internal
+   * @hidden
    */
   static readonly defaultRoutes = ArcElement.defaultRoutes;
 
   /**
-   * @internal
+   * @hidden
    */
   static readonly descriptors = errorBarDescriptors;
 }

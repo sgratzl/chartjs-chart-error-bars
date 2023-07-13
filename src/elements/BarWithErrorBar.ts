@@ -10,7 +10,7 @@ import { renderErrorBar, errorBarDefaults, errorBarDescriptors, IErrorBarOptions
 
 export default class BarWithErrorBar extends BarElement {
   /**
-   * @internal
+   * @hidden
    */
   draw(ctx: CanvasRenderingContext2D): void {
     super.draw(ctx);
@@ -21,17 +21,17 @@ export default class BarWithErrorBar extends BarElement {
   static readonly id = 'barWithErrorBar';
 
   /**
-   * @internal
+   * @hidden
    */
   static readonly defaults: any = /* #__PURE__ */ { ...BarElement.defaults, ...errorBarDefaults };
 
   /**
-   * @internal
+   * @hidden
    */
   static readonly defaultRoutes = BarElement.defaultRoutes;
 
   /**
-   * @internal
+   * @hidden
    */
   static readonly descriptors = errorBarDescriptors;
 }

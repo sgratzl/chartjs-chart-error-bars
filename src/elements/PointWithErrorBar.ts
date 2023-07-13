@@ -10,7 +10,7 @@ import { renderErrorBar, errorBarDefaults, errorBarDescriptors, IErrorBarOptions
 
 export default class PointWithErrorBar extends PointElement {
   /**
-   * @internal
+   * @hidden
    */
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   draw(ctx: CanvasRenderingContext2D, area?: any): void {
@@ -22,17 +22,17 @@ export default class PointWithErrorBar extends PointElement {
   static readonly id = 'pointWithErrorBar';
 
   /**
-   * @internal
+   * @hidden
    */
   static readonly defaults: any = /* #__PURE__ */ { ...PointElement.defaults, ...errorBarDefaults };
 
   /**
-   * @internal
+   * @hidden
    */
   static readonly defaultRoutes = PointElement.defaultRoutes;
 
   /**
-   * @internal
+   * @hidden
    */
   static readonly descriptors = errorBarDescriptors;
 }
