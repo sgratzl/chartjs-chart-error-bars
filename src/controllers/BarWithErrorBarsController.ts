@@ -16,7 +16,7 @@
   CartesianScaleTypeRegistry,
 } from 'chart.js';
 import { merge } from 'chart.js/helpers';
-import { calculateScale } from './utils';
+import { calculateScale, isNumericScale } from './utils';
 import type { IErrorBarOptions } from '../elements/render';
 import { BarWithErrorBar } from '../elements';
 import { generateBarTooltip } from './tooltip';
@@ -67,7 +67,13 @@ export class BarWithErrorBarsController extends BarController {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     parseErrorNumberData(parsed, meta.vScale!, data, start, count);
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    parseErrorLabelData(parsed, meta.iScale!, start, count);
+    const iScale = meta.iScale as Scale;
+    const hasNumberIScale = isNumericScale(iScale);
+    if (hasNumberIScale) {
+      parseErrorNumberData(parsed, meta.iScale!, data, start, count);
+    } else {
+      parseErrorLabelData(parsed, meta.iScale!, start, count);
+    }
   }
 
   /**
