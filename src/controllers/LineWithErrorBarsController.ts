@@ -1,4 +1,4 @@
-﻿import {
+import {
   Chart,
   LineController,
   LinearScale,

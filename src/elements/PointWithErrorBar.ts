@@ -1,4 +1,4 @@
-﻿import {
+import {
   PointElement,
   PointOptions,
   PointHoverOptions,
