@@ -1,7 +1,7 @@
 {
   "name": "chartjs-chart-error-bars",
   "description": "Chart.js module for charting error bars",
-  "version": "4.3.4",
+  "version": "4.4.0",
   "author": {
     "name": "Samuel Gratzl",
     "email": "samu@sgratzl.com",
