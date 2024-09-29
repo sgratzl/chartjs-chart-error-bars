@@ -3,7 +3,7 @@ import createChart from '../__tests__/createChart';
 import { BarWithErrorBarsController } from './BarWithErrorBarsController';
 import { BarWithErrorBar } from '../elements';
 import 'chartjs-adapter-date-fns';
-
+import { describe, beforeAll, test } from 'vitest';
 describe('bar', () => {
   beforeAll(() => {
     registry.addControllers(BarWithErrorBarsController);

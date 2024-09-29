@@ -2,7 +2,7 @@ import { registry, LinearScale } from 'chart.js';
 import createChart from '../__tests__/createChart';
 import { ScatterWithErrorBarsController } from './ScatterWithErrorBarsController';
 import { PointWithErrorBar } from '../elements';
-
+import { describe, beforeAll, test } from 'vitest';
 describe('bar', () => {
   beforeAll(() => {
     registry.addControllers(ScatterWithErrorBarsController);

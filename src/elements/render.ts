@@ -18,37 +18,37 @@ export interface IErrorBarOptions {
   /**
    * line width of the center line
    * @default {v: [1, 3]}
-   * @scriptable
+   * scriptable
    */
   errorBarLineWidth: number | { v: number[] };
   /**
    * color of the center line
    * @default {v: ['#2c2c2c', '#1f1f1f']}
-   * @scriptable
+   * scriptable
    */
   errorBarColor: string | { v: string[] };
   /**
    * line width of the whisker lines
    * @default {v: [1, 3]}
-   * @scriptable
+   * scriptable
    */
   errorBarWhiskerLineWidth: number | { v: number[] };
   /**
    * width of the whiskers in relation to the bar width, use `0` to force a fixed with, see below
    * @default {v: [0.2, 0.25]}
-   * @scriptable
+   * scriptable
    */
   errorBarWhiskerRatio: number | { v: number[] };
   /**
    * pixel width of the whiskers for non bar chart cases
    * @default {v: [20, 24]}
-   * @scriptable
+   * scriptable
    */
   errorBarWhiskerSize: number | { v: number[] };
   /**
    * color of the whisker lines
    * @default {v: ['#2c2c2c', '#1f1f1f']}
-   * @scriptable
+   * scriptable
    */
   errorBarWhiskerColor: string | { v: string[] };
 }
@@ -244,7 +244,6 @@ function drawErrorBarArc(
   ctx.restore();
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function renderErrorBarArc(elem: any, ctx: CanvasRenderingContext2D): void {
   const props = elem.getProps(['x', 'y', 'startAngle', 'endAngle', 'rMin', 'rMax', 'outerRadius']);
   if (props.rMin != null || props.rMax != null) {
