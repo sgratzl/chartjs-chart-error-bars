@@ -52,13 +52,13 @@ export function getMinMax(
   superMethod: (scale: Scale) => { min: number; max: number }
 ): { min: number; max: number } {
   const { axis } = scale;
-  // eslint-disable-next-line no-param-reassign
+
   scale.axis = `${axis}MinMin`;
   const { min } = superMethod(scale);
-  // eslint-disable-next-line no-param-reassign
+
   scale.axis = `${axis}MaxMax`;
   const { max } = superMethod(scale);
-  // eslint-disable-next-line no-param-reassign
+
   scale.axis = axis;
   return { min, max };
 }
