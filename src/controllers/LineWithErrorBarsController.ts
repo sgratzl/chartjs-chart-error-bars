@@ -67,9 +67,8 @@ export class LineWithErrorBarsController extends LineController {
     start: number,
     count: number
   ) {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     parseErrorNumberData(parsed, meta.vScale!, data, start, count);
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
     const iScale = meta.iScale as Scale;
     const hasNumberIScale = isNumericScale(iScale);
     if (hasNumberIScale) {

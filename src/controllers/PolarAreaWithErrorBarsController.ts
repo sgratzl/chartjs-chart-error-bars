@@ -106,7 +106,6 @@ export class PolarAreaWithErrorBarsController extends PolarAreaController {
     start: number,
     count: number
   ) {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const scale = meta.rScale!;
     for (let i = 0; i < count; i += 1) {
       const index = i + start;

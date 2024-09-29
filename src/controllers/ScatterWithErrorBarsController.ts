@@ -51,9 +51,8 @@ export class ScatterWithErrorBarsController extends ScatterController {
     start: number,
     count: number
   ) {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     parseErrorNumberData(parsed, meta.xScale!, data, start, count);
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
     parseErrorNumberData(parsed, meta.yScale!, data, start, count);
   }
 

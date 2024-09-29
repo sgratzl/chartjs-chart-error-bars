@@ -8,7 +8,6 @@ export function modelKeys(horizontal: boolean): (keyof IErrorBarXYDataPoint)[] {
 }
 
 export function calculateScale(
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   properties: any,
   data: Partial<IErrorBarXYDataPoint>,
   index: number,
@@ -21,10 +20,8 @@ export function calculateScale(
   for (const key of keys) {
     const v = data[key as keyof IErrorBarXYDataPoint];
     if (Array.isArray(v)) {
-      // eslint-disable-next-line no-param-reassign
       properties[key] = v.map((d) => (reset ? base : scale.getPixelForValue(d, index)));
     } else if (typeof v === 'number') {
-      // eslint-disable-next-line no-param-reassign
       properties[key] = reset ? base : scale.getPixelForValue(v, index);
     } else {
       properties[key] = null; // reset
@@ -33,12 +30,11 @@ export function calculateScale(
 }
 
 export function calculatePolarScale(
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   properties: any,
   data: IErrorBarRDataPoint,
   scale: RadialLinearScale,
   reset: boolean,
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+
   options: any
 ): void {
   const animationOpts = options.animation;
@@ -53,10 +49,8 @@ export function calculatePolarScale(
   for (const key of keys) {
     const v = data[key as keyof IErrorBarRDataPoint];
     if (Array.isArray(v)) {
-      // eslint-disable-next-line no-param-reassign
       properties[key] = v.map(toAngle);
     } else if (typeof v === 'number') {
-      // eslint-disable-next-line no-param-reassign
       properties[key] = toAngle(v);
     } else {
       properties[key] = null; // reset

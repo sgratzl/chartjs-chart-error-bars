@@ -11,7 +11,7 @@ import 'chartjs-adapter-date-fns';
 import createChart from '../__tests__/createChart';
 import { LineWithErrorBarsController } from './LineWithErrorBarsController';
 import { PointWithErrorBar } from '../elements';
-
+import { describe, beforeAll, test } from 'vitest';
 describe('line', () => {
   beforeAll(() => {
     registry.addControllers(LineWithErrorBarsController);
