@@ -1,7 +1,7 @@
 {
   "name": "chartjs-chart-error-bars",
   "description": "Chart.js module for charting error bars",
-  "version": "4.4.2",
+  "version": "4.4.3",
   "author": {
     "name": "Samuel Gratzl",
     "email": "samu@sgratzl.com",
@@ -35,8 +35,7 @@
       "require": "./build/index.cjs",
       "scripts": "./build/index.umd.min.js",
       "types": "./build/index.d.ts"
-    },
-    "./.pnp.cjs": "./.pnp.cjs"
+    }
   },
   "sideEffects": false,
   "files": [
