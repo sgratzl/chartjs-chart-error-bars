@@ -5896,11 +5896,11 @@ __metadata:
   linkType: hard
 
 "typedoc-vitepress-theme@npm:^1.1.1":
-  version: 1.1.1
-  resolution: "typedoc-vitepress-theme@npm:1.1.1"
+  version: 1.1.2
+  resolution: "typedoc-vitepress-theme@npm:1.1.2"
   peerDependencies:
-    typedoc-plugin-markdown: ">=4.3.0"
-  checksum: 10c0/79259187aa8b6b974db9f30c3010fb2e8bb0a4cd028969b1fa5b72cc4c1d174c66169a66df6677f2bd7319d9fa3220b5c07a0098fe628fb03539ddb48424fd52
+    typedoc-plugin-markdown: ">=4.4.0"
+  checksum: 10c0/95273bd3f3cfe421a46ade21487ecdce44181a0a68fa7aa91f2b43e4953fe43793ea50a4231d363043c606e1cf4ef0289bbc53cd994551f1cf8a5f0476aee0ac
   languageName: node
   linkType: hard
 
