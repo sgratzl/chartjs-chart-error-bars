@@ -1,0 +1,32 @@
+<canvas id="CI_Results_Chart"></canvas>
+<script type="module">
+  import { Chart as ChartJS, LinearScale, CategoryScale } from 'https://cdn.jsdelivr.net/npm/chart.js@4.4.6/+esm';
+  import {
+    BarWithErrorBarsController,
+    BarWithErrorBar,
+  } from 'https://cdn.jsdelivr.net/npm/chartjs-chart-error-bars@4.4/+esm';
+  ChartJS.register([BarWithErrorBarsController, BarWithErrorBar, LinearScale, CategoryScale]);
+
+  const chart = new ChartJS(document.getElementById('CI_Results_Chart').getContext('2d'), {
+    type: BarWithErrorBarsController.id,
+    data: {
+      labels: ['A', 'B'],
+      datasets: [
+        {
+          data: [
+            {
+              y: 4,
+              yMin: 1,
+              yMax: 6,
+            },
+            {
+              y: 2,
+              yMin: 1,
+              yMax: 4,
+            },
+          ],
+        },
+      ],
+    },
+  });
+</script>
